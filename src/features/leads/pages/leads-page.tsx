@@ -30,8 +30,8 @@ export const LeadsPage = () => {
   }, [convertToOpportunity, selectedLead, closeConvertDialog, closeLead]);
 
   return (
-    <div className="p-4 sm:p-6 max-w-7xl mx-auto">
-      <div className="sticky top-0 z-20 bg-background pb-4 sm:pb-6">
+    <div className="flex flex-col h-full">
+      <div className="flex-shrink-0 p-4 sm:p-6">
         <div className="mb-4">
           <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Leads</h1>
           <p className="text-gray-600 mt-1 text-sm sm:text-base">
@@ -46,12 +46,14 @@ export const LeadsPage = () => {
         />
       </div>
 
-      <LeadsTable
-        leads={filteredLeads}
-        loading={leads.loading}
-        error={leads.error}
-        onLeadSelect={handleLeadSelect}
-      />
+      <div className="flex-1 px-4 sm:px-6 pb-4 sm:pb-6 min-h-0">
+        <LeadsTable
+          leads={filteredLeads}
+          loading={leads.loading}
+          error={leads.error}
+          onLeadSelect={handleLeadSelect}
+        />
+      </div>
 
       <LeadDetailPanel
         lead={selectedLead}
