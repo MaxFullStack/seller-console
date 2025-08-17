@@ -103,13 +103,15 @@ export const useDashboardStore = create<DashboardState>()(
     lastUpdated: null,
     
     setLeads: (leads) => {
-      set({ leads, lastUpdated: new Date() });
-      get().updateMetrics();
+      const opportunities = get().opportunities;
+      const metrics = calculateMetrics(leads, opportunities);
+      set({ leads, metrics, lastUpdated: new Date() });
     },
     
     setOpportunities: (opportunities) => {
-      set({ opportunities, lastUpdated: new Date() });
-      get().updateMetrics();
+      const leads = get().leads;
+      const metrics = calculateMetrics(leads, opportunities);
+      set({ opportunities, metrics, lastUpdated: new Date() });
     },
     
     updateMetrics: () => {
