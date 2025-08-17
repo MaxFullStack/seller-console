@@ -5,9 +5,15 @@ import { useOpportunitiesMetrics } from '@/store/dashboard-store';
 import { formatCurrency } from '@/lib/utils';
 
 export const OpportunitiesCard = () => {
-  const metrics = useOpportunitiesMetrics();
+  const {
+    totalOpportunities,
+    totalRevenue,
+    averageDealSize,
+    opportunitiesByStage,
+    opportunityConversionRate,
+  } = useOpportunitiesMetrics();
 
-  const topStage = Object.entries(metrics.opportunitiesByStage)
+  const topStage = Object.entries(opportunitiesByStage)
     .sort(([,a], [,b]) => b - a)[0];
 
   const stageLabels: Record<string, string> = {
@@ -36,7 +42,7 @@ export const OpportunitiesCard = () => {
             </div>
           </div>
           <Badge variant="secondary" className="text-lg font-semibold px-3 py-1">
-            {metrics.totalOpportunities}
+            {totalOpportunities}
           </Badge>
         </div>
       </CardHeader>
@@ -51,7 +57,7 @@ export const OpportunitiesCard = () => {
             </div>
             <div className="text-right">
               <div className="text-lg font-bold text-green-600">
-                {formatCurrency(metrics.totalRevenue)}
+                {formatCurrency(totalRevenue)}
               </div>
             </div>
           </div>
@@ -63,7 +69,7 @@ export const OpportunitiesCard = () => {
             </div>
             <div className="text-right">
               <div className="text-lg font-bold text-blue-600">
-                {formatCurrency(metrics.averageDealSize)}
+                {formatCurrency(averageDealSize)}
               </div>
             </div>
           </div>
@@ -89,7 +95,7 @@ export const OpportunitiesCard = () => {
         <div className="space-y-2 pt-2 border-t">
           <span className="text-sm font-medium text-muted-foreground">Stage Breakdown</span>
           <div className="grid grid-cols-2 gap-2 text-xs">
-            {Object.entries(metrics.opportunitiesByStage)
+            {Object.entries(opportunitiesByStage)
               .sort(([,a], [,b]) => b - a)
               .slice(0, 4)
               .map(([stage, count]) => (
@@ -111,7 +117,7 @@ export const OpportunitiesCard = () => {
           </div>
           <div className="text-right">
             <div className="text-lg font-bold text-purple-600">
-              {metrics.opportunityConversionRate}%
+              {opportunityConversionRate}%
             </div>
             <div className="text-xs text-muted-foreground">
               From qualified leads

@@ -6,10 +6,19 @@ import { useOverallMetrics } from '@/store/dashboard-store';
 import { formatCurrency } from '@/lib/utils';
 
 export const MetricsCard = () => {
-  const { metrics, lastUpdated } = useOverallMetrics();
+  const {
+    metrics: {
+      conversionRate,
+      opportunityConversionRate,
+      totalLeads,
+      totalOpportunities,
+      totalRevenue,
+    },
+    lastUpdated,
+  } = useOverallMetrics();
 
-  const revenuePerLead = metrics.totalLeads > 0 ? metrics.totalRevenue / metrics.totalLeads : 0;
-  const pipelineHealth = Math.round((metrics.conversionRate + metrics.opportunityConversionRate) / 2);
+  const revenuePerLead = totalLeads > 0 ? totalRevenue / totalLeads : 0;
+  const pipelineHealth = Math.round((conversionRate + opportunityConversionRate) / 2);
   
   const getHealthColor = (health: number) => {
     if (health >= 70) return 'text-green-600';
@@ -85,11 +94,11 @@ export const MetricsCard = () => {
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-1">
             <div className="text-xs text-muted-foreground">Lead Conv.</div>
-            <div className="text-lg font-bold text-blue-600">{metrics.conversionRate}%</div>
+            <div className="text-lg font-bold text-blue-600">{conversionRate}%</div>
           </div>
           <div className="space-y-1">
             <div className="text-xs text-muted-foreground">Opp Conv.</div>
-            <div className="text-lg font-bold text-green-600">{metrics.opportunityConversionRate}%</div>
+            <div className="text-lg font-bold text-green-600">{opportunityConversionRate}%</div>
           </div>
         </div>
 
@@ -106,16 +115,16 @@ export const MetricsCard = () => {
         {/* Summary Stats */}
         <div className="grid grid-cols-3 gap-3 pt-2 border-t">
           <div className="text-center">
-            <div className="text-lg font-bold">{metrics.totalLeads}</div>
+            <div className="text-lg font-bold">{totalLeads}</div>
             <div className="text-xs text-muted-foreground">Leads</div>
           </div>
           <div className="text-center">
-            <div className="text-lg font-bold">{metrics.totalOpportunities}</div>
+            <div className="text-lg font-bold">{totalOpportunities}</div>
             <div className="text-xs text-muted-foreground">Opps</div>
           </div>
           <div className="text-center">
             <div className="text-sm font-bold text-green-600">
-              {formatCurrency(metrics.totalRevenue / 1000)}K
+              {formatCurrency(totalRevenue / 1000)}K
             </div>
             <div className="text-xs text-muted-foreground">Revenue</div>
           </div>

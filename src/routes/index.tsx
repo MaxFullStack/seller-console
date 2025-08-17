@@ -17,11 +17,11 @@ function Dashboard() {
     const loadDashboardData = async () => {
       try {
         // Load leads data
-        const leadsData = await leadRepository.findAll()
+        const leadsData = await leadRepository.list()
         setLeads(leadsData)
 
         // Load opportunities data  
-        const opportunitiesData = await opportunityRepository.findAll()
+        const opportunitiesData = await opportunityRepository.list()
         setOpportunities(opportunitiesData)
       } catch (error) {
         console.error('Failed to load dashboard data:', error)

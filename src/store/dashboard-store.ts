@@ -2,40 +2,29 @@ import { create } from 'zustand';
 import { Lead } from '@/features/leads/model/lead';
 import { Opportunity } from '@/features/opportunities/model/opportunity';
 
-interface DashboardMetrics {
-  // Lead metrics
-  totalLeads: number;
-  newLeads: number;
-  qualifiedLeads: number;
-  unqualifiedLeads: number;
-  contactedLeads: number;
-  averageLeadScore: number;
-  
-  // Opportunity metrics  
-  totalOpportunities: number;
-  totalRevenue: number;
-  averageDealSize: number;
-  opportunitiesByStage: Record<string, number>;
-  
-  // Overall metrics
-  conversionRate: number; // qualified leads / total leads
-  opportunityConversionRate: number; // opportunities / qualified leads
-}
-
 interface DashboardState {
   leads: Lead[];
   opportunities: Opportunity[];
-  metrics: DashboardMetrics;
   lastUpdated: Date | null;
   
   // Actions
   setLeads: (leads: Lead[]) => void;
   setOpportunities: (opportunities: Opportunity[]) => void;
-  updateMetrics: () => void;
 }
 
-const calculateMetrics = (leads: Lead[], opportunities: Opportunity[]): DashboardMetrics => {
-  // Lead calculations
+export const useDashboardStore = create<DashboardState>((set) => ({
+  leads: [],
+  opportunities: [],
+  lastUpdated: null,
+  
+  setLeads: (leads) => set({ leads, lastUpdated: new Date() }),
+  setOpportunities: (opportunities) => set({ opportunities, lastUpdated: new Date() }),
+}));
+
+// Computed metrics using separate hooks to avoid store complexity
+export const useLeadsMetrics = () => {
+  const leads = useDashboardStore(state => state.leads);
+  
   const totalLeads = leads.length;
   const newLeads = leads.filter(lead => lead.status === 'new').length;
   const qualifiedLeads = leads.filter(lead => lead.status === 'qualified').length;
@@ -44,8 +33,24 @@ const calculateMetrics = (leads: Lead[], opportunities: Opportunity[]): Dashboar
   const averageLeadScore = totalLeads > 0 
     ? Math.round(leads.reduce((sum, lead) => sum + lead.score, 0) / totalLeads)
     : 0;
+  const conversionRate = totalLeads > 0 
+    ? Math.round((qualifiedLeads / totalLeads) * 100)
+    : 0;
+
+  return {
+    totalLeads,
+    newLeads,
+    qualifiedLeads,
+    unqualifiedLeads,
+    contactedLeads,
+    averageLeadScore,
+    conversionRate,
+  };
+};
+
+export const useOpportunitiesMetrics = () => {
+  const opportunities = useDashboardStore(state => state.opportunities);
   
-  // Opportunity calculations
   const totalOpportunities = opportunities.length;
   const totalRevenue = opportunities.reduce((sum, opp) => sum + (opp.amount || 0), 0);
   const averageDealSize = totalOpportunities > 0 
@@ -57,72 +62,30 @@ const calculateMetrics = (leads: Lead[], opportunities: Opportunity[]): Dashboar
     return acc;
   }, {} as Record<string, number>);
   
-  // Conversion rates
-  const conversionRate = totalLeads > 0 
-    ? Math.round((qualifiedLeads / totalLeads) * 100)
-    : 0;
+  const qualifiedLeads = useDashboardStore(state => state.leads.filter(lead => lead.status === 'qualified').length);
   const opportunityConversionRate = qualifiedLeads > 0
     ? Math.round((totalOpportunities / qualifiedLeads) * 100)
     : 0;
-  
+
   return {
-    totalLeads,
-    newLeads,
-    qualifiedLeads,
-    unqualifiedLeads,
-    contactedLeads,
-    averageLeadScore,
     totalOpportunities,
     totalRevenue,
     averageDealSize,
     opportunitiesByStage,
-    conversionRate,
     opportunityConversionRate,
   };
 };
 
-export const useDashboardStore = create<DashboardState>()((set, get) => ({
-    leads: [],
-    opportunities: [],
+export const useOverallMetrics = () => {
+  const leadsMetrics = useLeadsMetrics();
+  const opportunitiesMetrics = useOpportunitiesMetrics();
+  const lastUpdated = useDashboardStore(state => state.lastUpdated);
+  
+  return {
     metrics: {
-      totalLeads: 0,
-      newLeads: 0,
-      qualifiedLeads: 0,
-      unqualifiedLeads: 0,
-      contactedLeads: 0,
-      averageLeadScore: 0,
-      totalOpportunities: 0,
-      totalRevenue: 0,
-      averageDealSize: 0,
-      opportunitiesByStage: {},
-      conversionRate: 0,
-      opportunityConversionRate: 0,
+      ...leadsMetrics,
+      ...opportunitiesMetrics,
     },
-    lastUpdated: null,
-    
-    setLeads: (leads) => {
-      const opportunities = get().opportunities;
-      const metrics = calculateMetrics(leads, opportunities);
-      set({ leads, metrics, lastUpdated: new Date() });
-    },
-    
-    setOpportunities: (opportunities) => {
-      const leads = get().leads;
-      const metrics = calculateMetrics(leads, opportunities);
-      set({ opportunities, metrics, lastUpdated: new Date() });
-    },
-    
-    updateMetrics: () => {
-      const { leads, opportunities } = get();
-      const metrics = calculateMetrics(leads, opportunities);
-      set({ metrics });
-    },
-  }));
-
-// Simple selectors to avoid re-render loops
-export const useLeadsMetrics = () => useDashboardStore(state => state.metrics);
-export const useOpportunitiesMetrics = () => useDashboardStore(state => state.metrics);
-export const useOverallMetrics = () => useDashboardStore(state => ({ 
-  metrics: state.metrics, 
-  lastUpdated: state.lastUpdated 
-}));
+    lastUpdated,
+  };
+};
