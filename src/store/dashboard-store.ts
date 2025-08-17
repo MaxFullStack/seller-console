@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import { subscribeWithSelector } from 'zustand/middleware';
 import { Lead } from '@/features/leads/model/lead';
 import { Opportunity } from '@/features/opportunities/model/opportunity';
 
@@ -82,8 +81,7 @@ const calculateMetrics = (leads: Lead[], opportunities: Opportunity[]): Dashboar
   };
 };
 
-export const useDashboardStore = create<DashboardState>()(
-  subscribeWithSelector((set, get) => ({
+export const useDashboardStore = create<DashboardState>()((set, get) => ({
     leads: [],
     opportunities: [],
     metrics: {
@@ -119,33 +117,12 @@ export const useDashboardStore = create<DashboardState>()(
       const metrics = calculateMetrics(leads, opportunities);
       set({ metrics });
     },
-  }))
-);
+  }));
 
-// Selectors for easy access to specific metrics
-export const useLeadsMetrics = () => useDashboardStore((state) => ({
-  totalLeads: state.metrics.totalLeads,
-  newLeads: state.metrics.newLeads,
-  qualifiedLeads: state.metrics.qualifiedLeads,
-  unqualifiedLeads: state.metrics.unqualifiedLeads,
-  contactedLeads: state.metrics.contactedLeads,
-  averageLeadScore: state.metrics.averageLeadScore,
-  conversionRate: state.metrics.conversionRate,
-}));
-
-export const useOpportunitiesMetrics = () => useDashboardStore((state) => ({
-  totalOpportunities: state.metrics.totalOpportunities,
-  totalRevenue: state.metrics.totalRevenue,
-  averageDealSize: state.metrics.averageDealSize,
-  opportunitiesByStage: state.metrics.opportunitiesByStage,
-  opportunityConversionRate: state.metrics.opportunityConversionRate,
-}));
-
-export const useOverallMetrics = () => useDashboardStore((state) => ({
-  conversionRate: state.metrics.conversionRate,
-  opportunityConversionRate: state.metrics.opportunityConversionRate,
-  totalLeads: state.metrics.totalLeads,
-  totalOpportunities: state.metrics.totalOpportunities,
-  totalRevenue: state.metrics.totalRevenue,
-  lastUpdated: state.lastUpdated,
+// Simple selectors to avoid re-render loops
+export const useLeadsMetrics = () => useDashboardStore(state => state.metrics);
+export const useOpportunitiesMetrics = () => useDashboardStore(state => state.metrics);
+export const useOverallMetrics = () => useDashboardStore(state => ({ 
+  metrics: state.metrics, 
+  lastUpdated: state.lastUpdated 
 }));

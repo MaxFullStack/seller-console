@@ -5,15 +5,7 @@ import { Users, TrendingUp, Target, Star } from 'lucide-react';
 import { useLeadsMetrics } from '@/store/dashboard-store';
 
 export const LeadsCard = () => {
-  const {
-    totalLeads,
-    newLeads,
-    qualifiedLeads,
-    unqualifiedLeads,
-    contactedLeads,
-    averageLeadScore,
-    conversionRate,
-  } = useLeadsMetrics();
+  const metrics = useLeadsMetrics();
 
   const getScoreColor = (score: number) => {
     if (score >= 80) return 'text-green-600';
@@ -43,7 +35,7 @@ export const LeadsCard = () => {
             </div>
           </div>
           <Badge variant="secondary" className="text-lg font-semibold px-3 py-1">
-            {totalLeads}
+            {metrics.totalLeads}
           </Badge>
         </div>
       </CardHeader>
@@ -54,21 +46,21 @@ export const LeadsCard = () => {
           <div className="space-y-1">
             <div className="flex items-center justify-between text-sm">
               <span className="text-muted-foreground">New</span>
-              <span className="font-medium">{newLeads}</span>
+              <span className="font-medium">{metrics.newLeads}</span>
             </div>
             <div className="flex items-center justify-between text-sm">
               <span className="text-muted-foreground">Contacted</span>
-              <span className="font-medium">{contactedLeads}</span>
+              <span className="font-medium">{metrics.contactedLeads}</span>
             </div>
           </div>
           <div className="space-y-1">
             <div className="flex items-center justify-between text-sm">
               <span className="text-green-600">Qualified</span>
-              <span className="font-medium text-green-600">{qualifiedLeads}</span>
+              <span className="font-medium text-green-600">{metrics.qualifiedLeads}</span>
             </div>
             <div className="flex items-center justify-between text-sm">
               <span className="text-red-600">Unqualified</span>
-              <span className="font-medium text-red-600">{unqualifiedLeads}</span>
+              <span className="font-medium text-red-600">{metrics.unqualifiedLeads}</span>
             </div>
           </div>
         </div>
@@ -81,15 +73,15 @@ export const LeadsCard = () => {
               <span className="text-sm font-medium">Avg Score</span>
             </div>
             <div className="text-right">
-              <div className={`text-lg font-bold ${getScoreColor(averageLeadScore)}`}>
-                {averageLeadScore}
+              <div className={`text-lg font-bold ${getScoreColor(metrics.averageLeadScore)}`}>
+                {metrics.averageLeadScore}
               </div>
               <div className="text-xs text-muted-foreground">
-                {getScoreLabel(averageLeadScore)}
+                {getScoreLabel(metrics.averageLeadScore)}
               </div>
             </div>
           </div>
-          <Progress value={averageLeadScore} className="h-2" />
+          <Progress value={metrics.averageLeadScore} className="h-2" />
         </div>
 
         {/* Conversion Rate */}
@@ -100,7 +92,7 @@ export const LeadsCard = () => {
           </div>
           <div className="text-right">
             <div className="text-lg font-bold text-green-600">
-              {conversionRate}%
+              {metrics.conversionRate}%
             </div>
             <div className="text-xs text-muted-foreground">
               To qualified
