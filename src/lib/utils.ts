@@ -49,3 +49,42 @@ export function formatCurrency(amount: number): string {
     currency: 'USD'
   }).format(amount)
 }
+
+export function formatCurrencyCompact(amount: number): string {
+  if (amount >= 1000000) {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      notation: 'compact',
+      maximumFractionDigits: 2
+    }).format(amount)
+  }
+  return formatCurrency(amount)
+}
+
+export function formatPercentage(value: number, precision: number = 1): string {
+  return `${value.toFixed(precision)}%`
+}
+
+export function formatNumber(value: number): string {
+  return new Intl.NumberFormat('en-US').format(value)
+}
+
+export function formatTrend(current: number, previous: number): { 
+  value: string; 
+  direction: 'up' | 'down' | 'neutral';
+  percentage: number;
+} {
+  if (previous === 0) {
+    return { value: 'N/A', direction: 'neutral', percentage: 0 }
+  }
+  
+  const percentage = ((current - previous) / previous) * 100
+  const direction = percentage > 0 ? 'up' : percentage < 0 ? 'down' : 'neutral'
+  
+  return {
+    value: `${percentage >= 0 ? '+' : ''}${percentage.toFixed(1)}%`,
+    direction,
+    percentage: Math.abs(percentage)
+  }
+}
