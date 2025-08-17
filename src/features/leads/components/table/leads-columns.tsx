@@ -1,37 +1,21 @@
 import type { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { Lead } from "../../model/lead"
 import { capitalizeFirst } from "@/lib/utils"
 
-const getStatusVariant = (status: string) => {
+const getStatusColor = (status: string) => {
   switch (status) {
-    case "hot":
-      return "destructive"
-    case "warm":
-      return "default"
-    case "cold":
-      return "secondary"
+    case "qualified":
+      return "bg-green-100 text-green-800 border-green-200"
+    case "unqualified":
+      return "bg-red-100 text-red-800 border-red-200"
+    case "contacted":
+      return "bg-amber-100 text-amber-800 border-amber-200"
     case "new":
-      return "outline"
+      return "bg-blue-100 text-blue-800 border-blue-200"
     default:
-      return "secondary"
-  }
-}
-
-const getSourceColor = (source: string) => {
-  switch (source) {
-    case "website":
-      return "bg-blue-100 text-blue-800"
-    case "email":
-      return "bg-green-100 text-green-800"
-    case "phone":
-      return "bg-yellow-100 text-yellow-800"
-    case "referral":
-      return "bg-purple-100 text-purple-800"
-    default:
-      return "bg-gray-100 text-gray-800"
+      return "bg-gray-100 text-gray-800 border-gray-200"
   }
 }
 
@@ -90,9 +74,7 @@ export const leadsColumns: ColumnDef<Lead>[] = [
       const source = row.getValue("source") as string
       return (
         <div className="min-w-[100px]">
-          <span
-            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getSourceColor(source)}`}
-          >
+          <span className="text-muted-foreground text-sm">
             {capitalizeFirst(source)}
           </span>
         </div>
@@ -131,9 +113,11 @@ export const leadsColumns: ColumnDef<Lead>[] = [
       const status = row.getValue("status") as string
       return (
         <div className="min-w-[100px]">
-          <Badge variant={getStatusVariant(status)}>
+          <span
+            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getStatusColor(status)}`}
+          >
             {capitalizeFirst(status)}
-          </Badge>
+          </span>
         </div>
       )
     },
