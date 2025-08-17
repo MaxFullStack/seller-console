@@ -6,6 +6,8 @@ import {
 import { delay, generateId } from '@/lib/utils';
 
 const STORAGE_KEY = 'mini-seller-console-opportunities';
+const DATA_VERSION_KEY = 'mini-seller-console-opportunities-version';
+const CURRENT_DATA_VERSION = '2'; // Incrementar quando dados mudarem
 
 // Mock data for initial load
 const mockOpportunities: Opportunity[] = [
@@ -25,12 +27,69 @@ const mockOpportunities: Opportunity[] = [
     accountName: 'DataFlow',
     leadId: '2',
   },
+  {
+    id: '3',
+    name: 'GlobalTech - Enterprise Suite',
+    stage: 'closed-won',
+    amount: 125000,
+    accountName: 'GlobalTech',
+    leadId: '3',
+  },
+  {
+    id: '4',
+    name: 'StartupX - MVP Platform',
+    stage: 'closed-won',
+    amount: 35000,
+    accountName: 'StartupX',
+    leadId: '4',
+  },
+  {
+    id: '5',
+    name: 'FinanceInc - Compliance Tool',
+    stage: 'closed-lost',
+    amount: 60000,
+    accountName: 'FinanceInc',
+    leadId: '5',
+  },
+  {
+    id: '6',
+    name: 'RetailChain - Inventory System',
+    stage: 'prospecting',
+    amount: 80000,
+    accountName: 'RetailChain',
+    leadId: '6',
+  },
+  {
+    id: '7',
+    name: 'HealthCorp - Patient Portal',
+    stage: 'qualification',
+    amount: 95000,
+    accountName: 'HealthCorp',
+    leadId: '7',
+  },
+  {
+    id: '8',
+    name: 'EduTech - Learning Platform',
+    stage: 'closed-won',
+    amount: 42000,
+    accountName: 'EduTech',
+    leadId: '8',
+  },
 ];
 
 export class OpportunityRepository {
   private getOpportunities(): Opportunity[] {
+    const storedVersion = window.localStorage.getItem(DATA_VERSION_KEY);
     const stored = window.localStorage.getItem(STORAGE_KEY);
-    return stored ? JSON.parse(stored) : mockOpportunities;
+    
+    // Se a versão mudou ou não existe, usar dados novos
+    if (storedVersion !== CURRENT_DATA_VERSION || !stored) {
+      this.saveOpportunities(mockOpportunities);
+      window.localStorage.setItem(DATA_VERSION_KEY, CURRENT_DATA_VERSION);
+      return mockOpportunities;
+    }
+    
+    return JSON.parse(stored);
   }
 
   private saveOpportunities(opportunities: Opportunity[]): void {
