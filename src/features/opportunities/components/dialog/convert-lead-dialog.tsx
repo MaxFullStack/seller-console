@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Lead } from '../../../leads/model/lead';
 import { CreateOpportunityInput, OpportunityStage } from '../../model/opportunity';
+import { validateAmount, validateName, validateCompanyName } from '@/lib/utils';
 
 export interface ConvertLeadDialogProps {
   lead: Lead | null;
@@ -56,9 +57,23 @@ export const ConvertLeadDialog = ({
 
   const validateForm = () => {
     const newErrors = { name: '', accountName: '', amount: '' };
-    if (!formData.name.trim()) newErrors.name = 'Opportunity name is required';
-    if (!formData.accountName.trim()) newErrors.accountName = 'Account name is required';
-    if (formData.amount && isNaN(Number(formData.amount))) newErrors.amount = 'Value must be a valid number';
+    
+    if (!formData.name.trim()) {
+      newErrors.name = 'Opportunity name is required';
+    } else if (!validateName(formData.name)) {
+      newErrors.name = 'Name must be between 2-100 characters';
+    }
+    
+    if (!formData.accountName.trim()) {
+      newErrors.accountName = 'Account name is required';
+    } else if (!validateCompanyName(formData.accountName)) {
+      newErrors.accountName = 'Account name must be between 1-100 characters';
+    }
+    
+    if (!validateAmount(formData.amount)) {
+      newErrors.amount = 'Amount must be a valid number between 0 and 999,999,999';
+    }
+    
     setErrors(newErrors);
     return !newErrors.name && !newErrors.accountName && !newErrors.amount;
   };
