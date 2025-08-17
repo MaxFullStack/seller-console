@@ -1,0 +1,1 @@
+export { ConvertLeadDialog } from './convert-lead-dialog';
