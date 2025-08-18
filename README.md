@@ -1,69 +1,69 @@
-# React + TypeScript + Vite
+# Mini Seller Console
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 🚀 Project
 
-Currently, two official plugins are available:
+The **Mini Seller Console** is an application built with **React 19**, using **Vite** as the bundler and **TypeScript** for static typing. The focus was on applying feature-based architecture and best practices, following principles such as **SOLID**, **KISS**, **DRY**, and **Clean Code**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The app uses **TanStack Router** and **TanStack Table**, with **Zustand** for global state management and **Zod** for validations.
 
-## Expanding the ESLint configuration
+## 🔗 Links
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+* Deploy: [https://seller-console-max.vercel.app/](https://seller-console-max.vercel.app/)
+* Repository: [https://github.com/MaxFullStack/mini-seller-console](https://github.com/MaxFullStack/mini-seller-console)
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 📦 Key Technologies
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+* **React 19** + **TypeScript**
+* **Vite 7**
+* **TailwindCSS 4** + **Radix UI** + **Lucide Icons**
+* **Zustand** (global state)
+* **TanStack Router & Table**
+* **Zod** (validation)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 📜 Available Scripts
+
+In the `package.json`, the following commands are available:
+
+```bash
+# Start development server
+npm run dev
+
+# Production build
+npm run build
+
+# Preview production build
+npm run preview
+
+# TypeScript type checking
+npm run typecheck
+
+# Linting
+npm run lint
+npm run lint:fix
+
+# Code formatting with Prettier
+npm run format
+
+# Tests with Vitest
+npm run test
+npm run test:watch
+
+# Husky (git hooks)
+npm run prepare
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## ✅ Code Quality & Standards
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+* ESLint + Prettier configured.
+* Husky + lint-staged to ensure commit quality.
+* Consistent use of **arrow functions** instead of `function`.
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+
+This project was developed as part of a technical challenge, prioritizing **clean, modular, and production-ready code**.
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**.
