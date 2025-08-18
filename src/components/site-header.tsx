@@ -1,5 +1,5 @@
 import { SidebarIcon } from "lucide-react"
-import { Link } from "@tanstack/react-router"
+import { Link, useLocation } from "@tanstack/react-router"
 
 import {
   Breadcrumb,
@@ -12,9 +12,12 @@ import {
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { useSidebar } from "@/components/ui/sidebar"
+import { getBreadcrumbItems } from "@/lib/utils"
 
 export function SiteHeader() {
   const { toggleSidebar } = useSidebar()
+  const location = useLocation()
+  const breadcrumbItems = getBreadcrumbItems(location.pathname)
 
   return (
     <header className="bg-background sticky top-0 z-50 flex w-full items-center border-b">
@@ -31,15 +34,20 @@ export function SiteHeader() {
         <Separator orientation="vertical" className="mr-2 h-4" />
         <Breadcrumb className="block">
           <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link to="/">Mini Seller Console</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Dashboard</BreadcrumbPage>
-            </BreadcrumbItem>
+            {breadcrumbItems.map((item, index: number) => (
+              <div key={item.path} className="flex items-center">
+                {index > 0 && <BreadcrumbSeparator />}
+                <BreadcrumbItem>
+                  {item.isCurrentPage ? (
+                    <BreadcrumbPage>{item.label}</BreadcrumbPage>
+                  ) : (
+                    <BreadcrumbLink asChild>
+                      <Link to={item.path}>{item.label}</Link>
+                    </BreadcrumbLink>
+                  )}
+                </BreadcrumbItem>
+              </div>
+            ))}
           </BreadcrumbList>
         </Breadcrumb>
       </div>
