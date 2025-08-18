@@ -1,12 +1,12 @@
 import { useCallback } from 'react';
 import { useOpportunities } from '../hooks/use-opportunities';
 import { useOpportunityFilters } from '../hooks/use-opportunity-filters';
-import { OpportunitiesTable } from '../components';
+import { OpportunitiesTable, OpportunityFilters } from '../components';
 import { Button } from '@/components/ui/button';
 
 export const OpportunitiesPage = () => {
   const { opportunities, loadOpportunities } = useOpportunities();
-  const { filteredOpportunities, clearFilters } = useOpportunityFilters(opportunities.data || []);
+  const { filters, filteredOpportunities, updateSearch, updateStage, clearFilters } = useOpportunityFilters(opportunities.data || []);
 
   const handleRefresh = useCallback(() => {
     loadOpportunities();
@@ -34,6 +34,13 @@ export const OpportunitiesPage = () => {
             Refresh
           </Button>
         </div>
+        
+        <OpportunityFilters
+          query={filters.search}
+          onQueryChange={updateSearch}
+          stage={filters.stage}
+          onStageChange={updateStage}
+        />
       </div>
 
       <div className="flex-1 px-4 sm:px-6 pb-4 sm:pb-6 min-h-0">

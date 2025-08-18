@@ -11,7 +11,7 @@ import { CreateOpportunityInput } from '../../opportunities/model/opportunity';
 export const LeadsPage = () => {
   const { leads, updateLead, convertToOpportunity } = useLeads();
   const { selectedLead, isPanelOpen, selectLead, closeLead } = useLeadSelection();
-  const { filters, filteredLeads, updateSearch, updateStatus } = useLeadFilters(leads.data || []);
+  const { filters, filteredLeads, updateSearch, updateStatus, clearFilters } = useLeadFilters(leads.data || []);
   const { isOpen: isConvertDialogOpen, openDialog: openConvertDialog, closeDialog: closeConvertDialog } = useConvertDialog();
 
   const handleLeadSelect = useCallback((lead: Lead) => {
@@ -52,6 +52,7 @@ export const LeadsPage = () => {
           loading={leads.loading}
           error={leads.error}
           onLeadSelect={handleLeadSelect}
+          onClearFilters={clearFilters}
         />
       </div>
 
