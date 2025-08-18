@@ -83,7 +83,7 @@ export const LeadsCard = () => {
             <TrendingUp className="h-4 w-4 text-green-500" />
             <span className="text-sm font-medium">Conversion Rate</span>
             <Tooltip>
-              <TooltipTrigger>
+              <TooltipTrigger aria-label="Conversion rate information">
                 <Info className="h-3 w-3 text-muted-foreground" />
               </TooltipTrigger>
               <TooltipContent>

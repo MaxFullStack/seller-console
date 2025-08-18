@@ -37,7 +37,7 @@ export const MetricsCard = () => {
             <div className="flex items-center justify-between mb-2">
               <div className="text-xs font-medium text-blue-700">Lead Conversion</div>
               <Tooltip>
-                <TooltipTrigger>
+                <TooltipTrigger aria-label="Lead conversion information">
                   <Info className="h-3 w-3 text-blue-500" />
                 </TooltipTrigger>
                 <TooltipContent>
@@ -53,7 +53,7 @@ export const MetricsCard = () => {
             <div className="flex items-center justify-between mb-2">
               <div className="text-xs font-medium text-green-700">Opp Conversion</div>
               <Tooltip>
-                <TooltipTrigger>
+                <TooltipTrigger aria-label="Opportunity conversion information">
                   <Info className="h-3 w-3 text-green-500" />
                 </TooltipTrigger>
                 <TooltipContent>
@@ -69,7 +69,7 @@ export const MetricsCard = () => {
             <div className="flex items-center justify-between mb-2">
               <div className="text-xs font-medium text-purple-700">Revenue/Lead</div>
               <Tooltip>
-                <TooltipTrigger>
+                <TooltipTrigger aria-label="Revenue per lead information">
                   <Info className="h-3 w-3 text-purple-500" />
                 </TooltipTrigger>
                 <TooltipContent>
@@ -85,7 +85,7 @@ export const MetricsCard = () => {
             <div className="flex items-center justify-between mb-2">
               <div className="text-xs font-medium text-emerald-700">Total Revenue</div>
               <Tooltip>
-                <TooltipTrigger>
+                <TooltipTrigger aria-label="Total revenue information">
                   <Info className="h-3 w-3 text-emerald-500" />
                 </TooltipTrigger>
                 <TooltipContent>
