@@ -29,7 +29,7 @@ export const OpportunitiesCard = () => {
               <CardDescription>Sales pipeline overview</CardDescription>
             </div>
           </div>
-          <Badge variant="secondary" className="text-lg font-semibold px-3 py-1">
+          <Badge variant="secondary" className="text-lg font-semibold px-3 py-1" aria-label={`Total opportunities: ${totalOpportunities}`}>
             {totalOpportunities}
           </Badge>
         </div>

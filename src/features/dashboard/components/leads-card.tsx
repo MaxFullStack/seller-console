@@ -30,7 +30,7 @@ export const LeadsCard = () => {
               <CardDescription>Lead management overview</CardDescription>
             </div>
           </div>
-          <Badge variant="secondary" className="text-lg font-semibold px-3 py-1">
+          <Badge variant="secondary" className="text-lg font-semibold px-3 py-1" aria-label={`Total leads: ${formatNumber(totalLeads)}`}>
             {formatNumber(totalLeads)}
           </Badge>
         </div>
