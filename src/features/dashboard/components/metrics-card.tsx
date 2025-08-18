@@ -13,7 +13,7 @@ export const MetricsCard = () => {
 
   return (
     <Card className="relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-full -translate-y-16 translate-x-16" />
+      <div className="absolute top-0 right-0 w-32 h-32"/>
       
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
@@ -30,10 +30,10 @@ export const MetricsCard = () => {
       </CardHeader>
 
       <CardContent className="space-y-6">
-        {/* Key Metrics Row - Horizontal Layout */}
-        <div className="grid grid-cols-4 gap-6">
+        {/* Key Metrics Row - Responsive Layout */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-6">
           {/* Lead Conversion */}
-          <div className="p-4 rounded-lg bg-blue-50 border border-blue-200">
+          <div className="p-3 sm:p-4 rounded-lg bg-blue-50 border border-blue-200">
             <div className="flex items-center justify-between mb-2">
               <div className="text-xs font-medium text-blue-700">Lead Conversion</div>
               <Tooltip>
@@ -45,11 +45,11 @@ export const MetricsCard = () => {
                 </TooltipContent>
               </Tooltip>
             </div>
-            <div className="text-2xl font-bold text-blue-600">{formatPercentage(conversionRate)}</div>
+            <div className="text-xl sm:text-2xl font-bold text-blue-600">{formatPercentage(conversionRate)}</div>
           </div>
 
           {/* Opportunity Conversion */}
-          <div className="p-4 rounded-lg bg-green-50 border border-green-200">
+          <div className="p-3 sm:p-4 rounded-lg bg-green-50 border border-green-200">
             <div className="flex items-center justify-between mb-2">
               <div className="text-xs font-medium text-green-700">Opp Conversion</div>
               <Tooltip>
@@ -61,11 +61,11 @@ export const MetricsCard = () => {
                 </TooltipContent>
               </Tooltip>
             </div>
-            <div className="text-2xl font-bold text-green-600">{formatPercentage(opportunityConversionRate)}</div>
+            <div className="text-xl sm:text-2xl font-bold text-green-600">{formatPercentage(opportunityConversionRate)}</div>
           </div>
 
           {/* Revenue per Lead */}
-          <div className="p-4 rounded-lg bg-purple-50 border border-purple-200">
+          <div className="p-3 sm:p-4 rounded-lg bg-purple-50 border border-purple-200">
             <div className="flex items-center justify-between mb-2">
               <div className="text-xs font-medium text-purple-700">Revenue/Lead</div>
               <Tooltip>
@@ -77,11 +77,11 @@ export const MetricsCard = () => {
                 </TooltipContent>
               </Tooltip>
             </div>
-            <div className="text-xl font-bold text-purple-600">{formatCurrencyCompact(revenuePerLead)}</div>
+            <div className="text-lg sm:text-xl font-bold text-purple-600">{formatCurrencyCompact(revenuePerLead)}</div>
           </div>
 
           {/* Total Revenue */}
-          <div className="p-4 rounded-lg bg-emerald-50 border border-emerald-200">
+          <div className="p-3 sm:p-4 rounded-lg bg-emerald-50 border border-emerald-200">
             <div className="flex items-center justify-between mb-2">
               <div className="text-xs font-medium text-emerald-700">Total Revenue</div>
               <Tooltip>
@@ -93,18 +93,18 @@ export const MetricsCard = () => {
                 </TooltipContent>
               </Tooltip>
             </div>
-            <div className="text-xl font-bold text-emerald-600">{formatCurrencyCompact(totalRevenue)}</div>
+            <div className="text-lg sm:text-xl font-bold text-emerald-600">{formatCurrencyCompact(totalRevenue)}</div>
           </div>
         </div>
 
-        {/* Summary Stats - Horizontal Layout */}
-        <div className="flex items-center justify-center space-x-12 pt-4 border-t">
+        {/* Summary Stats - Responsive Layout */}
+        <div className="flex items-center justify-center space-x-6 sm:space-x-12 pt-4 border-t">
           <div className="text-center">
-            <div className="text-2xl font-bold">{formatNumber(totalLeads)}</div>
+            <div className="text-xl sm:text-2xl font-bold">{formatNumber(totalLeads)}</div>
             <div className="text-sm text-muted-foreground">Total Leads</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold">{formatNumber(totalOpportunities)}</div>
+            <div className="text-xl sm:text-2xl font-bold">{formatNumber(totalOpportunities)}</div>
             <div className="text-sm text-muted-foreground">Opportunities</div>
           </div>
         </div>
