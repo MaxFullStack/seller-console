@@ -51,9 +51,9 @@ export const LeadsCard = () => {
             <div className="text-center p-2 rounded-md bg-orange-50 border border-orange-100">
               <div className="flex items-center justify-center space-x-1 mb-1">
                 <div className="w-1 h-1 rounded-full bg-orange-500"></div>
-                <span className="text-xs font-medium text-orange-700">Contacted</span>
+                <span className="text-xs font-medium text-orange-800">Contacted</span>
               </div>
-              <div className="text-lg font-bold text-orange-600">{formatNumber(contactedLeads)}</div>
+              <div className="text-lg font-bold text-orange-800">{formatNumber(contactedLeads)}</div>
             </div>
           </div>
           
@@ -69,9 +69,9 @@ export const LeadsCard = () => {
             <div className="text-center p-2 rounded-md bg-red-50 border border-red-100">
               <div className="flex items-center justify-center space-x-1 mb-1">
                 <div className="w-1 h-1 rounded-full bg-red-500"></div>
-                <span className="text-xs font-medium text-red-700">Unqualified</span>
+                <span className="text-xs font-medium text-red-800">Unqualified</span>
               </div>
-              <div className="text-lg font-bold text-red-600">{formatNumber(unqualifiedLeads)}</div>
+              <div className="text-lg font-bold text-red-800">{formatNumber(unqualifiedLeads)}</div>
             </div>
           </div>
         </div>

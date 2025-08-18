@@ -135,7 +135,7 @@ export const ConvertLeadDialog = ({
                   placeholder="Opportunity name"
                   className={errors.name ? 'border-red-500' : ''}
                 />
-                {errors.name && <p className="text-sm text-red-600">{errors.name}</p>}
+                {errors.name && <p className="text-sm text-red-800">{errors.name}</p>}
               </div>
 
               <div className="space-y-2">
@@ -147,7 +147,7 @@ export const ConvertLeadDialog = ({
                   placeholder="Account/company name"
                   className={errors.accountName ? 'border-red-500' : ''}
                 />
-                {errors.accountName && <p className="text-sm text-red-600">{errors.accountName}</p>}
+                {errors.accountName && <p className="text-sm text-red-800">{errors.accountName}</p>}
               </div>
 
               <div className="space-y-2">
@@ -182,7 +182,7 @@ export const ConvertLeadDialog = ({
                   placeholder="0.00"
                   className={errors.amount ? 'border-red-500' : ''}
                 />
-                {errors.amount && <p className="text-sm text-red-600">{errors.amount}</p>}
+                {errors.amount && <p className="text-sm text-red-800">{errors.amount}</p>}
                 <p className="text-sm text-muted-foreground">Estimated opportunity value</p>
               </div>
             </div>

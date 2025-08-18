@@ -1,5 +1,5 @@
 import { SidebarIcon } from "lucide-react"
-import { Link, useLocation } from "@tanstack/react-router"
+import { Link } from "@tanstack/react-router"
 
 import {
   Breadcrumb,
@@ -12,12 +12,11 @@ import {
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { useSidebar } from "@/components/ui/sidebar"
-import { getBreadcrumbItems } from "@/lib/utils"
+import { useBreadcrumb } from "@/hooks/use-breadcrumb"
 
 export function SiteHeader() {
   const { toggleSidebar } = useSidebar()
-  const location = useLocation()
-  const breadcrumbItems = getBreadcrumbItems(location.pathname)
+  const { breadcrumbItems } = useBreadcrumb()
 
   return (
     <header className="bg-background sticky top-0 z-50 flex w-full items-center border-b">

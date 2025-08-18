@@ -132,7 +132,7 @@ export const LeadDetailPanel = ({
                   placeholder="email@empresa.com"
                   className={errors.email ? 'border-red-500' : ''}
                 />
-                {errors.email && <p className="text-sm text-red-600">{errors.email}</p>}
+                {errors.email && <p className="text-sm text-red-800">{errors.email}</p>}
               </div>
 
               <div className="space-y-2">
