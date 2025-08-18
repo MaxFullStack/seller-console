@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 
 // Mock all the hooks first
+const mockLoadLeads = vi.fn();
 const mockUpdateLead = vi.fn();
 const mockConvertToOpportunity = vi.fn();
 const mockSelectLead = vi.fn();
@@ -18,6 +19,7 @@ vi.mock('../../hooks/use-leads', () => ({
       loading: false,
       error: null,
     },
+    loadLeads: mockLoadLeads,
     updateLead: mockUpdateLead,
     convertToOpportunity: mockConvertToOpportunity,
   }),
@@ -84,10 +86,10 @@ describe('LeadsPage Integration', () => {
     expect(screen.getByTestId('convert-dialog')).toBeInTheDocument();
   });
 
-  it('should not have refresh button', () => {
+  it('should have refresh button', () => {
     render(<LeadsPage />);
 
-    expect(screen.queryByText('Refresh')).not.toBeInTheDocument();
+    expect(screen.getByText('Refresh')).toBeInTheDocument();
   });
 
   it('should integrate all hooks correctly', () => {

@@ -10,11 +10,11 @@ interface StatusSelectProps {
 export function StatusSelect({ value, onChange }: StatusSelectProps) {
   return (
     <Select value={value} onValueChange={(v) => onChange(v as StatusOption)}>
-      <SelectTrigger className="w-[200px]">
-        <SelectValue placeholder="All statuses" />
+      <SelectTrigger className="w-[160px]">
+        <SelectValue placeholder="All Statuses" />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="all">All statuses</SelectItem>
+        <SelectItem value="all">All Statuses</SelectItem>
         <SelectItem value="new">New</SelectItem>
         <SelectItem value="contacted">Contacted</SelectItem>
         <SelectItem value="qualified">Qualified</SelectItem>
