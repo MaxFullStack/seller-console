@@ -28,7 +28,6 @@
     "@radix-ui/react-tooltip": "^1.2.8",
     "@tailwindcss/vite": "^4.1.12",
     "@tanstack/react-router": "^1.131.16",
-    "@tanstack/react-router-devtools": "^1.131.19",
     "@tanstack/react-table": "^8.21.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -41,6 +40,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
+    "@tanstack/router-devtools": "^1.131.19",
     "@tanstack/router-vite-plugin": "^1.131.16",
     "@testing-library/jest-dom": "^6.7.0",
     "@testing-library/react": "^16.3.0",

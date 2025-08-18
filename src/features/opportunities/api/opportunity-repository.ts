@@ -97,7 +97,7 @@ export class OpportunityRepository {
   }
 
   async list(): Promise<Opportunity[]> {
-    await delay(500);
+    await delay(150);
     return this.getOpportunities();
   }
 
