@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Allow all search engines to index all content
+# This is appropriate for a CRM dashboard that can be publicly accessible
+
+# Sitemap location (if you add one later)
+# Sitemap: https://your-domain.com/sitemap.xml
+
+# Common crawl delay (optional, helps reduce server load)
+Crawl-delay: 1
