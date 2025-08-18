@@ -46,7 +46,7 @@ export const LeadsCard = () => {
                 <div className="w-1 h-1 rounded-full bg-blue-500"></div>
                 <span className="text-xs font-medium text-blue-700">New</span>
               </div>
-              <div className="text-lg font-bold text-blue-600">{formatNumber(newLeads)}</div>
+              <div className="text-lg font-bold text-blue-700">{formatNumber(newLeads)}</div>
             </div>
             <div className="text-center p-2 rounded-md bg-orange-50 border border-orange-100">
               <div className="flex items-center justify-center space-x-1 mb-1">
@@ -64,7 +64,7 @@ export const LeadsCard = () => {
                 <div className="w-1 h-1 rounded-full bg-green-500"></div>
                 <span className="text-xs font-medium text-green-700">Qualified</span>
               </div>
-              <div className="text-lg font-bold text-green-600">{formatNumber(qualifiedLeads)}</div>
+              <div className="text-lg font-bold text-green-700">{formatNumber(qualifiedLeads)}</div>
             </div>
             <div className="text-center p-2 rounded-md bg-red-50 border border-red-100">
               <div className="flex items-center justify-center space-x-1 mb-1">
@@ -80,7 +80,7 @@ export const LeadsCard = () => {
         {/* Conversion Rate - Responsive */}
         <div className="flex items-center justify-between pt-2 border-t space-y-2 sm:space-y-0">
           <div className="flex items-center space-x-2">
-            <TrendingUp className="h-4 w-4 text-green-500" />
+            <TrendingUp className="h-4 w-4 text-green-700" />
             <span className="text-sm font-medium">Conversion Rate</span>
             <Tooltip>
               <TooltipTrigger aria-label="Conversion rate information">
@@ -92,7 +92,7 @@ export const LeadsCard = () => {
             </Tooltip>
           </div>
           <div className="text-left sm:text-right">
-            <div className="text-xl font-bold text-green-600">
+            <div className="text-xl font-bold text-green-700">
               {formatPercentage(conversionRate)}
             </div>
             <div className="text-xs font-medium text-muted-foreground">

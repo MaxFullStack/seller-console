@@ -45,7 +45,7 @@ export const MetricsCard = () => {
                 </TooltipContent>
               </Tooltip>
             </div>
-            <div className="text-xl sm:text-2xl font-bold text-blue-600">{formatPercentage(conversionRate)}</div>
+            <div className="text-xl sm:text-2xl font-bold text-blue-700">{formatPercentage(conversionRate)}</div>
           </div>
 
           {/* Opportunity Conversion */}
@@ -54,14 +54,14 @@ export const MetricsCard = () => {
               <div className="text-xs font-medium text-green-700">Opp Conversion</div>
               <Tooltip>
                 <TooltipTrigger aria-label="Opportunity conversion information">
-                  <Info className="h-3 w-3 text-green-500" />
+                  <Info className="h-3 w-3 text-green-700" />
                 </TooltipTrigger>
                 <TooltipContent>
                   <p className="text-xs">Opportunities converted to closed-won deals</p>
                 </TooltipContent>
               </Tooltip>
             </div>
-            <div className="text-xl sm:text-2xl font-bold text-green-600">{formatPercentage(opportunityConversionRate)}</div>
+            <div className="text-xl sm:text-2xl font-bold text-green-700">{formatPercentage(opportunityConversionRate)}</div>
           </div>
 
           {/* Revenue per Lead */}
@@ -77,7 +77,7 @@ export const MetricsCard = () => {
                 </TooltipContent>
               </Tooltip>
             </div>
-            <div className="text-lg sm:text-xl font-bold text-purple-600">{formatCurrencyCompact(revenuePerLead)}</div>
+            <div className="text-lg sm:text-xl font-bold text-purple-700">{formatCurrencyCompact(revenuePerLead)}</div>
           </div>
 
           {/* Total Revenue */}
@@ -93,7 +93,7 @@ export const MetricsCard = () => {
                 </TooltipContent>
               </Tooltip>
             </div>
-            <div className="text-lg sm:text-xl font-bold text-emerald-600">{formatCurrencyCompact(totalRevenue)}</div>
+            <div className="text-lg sm:text-xl font-bold text-emerald-700">{formatCurrencyCompact(totalRevenue)}</div>
           </div>
         </div>
 

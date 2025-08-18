@@ -40,11 +40,11 @@ export const OpportunitiesCard = () => {
         <div className="grid grid-cols-1 gap-3">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between p-3 rounded-lg bg-muted/50 space-y-1 sm:space-y-0">
             <div className="flex items-center space-x-2">
-              <DollarSign className="h-4 w-4 text-green-600" />
+              <DollarSign className="h-4 w-4 text-green-700" />
               <span className="text-sm font-medium">Total Revenue</span>
             </div>
             <div className="text-left sm:text-right">
-              <div className="text-lg font-bold text-green-600">
+              <div className="text-lg font-bold text-green-700">
                 {formatCurrencyCompact(totalRevenue)}
               </div>
             </div>
@@ -52,11 +52,11 @@ export const OpportunitiesCard = () => {
           
           <div className="flex flex-col sm:flex-row sm:items-center justify-between p-3 rounded-lg bg-muted/50 space-y-1 sm:space-y-0">
             <div className="flex items-center space-x-2">
-              <BarChart3 className="h-4 w-4 text-blue-600" />
+              <BarChart3 className="h-4 w-4 text-blue-700" />
               <span className="text-sm font-medium">Avg Deal Size</span>
             </div>
             <div className="text-left sm:text-right">
-              <div className="text-lg font-bold text-blue-600">
+              <div className="text-lg font-bold text-blue-700">
                 {formatCurrencyCompact(averageDealSize)}
               </div>
             </div>
@@ -67,11 +67,11 @@ export const OpportunitiesCard = () => {
         <div className="grid grid-cols-2 gap-2 pt-3 border-t">
           <div className="text-center p-2 sm:p-3 rounded-md bg-purple-50 border border-purple-100">
             <div className="text-xs font-medium text-purple-700 mb-1">Win Rate</div>
-            <div className="text-base sm:text-lg font-bold text-purple-600">{formatPercentage(winRate, 0)}</div>
+            <div className="text-base sm:text-lg font-bold text-purple-700">{formatPercentage(winRate, 0)}</div>
           </div>
           <div className="text-center p-2 sm:p-3 rounded-md bg-blue-50 border border-blue-100">
             <div className="text-xs font-medium text-blue-700 mb-1">Active</div>
-            <div className="text-base sm:text-lg font-bold text-blue-600">{formatNumber(activeOpportunities)}</div>
+            <div className="text-base sm:text-lg font-bold text-blue-700">{formatNumber(activeOpportunities)}</div>
           </div>
         </div>
 
