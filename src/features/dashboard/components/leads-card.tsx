@@ -1,6 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { Users, TrendingUp, Info } from 'lucide-react';
 import { useLeadsMetrics } from '../hooks/use-leads-metrics';
@@ -18,7 +17,7 @@ export const LeadsCard = () => {
 
   return (
     <Card className="relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full -translate-y-16 translate-x-16" />
+      <div className="absolute top-0 right-0 w-32 h-32" />
       
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
@@ -78,8 +77,8 @@ export const LeadsCard = () => {
         </div>
 
 
-        {/* Conversion Rate - Enhanced */}
-        <div className="flex items-center justify-between pt-2 border-t">
+        {/* Conversion Rate - Responsive */}
+        <div className="flex items-center justify-between pt-2 border-t space-y-2 sm:space-y-0">
           <div className="flex items-center space-x-2">
             <TrendingUp className="h-4 w-4 text-green-500" />
             <span className="text-sm font-medium">Conversion Rate</span>
@@ -92,7 +91,7 @@ export const LeadsCard = () => {
               </TooltipContent>
             </Tooltip>
           </div>
-          <div className="text-right">
+          <div className="text-left sm:text-right">
             <div className="text-xl font-bold text-green-600">
               {formatPercentage(conversionRate)}
             </div>
