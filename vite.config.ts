@@ -42,5 +42,31 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
     passWithNoTests: true,
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      exclude: [
+        'node_modules/',
+        'src/test/',
+        '**/*.d.ts',
+        '**/*.config.*',
+        '**/coverage/**',
+        'tests/',
+        'playwright.config.ts',
+        'src/routes/__root.tsx',
+        'src/main.tsx',
+        'src/routeTree.gen.ts',
+      ],
+      include: [
+        'src/**/*.{ts,tsx}',
+      ],
+      reportsDirectory: './coverage',
+      thresholds: {
+        lines: 80,
+        functions: 80,
+        branches: 80,
+        statements: 80,
+      },
+    },
   },
 });

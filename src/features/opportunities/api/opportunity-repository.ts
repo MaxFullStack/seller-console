@@ -103,9 +103,13 @@ export class OpportunityRepository {
 
   async create(input: CreateOpportunityInput): Promise<Opportunity> {
     await delay(700);
+    
+    // Validate input using Zod schema
+    const validatedInput = CreateOpportunityInput.parse(input);
+    
     const opportunities = this.getOpportunities();
     const newOpportunity: Opportunity = {
-      ...input,
+      ...validatedInput,
       id: generateId(),
     };
     const updatedOpportunities = [...opportunities, newOpportunity];
@@ -115,14 +119,18 @@ export class OpportunityRepository {
 
   async update(input: UpdateOpportunityInput): Promise<Opportunity> {
     await delay(600);
+    
+    // Validate input using Zod schema
+    const validatedInput = UpdateOpportunityInput.parse(input);
+    
     const opportunities = this.getOpportunities();
-    const index = opportunities.findIndex((opp) => opp.id === input.id);
+    const index = opportunities.findIndex((opp) => opp.id === validatedInput.id);
 
     if (index === -1) {
       throw new Error('Opportunity not found');
     }
 
-    const updatedOpportunity = { ...opportunities[index], ...input };
+    const updatedOpportunity = { ...opportunities[index], ...validatedInput };
     const updatedOpportunities = [...opportunities];
     updatedOpportunities[index] = updatedOpportunity;
 

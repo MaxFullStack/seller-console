@@ -92,9 +92,13 @@ export class LeadRepository {
 
   async create(input: CreateLeadInput): Promise<Lead> {
     await delay(800);
+    
+    // Validate input using Zod schema
+    const validatedInput = CreateLeadInput.parse(input);
+    
     const leads = this.getLeads();
     const newLead: Lead = {
-      ...input,
+      ...validatedInput,
       id: generateId(),
     };
     const updatedLeads = [...leads, newLead];
@@ -104,14 +108,18 @@ export class LeadRepository {
 
   async update(input: UpdateLeadInput): Promise<Lead> {
     await delay(700);
+    
+    // Validate input using Zod schema
+    const validatedInput = UpdateLeadInput.parse(input);
+    
     const leads = this.getLeads();
-    const index = leads.findIndex((lead) => lead.id === input.id);
+    const index = leads.findIndex((lead) => lead.id === validatedInput.id);
 
     if (index === -1) {
       throw new Error('Lead not found');
     }
 
-    const updatedLead = { ...leads[index], ...input };
+    const updatedLead = { ...leads[index], ...validatedInput };
     const updatedLeads = [...leads];
     updatedLeads[index] = updatedLead;
 
