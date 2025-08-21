@@ -1,12 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { Lead } from '../../../leads/model/lead';
-import { CreateOpportunityInput, OpportunityStage } from '../../model/opportunity';
-import { validateAmount, validateName, validateCompanyName } from '@/lib/utils';
+import { CreateOpportunityInput } from '../../model/opportunity';
 
 export interface ConvertLeadDialogProps {
   lead: Lead | null;
@@ -22,7 +31,30 @@ const stageOptions = [
   { value: 'needs-analysis', label: 'Needs Analysis' },
   { value: 'proposal', label: 'Proposal' },
   { value: 'negotiation', label: 'Negotiation' },
-];
+] as const;
+
+const convertLeadSchema = z.object({
+  name: z.string()
+    .min(1, 'Opportunity name is required')
+    .min(2, 'Name must be at least 2 characters')
+    .max(100, 'Name must be no more than 100 characters')
+    .trim(),
+  accountName: z.string()
+    .min(1, 'Account name is required')
+    .max(100, 'Account name must be no more than 100 characters')
+    .trim(),
+  stage: z.enum(['prospecting', 'qualification', 'needs-analysis', 'proposal', 'negotiation']),
+  amount: z.union([
+    z.string().length(0),
+    z.string().regex(/^\d+(\.\d{1,2})?$/, 'Amount must be a valid number')
+      .refine(val => {
+        const num = parseFloat(val);
+        return num >= 0 && num <= 999999999;
+      }, 'Amount must be between 0 and 999,999,999')
+  ]),
+});
+
+type ConvertLeadFormData = z.infer<typeof convertLeadSchema>;
 
 export const ConvertLeadDialog = ({
   lead,
@@ -31,62 +63,35 @@ export const ConvertLeadDialog = ({
   onConvert,
   isLoading,
 }: ConvertLeadDialogProps) => {
-  const [formData, setFormData] = useState({
-    name: '',
-    stage: 'prospecting' as OpportunityStage,
-    amount: '',
-    accountName: '',
-  });
-  const [errors, setErrors] = useState({
-    name: '',
-    accountName: '',
-    amount: '',
+  const form = useForm<ConvertLeadFormData>({
+    resolver: zodResolver(convertLeadSchema),
+    defaultValues: {
+      name: '',
+      stage: 'prospecting',
+      amount: '',
+      accountName: '',
+    },
   });
 
   useEffect(() => {
     if (lead) {
-      setFormData({
+      form.reset({
         name: `${lead.company} - Opportunity`,
         stage: 'prospecting',
         amount: '',
         accountName: lead.company,
       });
-      setErrors({ name: '', accountName: '', amount: '' });
     }
-  }, [lead]);
+  }, [lead, form]);
 
-  const validateForm = () => {
-    const newErrors = { name: '', accountName: '', amount: '' };
-    
-    if (!formData.name.trim()) {
-      newErrors.name = 'Opportunity name is required';
-    } else if (!validateName(formData.name)) {
-      newErrors.name = 'Name must be between 2-100 characters';
-    }
-    
-    if (!formData.accountName.trim()) {
-      newErrors.accountName = 'Account name is required';
-    } else if (!validateCompanyName(formData.accountName)) {
-      newErrors.accountName = 'Account name must be between 1-100 characters';
-    }
-    
-    if (!validateAmount(formData.amount)) {
-      newErrors.amount = 'Amount must be a valid number between 0 and 999,999,999';
-    }
-    
-    setErrors(newErrors);
-    return !newErrors.name && !newErrors.accountName && !newErrors.amount;
-  };
-
-  const handleSubmit = async (e?: React.FormEvent) => {
-    e?.preventDefault();
-    if (!lead || !validateForm()) return;
+  const handleSubmit = async (values: ConvertLeadFormData) => {
+    if (!lead) return;
     try {
       await onConvert({
-        name: formData.name.trim(),
-        stage: formData.stage,
-        amount: formData.amount ? Number(formData.amount) : undefined,
-        accountName: formData.accountName.trim(),
+        name: values.name.trim(),
+        stage: values.stage,
+        amount: values.amount ? Number(values.amount) : undefined,
+        accountName: values.accountName.trim(),
         leadId: lead.id,
       });
       onClose();
@@ -104,7 +109,8 @@ export const ConvertLeadDialog = ({
           <SheetTitle>Convert Lead to Opportunity</SheetTitle>
         </SheetHeader>
 
-        <form onSubmit={handleSubmit} className="flex h-full flex-col">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handleSubmit)} className="flex h-full flex-col">
           <div className="flex-1 min-h-0 overflow-y-auto p-6 pb-28 space-y-6">
             <div className="rounded-xl border bg-card p-4">
               <h3 className="mb-3 text-sm font-medium text-muted-foreground">Selected Lead</h3>
@@ -126,65 +132,80 @@ export const ConvertLeadDialog = ({
             <div className="space-y-4">
               <h3 className="text-sm font-medium">Opportunity Data</h3>
 
-              <div className="space-y-2">
-                <Label htmlFor="name">Opportunity Name *</Label>
-                <Input
-                  id="name"
-                  value={formData.name}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
-                  placeholder="Opportunity name"
-                  className={errors.name ? 'border-red-500' : ''}
-                />
-                {errors.name && <p className="text-sm text-red-800">{errors.name}</p>}
-              </div>
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Opportunity Name *</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Opportunity name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-              <div className="space-y-2">
-                <Label htmlFor="accountName">Account Name *</Label>
-                <Input
-                  id="accountName"
-                  value={formData.accountName}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, accountName: e.target.value }))}
-                  placeholder="Account/company name"
-                  className={errors.accountName ? 'border-red-500' : ''}
-                />
-                {errors.accountName && <p className="text-sm text-red-800">{errors.accountName}</p>}
-              </div>
+              <FormField
+                control={form.control}
+                name="accountName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Account Name *</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Account/company name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-              <div className="space-y-2">
-                <Label htmlFor="stage">Stage *</Label>
-                <Select
-                  value={formData.stage}
-                  onValueChange={(value) => setFormData((prev) => ({ ...prev, stage: value as OpportunityStage }))}
-                >
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select a stage" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {stageOptions.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+              <FormField
+                control={form.control}
+                name="stage"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Stage *</FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a stage" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {stageOptions.map((option) => (
+                          <SelectItem key={option.value} value={option.value}>
+                            {option.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-              <div className="space-y-2">
-                <Label htmlFor="amount">Amount (optional)</Label>
-                <Input
-                  id="amount"
-                  type="number"
-                  inputMode="decimal"
-                  step="0.01"
-                  min="0"
-                  value={formData.amount}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, amount: e.target.value }))}
-                  placeholder="0.00"
-                  className={errors.amount ? 'border-red-500' : ''}
-                />
-                {errors.amount && <p className="text-sm text-red-800">{errors.amount}</p>}
-                <p className="text-sm text-muted-foreground">Estimated opportunity value</p>
-              </div>
+              <FormField
+                control={form.control}
+                name="amount"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Amount (optional)</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        inputMode="decimal"
+                        step="0.01"
+                        min="0"
+                        placeholder="0.00"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                    <p className="text-sm text-muted-foreground">Estimated opportunity value</p>
+                  </FormItem>
+                )}
+              />
             </div>
           </div>
 
@@ -199,7 +220,8 @@ export const ConvertLeadDialog = ({
               </Button>
             </div>
           </div>
-        </form>
+          </form>
+        </Form>
       </SheetContent>
     </Sheet>
   );
