@@ -1,12 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { Lead, UpdateLeadInput, LeadStatus } from '../../model/lead';
-import { validateEmail } from '@/lib/utils';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Lead, UpdateLeadInput } from '../../model/lead';
 
 export interface LeadDetailPanelProps {
   lead: Lead | null;
@@ -22,7 +31,16 @@ const statusOptions = [
   { value: 'contacted',   label: 'Contacted' },
   { value: 'qualified',   label: 'Qualified' },
   { value: 'unqualified', label: 'Unqualified' },
-];
+] as const;
+
+const leadDetailSchema = z.object({
+  email: z.string()
+    .min(1, 'Email is required')
+    .email('Invalid email format'),
+  status: z.enum(['new', 'contacted', 'qualified', 'unqualified']),
+});
+
+type LeadDetailFormData = z.infer<typeof leadDetailSchema>;
 
 export const LeadDetailPanel = ({
   lead,
@@ -32,39 +50,29 @@ export const LeadDetailPanel = ({
   onConvert,
   isLoading,
 }: LeadDetailPanelProps) => {
-  const [formData, setFormData] = useState({ email: '', status: 'new' as LeadStatus });
-  const [errors, setErrors] = useState({ email: '' });
-  const [hasChanges, setHasChanges] = useState(false);
+  const form = useForm<LeadDetailFormData>({
+    resolver: zodResolver(leadDetailSchema),
+    defaultValues: {
+      email: '',
+      status: 'new',
+    },
+  });
+
+  const { formState: { isDirty } } = form;
 
   useEffect(() => {
     if (lead) {
-      setFormData({ email: lead.email, status: lead.status });
-      setErrors({ email: '' });
-      setHasChanges(false);
+      form.reset({
+        email: lead.email,
+        status: lead.status,
+      });
     }
-  }, [lead]);
+  }, [lead, form]);
 
-  const validateForm = () => {
-    const newErrors = { email: '' };
-    if (!formData.email.trim()) newErrors.email = 'Email is required';
-    else if (!validateEmail(formData.email)) newErrors.email = 'Invalid email';
-    setErrors(newErrors);
-    return !newErrors.email;
-  };
-
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newEmail = e.target.value;
-    setFormData((prev) => ({ ...prev, email: newEmail }));
-    setHasChanges(true);
-    if (errors.email) setErrors((prev) => ({ ...prev, email: '' }));
-  };
-
-  const handleSave = async (e?: React.FormEvent) => {
-    e?.preventDefault();
-    if (!lead || !validateForm()) return;
+  const handleSave = async (values: LeadDetailFormData) => {
+    if (!lead) return;
     try {
-      await onSave({ id: lead.id, email: formData.email.trim(), status: formData.status });
-      setHasChanges(false);
+      await onSave({ id: lead.id, email: values.email.trim(), status: values.status });
       onClose();
     } catch (error) {
       console.error('Save failed:', error);
@@ -72,7 +80,7 @@ export const LeadDetailPanel = ({
   };
 
   const handleCancel = () => {
-    if (hasChanges) {
+    if (isDirty) {
       const confirmed = window.confirm('You have unsaved changes. Do you really want to cancel?');
       if (!confirmed) return;
     }
@@ -98,7 +106,8 @@ export const LeadDetailPanel = ({
         </SheetHeader>
 
         {/* Body scrollável + footer sticky */}
-        <form onSubmit={handleSave} className="flex h-full flex-col">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handleSave)} className="flex h-full flex-col">
           <div className="flex-1 min-h-0 overflow-y-auto p-6 pb-28 space-y-6">
             {/* ==== Basic Information (Card shadcn) ==== */}
             <Card>
@@ -122,40 +131,44 @@ export const LeadDetailPanel = ({
             <div className="space-y-4">
               <h3 className="text-sm font-medium">Editable Information</h3>
 
-              <div className="space-y-2">
-                <Label htmlFor="email">Email *</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleEmailChange}
-                  placeholder="email@empresa.com"
-                  className={errors.email ? 'border-red-500' : ''}
-                />
-                {errors.email && <p className="text-sm text-red-800">{errors.email}</p>}
-              </div>
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email *</FormLabel>
+                    <FormControl>
+                      <Input type="email" placeholder="email@empresa.com" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-              <div className="space-y-2">
-                <Label htmlFor="status">Status *</Label>
-                <Select
-                  value={formData.status}
-                  onValueChange={(value) => {
-                    setFormData((prev) => ({ ...prev, status: value as LeadStatus }));
-                    setHasChanges(true);
-                  }}
-                >
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Selecione um status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {statusOptions.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+              <FormField
+                control={form.control}
+                name="status"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Status *</FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Selecione um status" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {statusOptions.map((option) => (
+                          <SelectItem key={option.value} value={option.value}>
+                            {option.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
 
             {/* CTA de conversão (quando qualificado) */}
@@ -182,12 +195,13 @@ export const LeadDetailPanel = ({
               <Button type="button" variant="secondary" onClick={handleCancel} disabled={isLoading}>
                 Cancel
               </Button>
-              <Button type="submit" disabled={!hasChanges || isLoading}>
+              <Button type="submit" disabled={!isDirty || isLoading}>
                 {isLoading ? 'Saving…' : 'Save Changes'}
               </Button>
             </div>
           </div>
-        </form>
+          </form>
+        </Form>
       </SheetContent>
     </Sheet>
   );
