@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { toast } from 'react-toastify';
 import { useLeads } from '../hooks/use-leads';
 import { useLeadSelection } from '../hooks/use-lead-selection';
 import { useLeadFilters } from '../hooks/use-lead-filters';
@@ -25,9 +26,15 @@ export const LeadsPage = () => {
 
   const handleConvertLead = useCallback(async (input: CreateOpportunityInput) => {
     if (!selectedLead) return;
-    await convertToOpportunity(selectedLead.id, input);
-    closeConvertDialog();
-    closeLead();
+    
+    try {
+      await convertToOpportunity(selectedLead.id, input);
+      toast.success(`Lead "${selectedLead.name}" successfully converted to opportunity!`);
+      closeConvertDialog();
+      closeLead();
+    } catch (error) {
+      toast.error('Error converting lead to opportunity. Please try again.');
+    }
   }, [convertToOpportunity, selectedLead, closeConvertDialog, closeLead]);
 
   const handleRefresh = useCallback(() => {
