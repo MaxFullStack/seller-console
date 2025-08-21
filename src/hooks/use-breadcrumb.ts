@@ -12,19 +12,13 @@ function getBreadcrumbItems(pathname: string): BreadcrumbItem[] {
   
   const items: BreadcrumbItem[] = [
     {
-      label: 'Mini Seller Console',
+      label: 'Dashboard',
       path: '/',
       isCurrentPage: pathname === '/'
     }
   ]
 
   if (pathname === '/') {
-    items[0].isCurrentPage = true
-    items.push({
-      label: 'Dashboard',
-      path: '/',
-      isCurrentPage: true
-    })
     return items
   }
 

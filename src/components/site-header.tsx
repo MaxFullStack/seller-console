@@ -1,3 +1,4 @@
+import React from "react"
 import { SidebarIcon } from "lucide-react"
 import { Link } from "@tanstack/react-router"
 
@@ -31,10 +32,10 @@ export function SiteHeader() {
           <SidebarIcon />
         </Button>
         <Separator orientation="vertical" className="mr-2 h-4" />
-        <Breadcrumb className="block">
+        <Breadcrumb>
           <BreadcrumbList>
-            {breadcrumbItems.map((item, index: number) => (
-              <div key={item.path} className="flex items-center">
+            {breadcrumbItems.map((item, index) => (
+              <React.Fragment key={item.path}>
                 {index > 0 && <BreadcrumbSeparator />}
                 <BreadcrumbItem>
                   {item.isCurrentPage ? (
@@ -45,7 +46,7 @@ export function SiteHeader() {
                     </BreadcrumbLink>
                   )}
                 </BreadcrumbItem>
-              </div>
+              </React.Fragment>
             ))}
           </BreadcrumbList>
         </Breadcrumb>
