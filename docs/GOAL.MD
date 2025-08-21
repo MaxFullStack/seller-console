@@ -1,4 +1,4 @@
-Mini Seller Console (React + Tailwind)
+Seller Console (React + Tailwind)
 Goal: Build a lightweight console to triage Leads and convert them into Opportunities. You can use an
 AI co-pilot, we encourage dev’s to do so, but what we are assessing on is the structure and quality.
 Requirements (MVP)

@@ -1,5 +1,5 @@
 {
-  "name": "mini-seller-console",
+  "name": "seller-console",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -43,6 +43,7 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-hook-form": "^7.62.0",
+    "react-toastify": "^11.0.5",
     "tailwind-merge": "^3.3.1",
     "zod": "^4.0.17",
     "zustand": "^5.0.7"

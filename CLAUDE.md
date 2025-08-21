@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a **Mini Seller Console** - a lightweight React application for triaging leads and converting them to opportunities. The project is built as an MVP assessment focusing on structure and code quality.
+This is a **Seller Console** - a lightweight React application for triaging leads and converting them to opportunities. The project is built as an MVP assessment focusing on structure and code quality.
 
 ### Core Features
 - **Leads Management**: Display leads from local JSON with search, filter, and sort capabilities

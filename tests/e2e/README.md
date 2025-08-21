@@ -1,6 +1,6 @@
 # End-to-End Testing with Playwright
 
-This directory contains comprehensive E2E tests for the Mini Seller Console application using Playwright.
+This directory contains comprehensive E2E tests for the Seller Console application using Playwright.
 
 ## Overview
 

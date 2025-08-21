@@ -1,15 +1,15 @@
-# Mini Seller Console
+# Seller Console
 
 ## 🚀 Project
 
-The **Mini Seller Console** is a modern React application built with **React 19**, using **Vite** as the bundler and **TypeScript** for static typing. The focus was on applying feature-based architecture and best practices, following principles such as **SOLID**, **KISS**, **DRY**, and **Clean Code**.
+The **Seller Console** is a modern React application built with **React 19**, using **Vite** as the bundler and **TypeScript** for static typing. The focus was on applying feature-based architecture and best practices, following principles such as **SOLID**, **KISS**, **DRY**, and **Clean Code**.
 
 The app uses **TanStack Router** and **TanStack Table**, with **Zustand** for global state management, **React Hook Form** for robust form handling, and **Zod** for comprehensive validations. The UI is built with **shadcn/ui** components and **Tailwind CSS 4**.
 
 ## 🔗 Links
 
 * Deploy: [https://seller-console-max.vercel.app/](https://seller-console-max.vercel.app/)
-* Repository: [https://github.com/MaxFullStack/mini-seller-console](https://github.com/MaxFullStack/mini-seller-console)
+* Repository: [https://github.com/MaxFullStack/seller-console](https://github.com/MaxFullStack/seller-console)
 
 ## 📦 Key Technologies
 

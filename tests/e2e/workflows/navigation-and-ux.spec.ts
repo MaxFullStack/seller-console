@@ -57,12 +57,12 @@ test.describe('Navigation and User Experience', () => {
 
   test('should display proper page titles and breadcrumbs', async ({ page }) => {
     // Check leads page title
-    await expect(page).toHaveTitle(/Leads|Mini Seller Console/);
+    await expect(page).toHaveTitle(/Leads|Seller Console/);
     
     // Navigate to opportunities
     await page.click('[data-testid="opportunities-nav-link"]');
     await page.waitForLoadState('networkidle');
-    await expect(page).toHaveTitle(/Opportunities|Mini Seller Console/);
+    await expect(page).toHaveTitle(/Opportunities|Seller Console/);
     
     // Check for breadcrumbs if they exist
     const breadcrumbs = page.locator('[data-testid="breadcrumbs"]');
