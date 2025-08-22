@@ -1,2 +1,2 @@
 export { OpportunitiesTable } from './opportunities-table';
-export { opportunitiesColumns } from './opportunities-columns';
+export { createOpportunitiesColumns } from './opportunities-columns';

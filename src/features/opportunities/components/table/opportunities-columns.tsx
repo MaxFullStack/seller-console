@@ -1,5 +1,5 @@
 import type { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown } from "lucide-react"
+import { ArrowUpDown, Edit } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Opportunity } from "../../model/opportunity"
@@ -22,7 +22,7 @@ const getStageVariant = (stage: string) => {
   }
 }
 
-export const opportunitiesColumns: ColumnDef<Opportunity>[] = [
+export const createOpportunitiesColumns = (onEdit: (opportunity: Opportunity) => void): ColumnDef<Opportunity>[] => [
   {
     accessorKey: "name",
     size: 250,
@@ -96,6 +96,27 @@ export const opportunitiesColumns: ColumnDef<Opportunity>[] = [
       return (
         <div className="font-mono font-medium min-w-[120px] text-right">
           {amount ? formatCurrency(amount) : "—"}
+        </div>
+      )
+    },
+  },
+  {
+    id: "actions",
+    size: 80,
+    header: "Actions",
+    cell: ({ row }) => {
+      const opportunity = row.original
+      return (
+        <div className="min-w-[70px]">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => onEdit(opportunity)}
+            className="h-8 w-8 p-0"
+          >
+            <Edit className="h-4 w-4" />
+            <span className="sr-only">Edit opportunity</span>
+          </Button>
         </div>
       )
     },
