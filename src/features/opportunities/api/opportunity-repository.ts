@@ -5,8 +5,8 @@ import {
 } from '../model/opportunity';
 import { delay, generateId } from '@/lib/utils';
 
-const STORAGE_KEY = 'mini-seller-console-opportunities';
-const DATA_VERSION_KEY = 'mini-seller-console-opportunities-version';
+const STORAGE_KEY = 'seller-console-opportunities';
+const DATA_VERSION_KEY = 'seller-console-opportunities-version';
 const CURRENT_DATA_VERSION = '2'; // Incrementar quando dados mudarem
 
 // Mock data for initial load

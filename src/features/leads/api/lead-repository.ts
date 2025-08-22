@@ -1,7 +1,7 @@
 import { Lead, CreateLeadInput, UpdateLeadInput } from '../model/lead';
 import { delay, generateId } from '@/lib/utils';
 
-const STORAGE_KEY = 'mini-seller-console-leads';
+const STORAGE_KEY = 'seller-console-leads';
 
 // Mock data for initial load
 const mockLeads: Lead[] = [
