@@ -52,8 +52,8 @@ describe('OpportunityRepository', () => {
           leadId: '1',
         },
       ];
-      mockLocalStorage['mini-seller-console-opportunities'] = JSON.stringify(existingOpportunities);
-      mockLocalStorage['mini-seller-console-opportunities-version'] = '2';
+      mockLocalStorage['seller-console-opportunities'] = JSON.stringify(existingOpportunities);
+      mockLocalStorage['seller-console-opportunities-version'] = '2';
 
       const result = await repository.list();
 
@@ -71,8 +71,8 @@ describe('OpportunityRepository', () => {
           leadId: '1',
         },
       ];
-      mockLocalStorage['mini-seller-console-opportunities'] = JSON.stringify(oldOpportunities);
-      mockLocalStorage['mini-seller-console-opportunities-version'] = '1'; // Old version
+      mockLocalStorage['seller-console-opportunities'] = JSON.stringify(oldOpportunities);
+      mockLocalStorage['seller-console-opportunities-version'] = '1'; // Old version
 
       const result = await repository.list();
 
@@ -89,33 +89,33 @@ describe('OpportunityRepository', () => {
       });
 
       // Should update version in localStorage
-      expect(mockLocalStorage['mini-seller-console-opportunities-version']).toBe('2');
+      expect(mockLocalStorage['seller-console-opportunities-version']).toBe('2');
     });
 
     it('should initialize with mock data when no version exists', async () => {
       const result = await repository.list();
 
       expect(result).toHaveLength(8); // Mock data has 8 opportunities
-      expect(mockLocalStorage['mini-seller-console-opportunities-version']).toBe('2');
-      expect(JSON.parse(mockLocalStorage['mini-seller-console-opportunities'])).toEqual(result);
+      expect(mockLocalStorage['seller-console-opportunities-version']).toBe('2');
+      expect(JSON.parse(mockLocalStorage['seller-console-opportunities'])).toEqual(result);
     });
 
     it('should initialize with mock data when no localStorage data exists', async () => {
-      mockLocalStorage['mini-seller-console-opportunities-version'] = '2';
+      mockLocalStorage['seller-console-opportunities-version'] = '2';
       // No opportunities data in localStorage
 
       const result = await repository.list();
 
       expect(result).toHaveLength(8); // Mock data has 8 opportunities
-      expect(JSON.parse(mockLocalStorage['mini-seller-console-opportunities'])).toEqual(result);
+      expect(JSON.parse(mockLocalStorage['seller-console-opportunities'])).toEqual(result);
     });
   });
 
   describe('create()', () => {
     it('should create a new opportunity and save to localStorage', async () => {
       const existingOpportunities: Opportunity[] = [];
-      mockLocalStorage['mini-seller-console-opportunities'] = JSON.stringify(existingOpportunities);
-      mockLocalStorage['mini-seller-console-opportunities-version'] = '2';
+      mockLocalStorage['seller-console-opportunities'] = JSON.stringify(existingOpportunities);
+      mockLocalStorage['seller-console-opportunities-version'] = '2';
 
       const input: CreateOpportunityInput = {
         name: 'New Opportunity',
@@ -132,7 +132,7 @@ describe('OpportunityRepository', () => {
         id: 'mock-generated-id',
       });
 
-      const savedOpportunities = JSON.parse(mockLocalStorage['mini-seller-console-opportunities']);
+      const savedOpportunities = JSON.parse(mockLocalStorage['seller-console-opportunities']);
       expect(savedOpportunities).toHaveLength(1);
       expect(savedOpportunities[0]).toEqual(result);
     });
@@ -148,8 +148,8 @@ describe('OpportunityRepository', () => {
           leadId: '1',
         },
       ];
-      mockLocalStorage['mini-seller-console-opportunities'] = JSON.stringify(existingOpportunities);
-      mockLocalStorage['mini-seller-console-opportunities-version'] = '2';
+      mockLocalStorage['seller-console-opportunities'] = JSON.stringify(existingOpportunities);
+      mockLocalStorage['seller-console-opportunities-version'] = '2';
 
       const input: CreateOpportunityInput = {
         name: 'New Opportunity',
@@ -161,7 +161,7 @@ describe('OpportunityRepository', () => {
 
       const result = await repository.create(input);
 
-      const savedOpportunities = JSON.parse(mockLocalStorage['mini-seller-console-opportunities']);
+      const savedOpportunities = JSON.parse(mockLocalStorage['seller-console-opportunities']);
       expect(savedOpportunities).toHaveLength(2);
       expect(savedOpportunities[1]).toEqual(result);
     });
@@ -179,8 +179,8 @@ describe('OpportunityRepository', () => {
           leadId: '1',
         },
       ];
-      mockLocalStorage['mini-seller-console-opportunities'] = JSON.stringify(existingOpportunities);
-      mockLocalStorage['mini-seller-console-opportunities-version'] = '2';
+      mockLocalStorage['seller-console-opportunities'] = JSON.stringify(existingOpportunities);
+      mockLocalStorage['seller-console-opportunities-version'] = '2';
 
       const input: UpdateOpportunityInput = {
         id: '1',
@@ -199,14 +199,14 @@ describe('OpportunityRepository', () => {
         leadId: '1',
       });
 
-      const savedOpportunities = JSON.parse(mockLocalStorage['mini-seller-console-opportunities']);
+      const savedOpportunities = JSON.parse(mockLocalStorage['seller-console-opportunities']);
       expect(savedOpportunities[0]).toEqual(result);
     });
 
     it('should throw error when opportunity not found', async () => {
       const existingOpportunities: Opportunity[] = [];
-      mockLocalStorage['mini-seller-console-opportunities'] = JSON.stringify(existingOpportunities);
-      mockLocalStorage['mini-seller-console-opportunities-version'] = '2';
+      mockLocalStorage['seller-console-opportunities'] = JSON.stringify(existingOpportunities);
+      mockLocalStorage['seller-console-opportunities-version'] = '2';
 
       const input: UpdateOpportunityInput = {
         id: 'non-existent',
@@ -237,20 +237,20 @@ describe('OpportunityRepository', () => {
           leadId: '2',
         },
       ];
-      mockLocalStorage['mini-seller-console-opportunities'] = JSON.stringify(existingOpportunities);
-      mockLocalStorage['mini-seller-console-opportunities-version'] = '2';
+      mockLocalStorage['seller-console-opportunities'] = JSON.stringify(existingOpportunities);
+      mockLocalStorage['seller-console-opportunities-version'] = '2';
 
       await repository.delete('1');
 
-      const savedOpportunities = JSON.parse(mockLocalStorage['mini-seller-console-opportunities']);
+      const savedOpportunities = JSON.parse(mockLocalStorage['seller-console-opportunities']);
       expect(savedOpportunities).toHaveLength(1);
       expect(savedOpportunities[0].id).toBe('2');
     });
 
     it('should throw error when opportunity not found for deletion', async () => {
       const existingOpportunities: Opportunity[] = [];
-      mockLocalStorage['mini-seller-console-opportunities'] = JSON.stringify(existingOpportunities);
-      mockLocalStorage['mini-seller-console-opportunities-version'] = '2';
+      mockLocalStorage['seller-console-opportunities'] = JSON.stringify(existingOpportunities);
+      mockLocalStorage['seller-console-opportunities-version'] = '2';
 
       await expect(repository.delete('non-existent')).rejects.toThrow('Opportunity not found');
     });
@@ -276,8 +276,8 @@ describe('OpportunityRepository', () => {
           leadId: '2',
         },
       ];
-      mockLocalStorage['mini-seller-console-opportunities'] = JSON.stringify(existingOpportunities);
-      mockLocalStorage['mini-seller-console-opportunities-version'] = '2';
+      mockLocalStorage['seller-console-opportunities'] = JSON.stringify(existingOpportunities);
+      mockLocalStorage['seller-console-opportunities-version'] = '2';
 
       const result = await repository.findById('2');
 
@@ -286,8 +286,8 @@ describe('OpportunityRepository', () => {
 
     it('should return null when opportunity not found', async () => {
       const existingOpportunities: Opportunity[] = [];
-      mockLocalStorage['mini-seller-console-opportunities'] = JSON.stringify(existingOpportunities);
-      mockLocalStorage['mini-seller-console-opportunities-version'] = '2';
+      mockLocalStorage['seller-console-opportunities'] = JSON.stringify(existingOpportunities);
+      mockLocalStorage['seller-console-opportunities-version'] = '2';
 
       const result = await repository.findById('non-existent');
 
@@ -308,15 +308,15 @@ describe('OpportunityRepository', () => {
         },
       ];
       
-      mockLocalStorage['mini-seller-console-opportunities'] = JSON.stringify(oldData);
-      mockLocalStorage['mini-seller-console-opportunities-version'] = '1'; // Old version
+      mockLocalStorage['seller-console-opportunities'] = JSON.stringify(oldData);
+      mockLocalStorage['seller-console-opportunities-version'] = '1'; // Old version
 
       const result = await repository.list();
 
       // Should get fresh mock data, not old data
       expect(result).not.toContainEqual(oldData[0]);
       expect(result[0].name).toBe('TechCorp - CRM System');
-      expect(mockLocalStorage['mini-seller-console-opportunities-version']).toBe('2');
+      expect(mockLocalStorage['seller-console-opportunities-version']).toBe('2');
     });
 
     it('should handle missing version key', async () => {
@@ -331,7 +331,7 @@ describe('OpportunityRepository', () => {
         },
       ];
       
-      mockLocalStorage['mini-seller-console-opportunities'] = JSON.stringify(someData);
+      mockLocalStorage['seller-console-opportunities'] = JSON.stringify(someData);
       // No version key set
 
       const result = await repository.list();
@@ -339,15 +339,15 @@ describe('OpportunityRepository', () => {
       // Should reset to mock data when no version
       expect(result).not.toContainEqual(someData[0]);
       expect(result[0].name).toBe('TechCorp - CRM System');
-      expect(mockLocalStorage['mini-seller-console-opportunities-version']).toBe('2');
+      expect(mockLocalStorage['seller-console-opportunities-version']).toBe('2');
     });
   });
 
   describe('edge cases', () => {
     it('should reset to mock data when localStorage contains invalid JSON', async () => {
       // Set invalid version to trigger reset behavior
-      mockLocalStorage['mini-seller-console-opportunities'] = JSON.stringify([{invalid: 'data'}]);
-      mockLocalStorage['mini-seller-console-opportunities-version'] = '1'; // Old version
+      mockLocalStorage['seller-console-opportunities'] = JSON.stringify([{invalid: 'data'}]);
+      mockLocalStorage['seller-console-opportunities-version'] = '1'; // Old version
 
       // The repository should reset to mock data when version is old
       const result = await repository.list();

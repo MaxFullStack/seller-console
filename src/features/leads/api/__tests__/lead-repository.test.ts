@@ -56,7 +56,7 @@ describe('LeadRepository', () => {
           status: 'new',
         },
       ];
-      mockLocalStorage['mini-seller-console-leads'] = JSON.stringify(existingLeads);
+      mockLocalStorage['seller-console-leads'] = JSON.stringify(existingLeads);
 
       const result = await repository.list();
 
@@ -86,7 +86,7 @@ describe('LeadRepository', () => {
 
       expect(fetch).toHaveBeenCalledWith('/data/leads.json');
       expect(result).toEqual(fetchedLeads);
-      expect(mockLocalStorage['mini-seller-console-leads']).toBe(
+      expect(mockLocalStorage['seller-console-leads']).toBe(
         JSON.stringify(fetchedLeads)
       );
     });
@@ -123,7 +123,7 @@ describe('LeadRepository', () => {
   describe('create()', () => {
     it('should create a new lead and save to localStorage', async () => {
       const existingLeads: Lead[] = [];
-      mockLocalStorage['mini-seller-console-leads'] = JSON.stringify(existingLeads);
+      mockLocalStorage['seller-console-leads'] = JSON.stringify(existingLeads);
 
       const input: CreateLeadInput = {
         name: 'New Lead',
@@ -141,7 +141,7 @@ describe('LeadRepository', () => {
         id: 'mock-generated-id',
       });
 
-      const savedLeads = JSON.parse(mockLocalStorage['mini-seller-console-leads']);
+      const savedLeads = JSON.parse(mockLocalStorage['seller-console-leads']);
       expect(savedLeads).toHaveLength(1);
       expect(savedLeads[0]).toEqual(result);
     });
@@ -158,7 +158,7 @@ describe('LeadRepository', () => {
           status: 'new',
         },
       ];
-      mockLocalStorage['mini-seller-console-leads'] = JSON.stringify(existingLeads);
+      mockLocalStorage['seller-console-leads'] = JSON.stringify(existingLeads);
 
       const input: CreateLeadInput = {
         name: 'New Lead',
@@ -171,7 +171,7 @@ describe('LeadRepository', () => {
 
       const result = await repository.create(input);
 
-      const savedLeads = JSON.parse(mockLocalStorage['mini-seller-console-leads']);
+      const savedLeads = JSON.parse(mockLocalStorage['seller-console-leads']);
       expect(savedLeads).toHaveLength(2);
       expect(savedLeads[1]).toEqual(result);
     });
@@ -190,7 +190,7 @@ describe('LeadRepository', () => {
           status: 'new',
         },
       ];
-      mockLocalStorage['mini-seller-console-leads'] = JSON.stringify(existingLeads);
+      mockLocalStorage['seller-console-leads'] = JSON.stringify(existingLeads);
 
       const input: UpdateLeadInput = {
         id: '1',
@@ -210,13 +210,13 @@ describe('LeadRepository', () => {
         status: 'qualified',
       });
 
-      const savedLeads = JSON.parse(mockLocalStorage['mini-seller-console-leads']);
+      const savedLeads = JSON.parse(mockLocalStorage['seller-console-leads']);
       expect(savedLeads[0]).toEqual(result);
     });
 
     it('should throw error when lead not found', async () => {
       const existingLeads: Lead[] = [];
-      mockLocalStorage['mini-seller-console-leads'] = JSON.stringify(existingLeads);
+      mockLocalStorage['seller-console-leads'] = JSON.stringify(existingLeads);
 
       const input: UpdateLeadInput = {
         id: 'non-existent',
@@ -249,18 +249,18 @@ describe('LeadRepository', () => {
           status: 'qualified',
         },
       ];
-      mockLocalStorage['mini-seller-console-leads'] = JSON.stringify(existingLeads);
+      mockLocalStorage['seller-console-leads'] = JSON.stringify(existingLeads);
 
       await repository.delete('1');
 
-      const savedLeads = JSON.parse(mockLocalStorage['mini-seller-console-leads']);
+      const savedLeads = JSON.parse(mockLocalStorage['seller-console-leads']);
       expect(savedLeads).toHaveLength(1);
       expect(savedLeads[0].id).toBe('2');
     });
 
     it('should throw error when lead not found for deletion', async () => {
       const existingLeads: Lead[] = [];
-      mockLocalStorage['mini-seller-console-leads'] = JSON.stringify(existingLeads);
+      mockLocalStorage['seller-console-leads'] = JSON.stringify(existingLeads);
 
       await expect(repository.delete('non-existent')).rejects.toThrow('Lead not found');
     });
@@ -288,7 +288,7 @@ describe('LeadRepository', () => {
           status: 'qualified',
         },
       ];
-      mockLocalStorage['mini-seller-console-leads'] = JSON.stringify(existingLeads);
+      mockLocalStorage['seller-console-leads'] = JSON.stringify(existingLeads);
 
       const result = await repository.findById('2');
 
@@ -297,7 +297,7 @@ describe('LeadRepository', () => {
 
     it('should return null when lead not found', async () => {
       const existingLeads: Lead[] = [];
-      mockLocalStorage['mini-seller-console-leads'] = JSON.stringify(existingLeads);
+      mockLocalStorage['seller-console-leads'] = JSON.stringify(existingLeads);
 
       const result = await repository.findById('non-existent');
 
@@ -307,15 +307,15 @@ describe('LeadRepository', () => {
 
   describe('localStorage edge cases', () => {
     it('should handle malformed localStorage data', async () => {
-      mockLocalStorage['mini-seller-console-leads'] = 'invalid-json';
+      mockLocalStorage['seller-console-leads'] = 'invalid-json';
 
       // This should throw an error when trying to parse invalid JSON
-      expect(() => JSON.parse(mockLocalStorage['mini-seller-console-leads'])).toThrow();
+      expect(() => JSON.parse(mockLocalStorage['seller-console-leads'])).toThrow();
     });
 
     it('should handle empty localStorage', async () => {
       // localStorage returns empty array when no data exists
-      const result = JSON.parse(mockLocalStorage['mini-seller-console-leads'] || '[]');
+      const result = JSON.parse(mockLocalStorage['seller-console-leads'] || '[]');
       expect(result).toEqual([]);
     });
   });

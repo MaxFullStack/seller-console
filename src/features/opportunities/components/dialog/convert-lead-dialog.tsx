@@ -25,12 +25,12 @@ export interface ConvertLeadDialogProps {
   isLoading: boolean;
 }
 
+// Initial stages only - Won/Lost should be handled in opportunity edit modal
 const stageOptions = [
   { value: 'prospecting', label: 'Prospecting' },
   { value: 'qualification', label: 'Qualification' },
   { value: 'needs-analysis', label: 'Needs Analysis' },
   { value: 'proposal', label: 'Proposal' },
-  { value: 'negotiation', label: 'Negotiation' },
 ] as const;
 
 const convertLeadSchema = z.object({
@@ -193,10 +193,7 @@ export const ConvertLeadDialog = ({
                     <FormLabel>Amount (optional)</FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
                         inputMode="decimal"
-                        step="0.01"
-                        min="0"
                         placeholder="0.00"
                         {...field}
                       />
