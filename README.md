@@ -38,6 +38,51 @@ The app uses **TanStack Router** and **TanStack Table**, with **Zustand** for gl
 * **Testing Library** - Simple and complete testing utilities
 * **Playwright** - End-to-end testing
 
+## 🚀 CI/CD Pipeline & Deployment
+
+This project implements a complete and professional CI/CD pipeline with GitHub Actions and GitHub Pages, following international best practices.
+
+### 🎯 What has been configured:
+
+**1. GitHub Actions Workflows:**
+- `ci.yml` - Main pipeline with quality checks
+- `deploy.yml` - Automatic deployment to GitHub Pages  
+- `codeql.yml` - CodeQL security analysis
+- `auto-update.yml` - Automatic maintenance
+
+**2. Environment Strategy:**
+- **Development** (`dev`) - Local development
+- **Staging** (`staging`) - Staging environment at `/staging/`
+- **Production** (`main`) - Production at root
+
+**3. Quality Checks:**
+- ESLint, TypeScript, Prettier
+- Unit tests (Vitest) + coverage (80%+)
+- E2E tests (Playwright)
+- Security audit
+- Mandatory quality gate
+
+**4. Security Configurations:**
+- Dependabot for automatic updates
+- CodeQL for vulnerability analysis
+- Branch protection (configure manually)
+
+**5. Complete Documentation:**
+- `docs/CI-CD.md` - Complete technical documentation
+- `.github/DEPLOYMENT.md` - Deployment and troubleshooting guide
+
+### 🚀 How to use:
+
+1. **Configure GitHub Pages**: Settings > Pages > Source: "GitHub Actions"
+
+2. **Automatic deployment:**
+   - Push to `staging` → Deploy to staging
+   - Push to `main` → Deploy to production
+
+3. **Manual deployment:** GitHub Actions > "Deploy to GitHub Pages" > Run workflow
+
+---
+
 ## 📜 Available Scripts
 
 In the `package.json`, the following commands are available:
