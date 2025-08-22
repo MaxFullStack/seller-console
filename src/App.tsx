@@ -1,6 +1,7 @@
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { ToastContainer } from 'react-toastify'
 import { routeTree } from './routeTree.gen'
+import { ThemeProvider, useTheme } from '@/components/theme-provider'
 
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -12,7 +13,9 @@ declare module '@tanstack/react-router' {
   }
 }
 
-const App = () => {
+const AppContent = () => {
+  const { theme } = useTheme()
+  
   return (
     <>
       <RouterProvider router={router} />
@@ -26,9 +29,17 @@ const App = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="light"
+        theme={theme === "light" ? "light" : "dark"}
       />
     </>
+  )
+}
+
+const App = () => {
+  return (
+    <ThemeProvider defaultTheme="system" storageKey="seller-console-ui-theme">
+      <AppContent />
+    </ThemeProvider>
   )
 }
 
