@@ -3,10 +3,16 @@
 import {
   BadgeCheck,
   Bell,
+  Check,
   ChevronsUpDown,
   CreditCard,
+  HelpCircle,
   LogOut,
+  Monitor,
+  Moon,
+  Palette,
   Sparkles,
+  Sun,
 } from "lucide-react"
 
 import {
@@ -21,6 +27,9 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import {
@@ -29,6 +38,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { useTheme } from "@/components/theme-provider"
+import { toast } from "react-toastify"
 
 export function NavUser({
   user,
@@ -40,6 +51,17 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar()
+  const { theme, setTheme } = useTheme()
+
+  const handleThemeChange = (newTheme: "light" | "dark" | "system") => {
+    setTheme(newTheme)
+    const themeNames = {
+      light: "Light mode",
+      dark: "Dark mode", 
+      system: "System preference"
+    }
+    toast.success(`Switched to ${themeNames[newTheme]}`)
+  }
 
   return (
     <SidebarMenu>
@@ -82,28 +104,67 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <Sparkles />
+                <Sparkles className="mr-2 h-4 w-4" />
                 Upgrade to Pro
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <BadgeCheck />
+                <BadgeCheck className="mr-2 h-4 w-4" />
                 Account
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <CreditCard />
+                <CreditCard className="mr-2 h-4 w-4" />
                 Billing
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Bell />
+                <Bell className="mr-2 h-4 w-4" />
                 Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>
+                  <Palette className="mr-2 h-4 w-4" />
+                  <span>Theme</span>
+                </DropdownMenuSubTrigger>
+                <DropdownMenuSubContent>
+                  <DropdownMenuItem onClick={() => handleThemeChange("light")}>
+                    <Sun className="mr-2 h-4 w-4" />
+                    <div className="flex flex-col">
+                      <span>Light</span>
+                      <span className="text-xs text-muted-foreground">Always light mode</span>
+                    </div>
+                    {theme === "light" && <Check className="ml-auto h-4 w-4" />}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleThemeChange("dark")}>
+                    <Moon className="mr-2 h-4 w-4" />
+                    <div className="flex flex-col">
+                      <span>Dark</span>
+                      <span className="text-xs text-muted-foreground">Always dark mode</span>
+                    </div>
+                    {theme === "dark" && <Check className="ml-auto h-4 w-4" />}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleThemeChange("system")}>
+                    <Monitor className="mr-2 h-4 w-4" />
+                    <div className="flex flex-col">
+                      <span>System</span>
+                      <span className="text-xs text-muted-foreground">Use system preference</span>
+                    </div>
+                    {theme === "system" && <Check className="ml-auto h-4 w-4" />}
+                  </DropdownMenuItem>
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
+              <DropdownMenuItem>
+                <HelpCircle className="mr-2 h-4 w-4" />
+                Help & Support
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <LogOut />
+              <LogOut className="mr-2 h-4 w-4" />
               Log out
             </DropdownMenuItem>
           </DropdownMenuContent>
