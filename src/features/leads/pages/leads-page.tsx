@@ -32,7 +32,7 @@ export const LeadsPage = () => {
       toast.success(`Lead "${selectedLead.name}" successfully converted to opportunity!`);
       closeConvertDialog();
       closeLead();
-    } catch (error) {
+    } catch {
       toast.error('Error converting lead to opportunity. Please try again.');
     }
   }, [convertToOpportunity, selectedLead, closeConvertDialog, closeLead]);

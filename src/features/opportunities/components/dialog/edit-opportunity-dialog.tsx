@@ -119,7 +119,7 @@ export const EditOpportunityDialog = ({
       }
 
       onClose();
-    } catch (error) {
+    } catch {
       toast.error('Error updating opportunity. Please try again.');
     }
   };
@@ -144,8 +144,6 @@ export const EditOpportunityDialog = ({
                 <dl className="grid grid-cols-2 gap-x-3 gap-y-2 text-sm">
                   <dt className="text-muted-foreground">ID</dt>
                   <dd className="font-medium">{opportunity.id}</dd>
-                  <dt className="text-muted-foreground">Created</dt>
-                  <dd className="font-medium">{new Date(opportunity.createdAt).toLocaleDateString()}</dd>
                   <dt className="text-muted-foreground">Current Stage</dt>
                   <dd className="font-medium capitalize">{opportunity.stage.replace('-', ' ')}</dd>
                 </dl>

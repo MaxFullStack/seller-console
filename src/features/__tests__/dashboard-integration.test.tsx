@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi, afterEach, type MockedFunction } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import { leadRepository } from '../leads/api/lead-repository';
 import { opportunityRepository } from '../opportunities/api/opportunity-repository';
@@ -42,7 +42,7 @@ describe('Dashboard Data Integration', () => {
     });
 
     // Mock fetch to return empty data (fallback to mock data)
-    (fetch as any).mockRejectedValue(new Error('No data file'));
+    (fetch as MockedFunction<typeof fetch>).mockRejectedValue(new Error('No data file'));
 
     vi.clearAllMocks();
 
@@ -158,7 +158,6 @@ describe('Dashboard Data Integration', () => {
       const { result: leadsMetricsResult, rerender: leadsRerender } = renderHook(() => useLeadsMetrics());
       const { result: opportunitiesMetricsResult, rerender: opportunitiesRerender } = renderHook(() => useOpportunitiesMetrics());
       
-      const initialLeadsCount = leadsMetricsResult.current.totalLeads;
       const initialOpportunitiesCount = opportunitiesMetricsResult.current.totalOpportunities;
       const initialRevenue = opportunitiesMetricsResult.current.totalRevenue;
 
@@ -178,7 +177,7 @@ describe('Dashboard Data Integration', () => {
         leadId: qualifiedLead.id,
       };
 
-      const newOpportunity = await opportunityRepository.create(opportunityInput);
+      await opportunityRepository.create(opportunityInput);
 
       // Update dashboard store with new data
       allLeads = await leadRepository.list();

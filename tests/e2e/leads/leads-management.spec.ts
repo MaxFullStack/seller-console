@@ -180,8 +180,7 @@ test.describe('Leads Management', () => {
       const totalPages = await page.locator('[data-testid="total-pages"]').textContent();
       
       if (totalPages && parseInt(totalPages) > 1) {
-        // Get leads count on first page
-        const firstPageLeadsCount = await page.locator('[data-testid="lead-row"]').count();
+        // Track first page for pagination test
         
         // Go to next page
         await page.click('[data-testid="next-page-button"]');

@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi, afterEach, type MockedFunction } from 'vitest';
 import { leadRepository } from '../leads/api/lead-repository';
 import { opportunityRepository } from '../opportunities/api/opportunity-repository';
 import type { Lead, CreateLeadInput, LeadStatus } from '../leads/model/lead';
@@ -37,7 +37,7 @@ describe('End-to-End Lead Lifecycle Integration', () => {
     });
 
     // Mock fetch to return empty data (fallback to mock data)
-    (fetch as any).mockRejectedValue(new Error('No data file'));
+    (fetch as MockedFunction<typeof fetch>).mockRejectedValue(new Error('No data file'));
 
     vi.clearAllMocks();
   });

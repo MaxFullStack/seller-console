@@ -169,7 +169,7 @@ test.describe('Lead to Opportunity Conversion Workflow', () => {
     await page.goto('/');
     await page.waitForLoadState('networkidle');
     
-    const initialLeadsCount = await page.locator('[data-testid="total-leads-value"]').textContent();
+    await page.locator('[data-testid="total-leads-value"]').textContent();
     const initialOpportunitiesCount = await page.locator('[data-testid="total-opportunities-value"]').textContent();
     const initialRevenue = await page.locator('[data-testid="total-revenue-value"]').textContent();
     

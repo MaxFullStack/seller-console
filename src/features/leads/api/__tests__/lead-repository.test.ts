@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi, afterEach, type MockedFunction } from 'vitest';
 import { LeadRepository } from '../lead-repository';
 import type { Lead, CreateLeadInput, UpdateLeadInput } from '../../model/lead';
 
@@ -77,10 +77,10 @@ describe('LeadRepository', () => {
         },
       ];
 
-      (fetch as any).mockResolvedValueOnce({
+      (fetch as MockedFunction<typeof fetch>).mockResolvedValueOnce({
         ok: true,
         json: vi.fn().mockResolvedValueOnce(fetchedLeads),
-      });
+      } as unknown as Response);
 
       const result = await repository.list();
 
@@ -92,7 +92,7 @@ describe('LeadRepository', () => {
     });
 
     it('should fallback to mock data when JSON fetch fails', async () => {
-      (fetch as any).mockRejectedValueOnce(new Error('Network error'));
+      (fetch as MockedFunction<typeof fetch>).mockRejectedValueOnce(new Error('Network error'));
 
       const result = await repository.list();
 
@@ -110,9 +110,9 @@ describe('LeadRepository', () => {
     });
 
     it('should fallback to mock data when JSON response is not ok', async () => {
-      (fetch as any).mockResolvedValueOnce({
+      (fetch as MockedFunction<typeof fetch>).mockResolvedValueOnce({
         ok: false,
-      });
+      } as unknown as Response);
 
       const result = await repository.list();
 

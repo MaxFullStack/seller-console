@@ -12,8 +12,6 @@ const mockLead: Lead = {
   source: 'web',
   score: 85,
   status: 'qualified',
-  createdAt: new Date(),
-  updatedAt: new Date(),
 };
 
 const defaultProps = {

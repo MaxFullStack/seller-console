@@ -1,8 +1,8 @@
-import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi, afterEach, type MockedFunction } from 'vitest';
 import { leadRepository } from '../leads/api/lead-repository';
 import { opportunityRepository } from '../opportunities/api/opportunity-repository';
 import type { Lead, CreateLeadInput } from '../leads/model/lead';
-import type { CreateOpportunityInput } from '../opportunities/model/opportunity';
+import type { Opportunity, CreateOpportunityInput } from '../opportunities/model/opportunity';
 
 // Mock utils
 vi.mock('@/lib/utils', () => ({
@@ -37,7 +37,7 @@ describe('Lead Conversion Integration', () => {
     });
 
     // Mock fetch to return empty data (fallback to mock data)
-    (fetch as any).mockRejectedValue(new Error('No data file'));
+    (fetch as MockedFunction<typeof fetch>).mockRejectedValue(new Error('No data file'));
 
     vi.clearAllMocks();
   });
@@ -276,7 +276,7 @@ describe('Lead Conversion Integration', () => {
         leadId: currentLead.id,
       };
 
-      const opportunity = await opportunityRepository.create(opportunityInput);
+      await opportunityRepository.create(opportunityInput);
       await leadRepository.delete(currentLead.id);
 
       // Verify complete conversion
@@ -393,7 +393,7 @@ describe('Lead Conversion Integration', () => {
         leadId: lead.id,
       };
 
-      const opportunity = await opportunityRepository.create(opportunityInput);
+      await opportunityRepository.create(opportunityInput);
 
       // Delete lead (simulating conversion cleanup)
       await leadRepository.delete(lead.id);
@@ -408,7 +408,7 @@ describe('Lead Conversion Integration', () => {
 
       // Opportunity should be updatable independently
       const updatedOrphanedOpportunity = await opportunityRepository.update({
-        id: opportunity.id,
+        id: orphanedOpportunity!.id,
         stage: 'closed-won',
       });
 

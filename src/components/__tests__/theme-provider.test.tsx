@@ -22,7 +22,7 @@ const ThemeTestComponent = () => {
   )
 }
 
-const renderWithThemeProvider = (defaultTheme = 'system' as const) => {
+const renderWithThemeProvider = (defaultTheme: 'dark' | 'light' | 'system' = 'system') => {
   return render(
     <ThemeProvider defaultTheme={defaultTheme} storageKey="test-theme">
       <ThemeTestComponent />

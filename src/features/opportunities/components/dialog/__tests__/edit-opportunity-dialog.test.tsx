@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { EditOpportunityDialog } from '../edit-opportunity-dialog';
 import type { Opportunity } from '../../../model/opportunity';
 
@@ -34,7 +33,6 @@ vi.mock('@/components/ui/sheet', () => ({
 }));
 
 describe('EditOpportunityDialog', () => {
-  const user = userEvent.setup();
 
   beforeEach(() => {
     vi.clearAllMocks();

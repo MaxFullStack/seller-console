@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { OpportunitiesPage } from '../opportunities-page';
+import { Opportunity } from '../../model/opportunity';
 
 // Mock hooks
 vi.mock('../hooks/use-opportunities', () => ({
@@ -28,9 +29,14 @@ vi.mock('../hooks/use-opportunity-filters', () => ({
 
 // Mock components
 vi.mock('../components', () => ({
-  OpportunitiesTable: ({ onEdit }: { onEdit: (opportunity: any) => void }) => (
+  OpportunitiesTable: ({ onEdit }: { onEdit: (opportunity: Opportunity) => void }) => (
     <div>
-      <button onClick={() => onEdit({ id: 'opp-1', name: 'Test Opportunity' })}>
+      <button onClick={() => onEdit({ 
+        id: 'opp-1', 
+        name: 'Test Opportunity',
+        stage: 'prospecting',
+        accountName: 'Test Account'
+      } as Opportunity)}>
         Edit Opportunity
       </button>
     </div>

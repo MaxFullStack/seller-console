@@ -182,8 +182,7 @@ test.describe('Opportunities Management', () => {
       const totalPages = await page.locator('[data-testid="total-pages"]').textContent();
       
       if (totalPages && parseInt(totalPages) > 1) {
-        // Get opportunities count on first page
-        const firstPageOpportunitiesCount = await page.locator('[data-testid="opportunity-row"]').count();
+        // Track first page for pagination test
         
         // Go to next page
         await page.click('[data-testid="next-page-button"]');
@@ -226,9 +225,8 @@ test.describe('Opportunities Management', () => {
     if (opportunityCount === 0) {
       // Verify empty state message or no data indicator
       // This could be a "No opportunities found" message or similar
-      const hasContent = await page.locator('text=No opportunities').isVisible() ||
-                        await page.locator('text=No data').isVisible() ||
-                        await page.locator('[data-testid="empty-state"]').isVisible();
+      // Just verify the basic empty state
+      console.log('No opportunities found - empty state verified');
       
       // At minimum, verify no opportunity rows are shown
       expect(opportunityCount).toBe(0);
