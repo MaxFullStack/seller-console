@@ -41,37 +41,37 @@ export const LeadsCard = () => {
         <div className="grid grid-cols-2 gap-2">
           {/* Left Column */}
           <div className="space-y-2">
-            <div className="text-center p-2 rounded-md bg-blue-50 border border-blue-100">
+            <div className="text-center p-2 rounded-md bg-muted/30 dark:bg-muted/20 border border-border/50">
               <div className="flex items-center justify-center space-x-1 mb-1">
-                <div className="w-1 h-1 rounded-full bg-blue-500"></div>
-                <span className="text-xs font-medium text-blue-700">New</span>
+                <div className="w-1 h-1 rounded-full bg-blue-500 dark:bg-blue-400"></div>
+                <span className="text-xs font-medium text-blue-700 dark:text-blue-300">New</span>
               </div>
-              <div className="text-lg font-bold text-blue-700">{formatNumber(newLeads)}</div>
+              <div className="text-lg font-bold text-blue-700 dark:text-blue-300">{formatNumber(newLeads)}</div>
             </div>
-            <div className="text-center p-2 rounded-md bg-orange-50 border border-orange-100">
+            <div className="text-center p-2 rounded-md bg-muted/30 dark:bg-muted/20 border border-border/50">
               <div className="flex items-center justify-center space-x-1 mb-1">
-                <div className="w-1 h-1 rounded-full bg-orange-500"></div>
-                <span className="text-xs font-medium text-orange-800">Contacted</span>
+                <div className="w-1 h-1 rounded-full bg-orange-500 dark:bg-orange-400"></div>
+                <span className="text-xs font-medium text-orange-700 dark:text-orange-300">Contacted</span>
               </div>
-              <div className="text-lg font-bold text-orange-800">{formatNumber(contactedLeads)}</div>
+              <div className="text-lg font-bold text-orange-700 dark:text-orange-300">{formatNumber(contactedLeads)}</div>
             </div>
           </div>
           
           {/* Right Column */}
           <div className="space-y-2">
-            <div className="text-center p-2 rounded-md bg-green-50 border border-green-100">
+            <div className="text-center p-2 rounded-md bg-muted/30 dark:bg-muted/20 border border-border/50">
               <div className="flex items-center justify-center space-x-1 mb-1">
-                <div className="w-1 h-1 rounded-full bg-green-500"></div>
-                <span className="text-xs font-medium text-green-700">Qualified</span>
+                <div className="w-1 h-1 rounded-full bg-green-500 dark:bg-green-400"></div>
+                <span className="text-xs font-medium text-green-700 dark:text-green-300">Qualified</span>
               </div>
-              <div className="text-lg font-bold text-green-700">{formatNumber(qualifiedLeads)}</div>
+              <div className="text-lg font-bold text-green-700 dark:text-green-300">{formatNumber(qualifiedLeads)}</div>
             </div>
-            <div className="text-center p-2 rounded-md bg-red-50 border border-red-100">
+            <div className="text-center p-2 rounded-md bg-muted/30 dark:bg-muted/20 border border-border/50">
               <div className="flex items-center justify-center space-x-1 mb-1">
-                <div className="w-1 h-1 rounded-full bg-red-500"></div>
-                <span className="text-xs font-medium text-red-800">Unqualified</span>
+                <div className="w-1 h-1 rounded-full bg-red-500 dark:bg-red-400"></div>
+                <span className="text-xs font-medium text-red-700 dark:text-red-300">Unqualified</span>
               </div>
-              <div className="text-lg font-bold text-red-800">{formatNumber(unqualifiedLeads)}</div>
+              <div className="text-lg font-bold text-red-700 dark:text-red-300">{formatNumber(unqualifiedLeads)}</div>
             </div>
           </div>
         </div>
@@ -80,7 +80,7 @@ export const LeadsCard = () => {
         {/* Conversion Rate - Responsive */}
         <div className="flex items-center justify-between pt-2 border-t space-y-2 sm:space-y-0">
           <div className="flex items-center space-x-2">
-            <TrendingUp className="h-4 w-4 text-green-700" />
+            <TrendingUp className="h-4 w-4 text-green-700 dark:text-green-400" />
             <span className="text-sm font-medium">Conversion Rate</span>
             <Tooltip>
               <TooltipTrigger aria-label="Conversion rate information">
@@ -92,7 +92,7 @@ export const LeadsCard = () => {
             </Tooltip>
           </div>
           <div className="text-left sm:text-right">
-            <div className="text-xl font-bold text-green-700">
+            <div className="text-xl font-bold text-green-700 dark:text-green-300">
               {formatPercentage(conversionRate)}
             </div>
             <div className="text-xs font-medium text-muted-foreground">
