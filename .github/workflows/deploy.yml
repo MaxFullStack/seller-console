@@ -1,0 +1,147 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: 
+      - main      # Production
+      - staging   # Staging environment  
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+
+env:
+  NODE_VERSION: '20'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  determine-environment:
+    name: Determine Environment
+    runs-on: ubuntu-latest
+    outputs:
+      environment: ${{ steps.env.outputs.environment }}
+      base-path: ${{ steps.env.outputs.base-path }}
+      should-deploy: ${{ steps.env.outputs.should-deploy }}
+    steps:
+      - name: Determine deployment environment
+        id: env
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            ENV="${{ github.event.inputs.environment }}"
+          elif [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            ENV="production"
+          elif [ "${{ github.ref }}" = "refs/heads/staging" ]; then
+            ENV="staging"
+          else
+            ENV="none"
+          fi
+          
+          echo "environment=$ENV" >> $GITHUB_OUTPUT
+          
+          if [ "$ENV" = "production" ]; then
+            echo "base-path=/" >> $GITHUB_OUTPUT
+            echo "should-deploy=true" >> $GITHUB_OUTPUT
+          elif [ "$ENV" = "staging" ]; then
+            echo "base-path=/staging/" >> $GITHUB_OUTPUT
+            echo "should-deploy=true" >> $GITHUB_OUTPUT
+          else
+            echo "base-path=/" >> $GITHUB_OUTPUT
+            echo "should-deploy=false" >> $GITHUB_OUTPUT
+          fi
+          
+          echo "Determined environment: $ENV"
+
+  build-and-deploy:
+    name: Build and Deploy
+    needs: determine-environment
+    if: needs.determine-environment.outputs.should-deploy == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ needs.determine-environment.outputs.environment }}
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Run quality checks
+        run: |
+          npm run lint
+          npm run typecheck
+          npm run test
+
+      - name: Build application
+        env:
+          NODE_ENV: production
+          VITE_APP_ENV: ${{ needs.determine-environment.outputs.environment }}
+          VITE_BASE_PATH: ${{ needs.determine-environment.outputs.base-path }}
+        run: |
+          # Update vite config for GitHub Pages
+          if [ "${{ needs.determine-environment.outputs.environment }}" = "production" ]; then
+            echo "Building for production environment"
+            npm run build
+          else
+            echo "Building for staging environment with base path: ${{ needs.determine-environment.outputs.base-path }}"
+            # Create temporary vite config for staging
+            cp vite.config.ts vite.config.staging.ts
+            sed -i 's|export default defineConfig({|export default defineConfig({\n  base: "${{ needs.determine-environment.outputs.base-path }}",|' vite.config.staging.ts
+            npx vite build --config vite.config.staging.ts
+          fi
+
+      - name: Add custom 404 page for SPA routing
+        run: |
+          cp dist/index.html dist/404.html
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload to GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  notify-deployment:
+    name: Notify Deployment Status
+    needs: [determine-environment, build-and-deploy]
+    if: always() && needs.determine-environment.outputs.should-deploy == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deployment Success
+        if: needs.build-and-deploy.result == 'success'
+        run: |
+          echo "✅ Successfully deployed to ${{ needs.determine-environment.outputs.environment }}"
+          echo "🌐 URL: ${{ needs.build-and-deploy.outputs.page_url || 'GitHub Pages URL' }}"
+          
+      - name: Deployment Failure
+        if: needs.build-and-deploy.result == 'failure'
+        run: |
+          echo "❌ Deployment to ${{ needs.determine-environment.outputs.environment }} failed"
+          exit 1

@@ -1,0 +1,157 @@
+name: Auto Update and Maintenance
+
+on:
+  schedule:
+    - cron: '0 2 * * 1'  # Weekly on Monday at 2 AM UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-dependencies:
+    name: Update Dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Check for outdated packages
+        id: outdated
+        run: |
+          npm outdated --json > outdated.json || true
+          if [ -s outdated.json ]; then
+            echo "has-updates=true" >> $GITHUB_OUTPUT
+            echo "Updates available:"
+            cat outdated.json
+          else
+            echo "has-updates=false" >> $GITHUB_OUTPUT
+            echo "No updates available"
+          fi
+
+      - name: Create summary of updates
+        if: steps.outdated.outputs.has-updates == 'true'
+        run: |
+          echo "## 📦 Available Package Updates" > update-summary.md
+          echo "" >> update-summary.md
+          echo "The following packages have updates available:" >> update-summary.md
+          echo "" >> update-summary.md
+          node -e "
+            const outdated = require('./outdated.json');
+            Object.entries(outdated).forEach(([pkg, info]) => {
+              console.log(\`- **\${pkg}**: \${info.current} → \${info.latest}\`);
+            });
+          " >> update-summary.md
+
+      - name: Upload update summary
+        if: steps.outdated.outputs.has-updates == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: update-summary
+          path: update-summary.md
+
+  security-check:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Run security audit
+        id: audit
+        run: |
+          npm audit --audit-level=moderate --json > audit-results.json || true
+          
+          if [ -s audit-results.json ]; then
+            vulnerabilities=$(node -e "
+              const audit = require('./audit-results.json');
+              if (audit.metadata && audit.metadata.vulnerabilities) {
+                const total = Object.values(audit.metadata.vulnerabilities).reduce((a, b) => a + b, 0);
+                console.log(total);
+              } else {
+                console.log(0);
+              }
+            ")
+            
+            echo "vulnerabilities=$vulnerabilities" >> $GITHUB_OUTPUT
+            
+            if [ "$vulnerabilities" -gt 0 ]; then
+              echo "has-vulnerabilities=true" >> $GITHUB_OUTPUT
+              echo "Found $vulnerabilities vulnerabilities"
+            else
+              echo "has-vulnerabilities=false" >> $GITHUB_OUTPUT
+              echo "No vulnerabilities found"
+            fi
+          else
+            echo "has-vulnerabilities=false" >> $GITHUB_OUTPUT
+            echo "No audit results"
+          fi
+
+      - name: Create security report
+        if: steps.audit.outputs.has-vulnerabilities == 'true'
+        run: |
+          echo "## 🔒 Security Audit Report" > security-report.md
+          echo "" >> security-report.md
+          echo "Found ${{ steps.audit.outputs.vulnerabilities }} vulnerabilities that need attention." >> security-report.md
+          echo "" >> security-report.md
+          echo "Run \`npm audit fix\` to automatically fix issues, or" >> security-report.md
+          echo "review the full report with \`npm audit\`." >> security-report.md
+
+      - name: Upload security report
+        if: steps.audit.outputs.has-vulnerabilities == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-report
+          path: security-report.md
+
+  cleanup-artifacts:
+    name: Cleanup Old Artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete old artifacts
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            
+            // Get all artifacts
+            const artifacts = await github.rest.actions.listArtifactsForRepo({
+              owner,
+              repo,
+              per_page: 100
+            });
+            
+            // Delete artifacts older than 30 days
+            const thirtyDaysAgo = new Date();
+            thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+            
+            for (const artifact of artifacts.data.artifacts) {
+              const createdAt = new Date(artifact.created_at);
+              if (createdAt < thirtyDaysAgo) {
+                console.log(`Deleting artifact: ${artifact.name} (${artifact.created_at})`);
+                await github.rest.actions.deleteArtifact({
+                  owner,
+                  repo,
+                  artifact_id: artifact.id
+                });
+              }
+            }
