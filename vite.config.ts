@@ -4,7 +4,26 @@ import tailwindcss from '@tailwindcss/vite';
 import { TanStackRouterVite } from '@tanstack/router-vite-plugin';
 import path from 'path';
 
+// Determine base path for GitHub Pages
+const getBasePath = () => {
+  const env = process.env.VITE_APP_ENV || process.env.NODE_ENV;
+  const basePath = process.env.VITE_BASE_PATH;
+  
+  if (basePath) {
+    return basePath;
+  }
+  
+  if (env === 'production') {
+    return '/mini-seller-console/'; // GitHub repository name
+  } else if (env === 'staging') {
+    return '/mini-seller-console/staging/';
+  }
+  
+  return '/'; // Development
+};
+
 export default defineConfig({
+  base: getBasePath(),
   plugins: [react(), tailwindcss(), TanStackRouterVite()],
   resolve: {
     alias: {
