@@ -14,9 +14,9 @@ const getBasePath = () => {
   }
   
   if (env === 'production') {
-    return '/mini-seller-console/'; // GitHub repository name
+    return '/seller-console/'; // GitHub repository name
   } else if (env === 'staging') {
-    return '/mini-seller-console/staging/';
+    return '/seller-console/staging/';
   }
   
   return '/'; // Development
