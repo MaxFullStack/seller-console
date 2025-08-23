@@ -29,7 +29,7 @@ export const OpportunitiesTable = ({
     <div className="space-y-4">
       <TableHeader
         count={opportunities.length}
-        entityName="opportunit"
+        entityName="opportunity"
         actions={clearButton}
       />
       

@@ -7,7 +7,7 @@ import { delay, generateId } from '@/lib/utils';
 
 const STORAGE_KEY = 'seller-console-opportunities';
 const DATA_VERSION_KEY = 'seller-console-opportunities-version';
-const CURRENT_DATA_VERSION = '2'; // Incrementar quando dados mudarem
+const CURRENT_DATA_VERSION = '2'; // Increment when data changes
 
 // Mock data for initial load
 const mockOpportunities: Opportunity[] = [
@@ -82,7 +82,7 @@ export class OpportunityRepository {
     const storedVersion = window.localStorage.getItem(DATA_VERSION_KEY);
     const stored = window.localStorage.getItem(STORAGE_KEY);
     
-    // Se a versão mudou ou não existe, usar dados novos
+    // If version changed or doesn't exist, use new data
     if (storedVersion !== CURRENT_DATA_VERSION || !stored) {
       this.saveOpportunities(mockOpportunities);
       window.localStorage.setItem(DATA_VERSION_KEY, CURRENT_DATA_VERSION);

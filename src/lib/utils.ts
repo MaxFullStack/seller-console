@@ -20,7 +20,6 @@ export function generateId(): string {
 export function validateEmail(email: string): boolean {
   const trimmedEmail = email.trim()
   
-  // Basic checks
   if (!trimmedEmail || trimmedEmail.length > 254) return false
   if (trimmedEmail.includes('..') || trimmedEmail.startsWith('.') || trimmedEmail.endsWith('.')) return false
   
@@ -30,7 +29,7 @@ export function validateEmail(email: string): boolean {
 }
 
 export function validateAmount(amount: string): boolean {
-  if (!amount.trim()) return true // Optional field
+  if (!amount.trim()) return true
   const num = Number(amount)
   return !isNaN(num) && num >= 0 && num <= 999999999 // Reasonable business limits
 }

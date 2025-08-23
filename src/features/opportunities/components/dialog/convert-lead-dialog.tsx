@@ -206,7 +206,7 @@ export const ConvertLeadDialog = ({
             </div>
           </div>
 
-          {/* FOOTER STICKY (botões sempre visíveis) */}
+          {/* FOOTER STICKY (buttons always visible) */}
           <div className="sticky bottom-0 z-10 border-t bg-background px-6 py-4">
             <div className="flex justify-end gap-2">
               <Button type="button" variant="secondary" onClick={onClose} disabled={isLoading}>

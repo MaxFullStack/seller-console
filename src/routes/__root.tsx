@@ -1,6 +1,5 @@
 import { createRootRoute, Outlet } from "@tanstack/react-router";
-import { AppSidebar } from "@/components/app-sidebar";
-import { SiteHeader } from "@/components/site-header";
+import { AppSidebar, SiteHeader } from "@/features/navigation";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 export const Route = createRootRoute({

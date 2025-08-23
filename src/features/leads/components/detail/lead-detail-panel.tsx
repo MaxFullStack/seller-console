@@ -89,7 +89,7 @@ export const LeadDetailPanel = ({
 
   if (!lead) return null;
 
-  // Campos prontos para escalar: adicione/retire sem mexer no layout
+  // Fields ready to scale: add/remove without touching the layout
   const basicInfo: { label: string; value: React.ReactNode }[] = [
     { label: 'Name',    value: lead.name },
     { label: 'Company', value: lead.company },
@@ -127,7 +127,7 @@ export const LeadDetailPanel = ({
               </CardContent>
             </Card>
 
-            {/* Editáveis */}
+            {/* Editable Fields */}
             <div className="space-y-4">
               <h3 className="text-sm font-medium">Editable Information</h3>
 
@@ -138,7 +138,7 @@ export const LeadDetailPanel = ({
                   <FormItem>
                     <FormLabel>Email *</FormLabel>
                     <FormControl>
-                      <Input type="email" placeholder="email@empresa.com" {...field} />
+                      <Input type="email" placeholder="email@company.com" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -154,7 +154,7 @@ export const LeadDetailPanel = ({
                     <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Selecione um status" />
+                          <SelectValue placeholder="Select a status" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -171,7 +171,7 @@ export const LeadDetailPanel = ({
               />
             </div>
 
-            {/* CTA de conversão (quando qualificado) */}
+            {/* Conversion CTA (when qualified) */}
             {lead.status === 'qualified' && (
               <Card className="border-green-200">
                 <CardHeader className="pb-2">
