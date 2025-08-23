@@ -1,21 +1,22 @@
 import type { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import { Lead } from "../../model/lead"
 import { capitalizeFirst } from "@/lib/utils"
 
-const getStatusColor = (status: string) => {
+const getStatusVariant = (status: string) => {
   switch (status) {
     case "qualified":
-      return "bg-green-100 text-green-800 border-green-200"
+      return "success" // Success state - green
     case "unqualified":
-      return "bg-red-100 text-red-900 border-red-200"
+      return "destructive" // Error state - red
     case "contacted":
-      return "bg-amber-100 text-amber-800 border-amber-200"
+      return "secondary" // In progress - neutral
     case "new":
-      return "bg-blue-100 text-blue-800 border-blue-200"
+      return "outline" // New state - subtle
     default:
-      return "bg-gray-100 text-gray-800 border-gray-200"
+      return "secondary"
   }
 }
 
@@ -29,6 +30,7 @@ export const leadsColumns: ColumnDef<Lead>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           className="h-auto p-0 font-medium"
+          aria-label={`Sort by name ${column.getIsSorted() === "asc" ? "descending" : "ascending"}`}
         >
           Name
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -48,6 +50,7 @@ export const leadsColumns: ColumnDef<Lead>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           className="h-auto p-0 font-medium"
+          aria-label={`Sort by company ${column.getIsSorted() === "asc" ? "descending" : "ascending"}`}
         >
           Company
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -90,6 +93,7 @@ export const leadsColumns: ColumnDef<Lead>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           className="h-auto p-0 font-medium"
+          aria-label={`Sort by score ${column.getIsSorted() === "asc" ? "descending" : "ascending"}`}
         >
           Score
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -113,11 +117,9 @@ export const leadsColumns: ColumnDef<Lead>[] = [
       const status = row.getValue("status") as string
       return (
         <div className="min-w-[100px]">
-          <span
-            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getStatusColor(status)}`}
-          >
+          <Badge variant={getStatusVariant(status)}>
             {capitalizeFirst(status)}
-          </span>
+          </Badge>
         </div>
       )
     },

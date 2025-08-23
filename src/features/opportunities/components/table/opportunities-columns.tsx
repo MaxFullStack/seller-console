@@ -7,16 +7,18 @@ import { formatCurrency, capitalizeFirst } from "@/lib/utils"
 
 const getStageVariant = (stage: string) => {
   switch (stage) {
-    case "qualified":
-      return "default"
-    case "proposal":
-      return "secondary"
-    case "negotiation":
-      return "outline"
     case "closed-won":
-      return "default"
+      return "success" // Success state - green
     case "closed-lost":
-      return "destructive"
+      return "destructive" // Error state - red
+    case "negotiation":
+    case "proposal":
+      return "secondary" // Active states - neutral
+    case "prospecting":
+    case "qualification":
+      return "outline" // Early stages - subtle
+    case "needs-analysis":
+      return "secondary" // Analysis state - neutral
     default:
       return "secondary"
   }
@@ -32,6 +34,7 @@ export const createOpportunitiesColumns = (onEdit: (opportunity: Opportunity) =>
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           className="h-auto p-0 font-medium"
+          aria-label={`Sort by name ${column.getIsSorted() === "asc" ? "descending" : "ascending"}`}
         >
           Name
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -51,6 +54,7 @@ export const createOpportunitiesColumns = (onEdit: (opportunity: Opportunity) =>
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           className="h-auto p-0 font-medium"
+          aria-label={`Sort by account ${column.getIsSorted() === "asc" ? "descending" : "ascending"}`}
         >
           Account
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -85,6 +89,7 @@ export const createOpportunitiesColumns = (onEdit: (opportunity: Opportunity) =>
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           className="h-auto p-0 font-medium"
+          aria-label={`Sort by amount ${column.getIsSorted() === "asc" ? "descending" : "ascending"}`}
         >
           Amount
           <ArrowUpDown className="ml-2 h-4 w-4" />
