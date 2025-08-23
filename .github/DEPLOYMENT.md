@@ -29,8 +29,8 @@ npm run test:e2e
 | Ambiente   | Branch    | URL                                          | Deploy        |
 |------------|-----------|----------------------------------------------|---------------|
 | Development| `dev`     | Local (http://localhost:5173)               | Manual        |
-| Staging    | `staging` | https://username.github.io/mini-seller-console/staging/ | Automático    |
-| Production | `main`    | https://username.github.io/mini-seller-console/         | Automático    |
+| Staging    | `staging` | https://username.github.io/seller-console/staging/ | Automático    |
+| Production | `main`    | https://username.github.io/seller-console/         | Automático    |
 
 ## ✅ Pre-Deploy Checklist
 
@@ -103,9 +103,9 @@ gh run view [RUN_ID]
 - **Coverage reports**: Artifacts > coverage-report
 
 ### URLs de Monitoramento
-- [GitHub Actions](https://github.com/[username]/mini-seller-console/actions)
-- [GitHub Pages Settings](https://github.com/[username]/mini-seller-console/settings/pages)
-- [Security Advisories](https://github.com/[username]/mini-seller-console/security/advisories)
+- [GitHub Actions](https://github.com/[username]/seller-console/actions)
+- [GitHub Pages Settings](https://github.com/[username]/seller-console/settings/pages)
+- [Security Advisories](https://github.com/[username]/seller-console/security/advisories)
 
 ## 🚨 Troubleshooting
 
@@ -117,7 +117,7 @@ gh run view [RUN_ID]
 gh run view --log
 
 # Ou via web
-# https://github.com/[username]/mini-seller-console/actions
+# https://github.com/[username]/seller-console/actions
 ```
 
 #### 2. Testar Localmente
@@ -139,7 +139,7 @@ npm install
 #### Base Path Incorreto
 ```bash
 # Verificar se o nome do repositório está correto no vite.config.ts
-# Linha 17: return '/mini-seller-console/';
+# Linha 17: return '/seller-console/';
 ```
 
 #### Tests Falhando no CI

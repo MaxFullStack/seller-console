@@ -52,8 +52,8 @@ Pipeline de deploy automatizado para GitHub Pages com suporte a múltiplos ambie
 
 | Branch    | Ambiente   | URL Base                                    | Trigger          |
 |-----------|------------|---------------------------------------------|------------------|
-| `main`    | Production | `/mini-seller-console/`                     | Push automático  |
-| `staging` | Staging    | `/mini-seller-console/staging/`             | Push automático  |
+| `main`    | Production | `/seller-console/`                     | Push automático  |
+| `staging` | Staging    | `/seller-console/staging/`             | Push automático  |
 | Manual    | Escolha    | Configurável                                | Workflow dispatch|
 
 #### Funcionalidades
