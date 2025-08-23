@@ -1,0 +1,42 @@
+[
+  {
+    "id": "1",
+    "name": "TechCorp - CRM System",
+    "stage": "proposal",
+    "amount": 45000,
+    "accountName": "TechCorp",
+    "leadId": "1"
+  },
+  {
+    "id": "2",
+    "name": "DataFlow - Analytics Platform",
+    "stage": "negotiation",
+    "amount": 75000,
+    "accountName": "DataFlow",
+    "leadId": "2"
+  },
+  {
+    "id": "3",
+    "name": "GlobalTech - Enterprise Suite",
+    "stage": "closed-won",
+    "amount": 125000,
+    "accountName": "GlobalTech",
+    "leadId": "3"
+  },
+  {
+    "id": "4",
+    "name": "StartupX - MVP Platform",
+    "stage": "closed-won",
+    "amount": 35000,
+    "accountName": "StartupX",
+    "leadId": "4"
+  },
+  {
+    "id": "5",
+    "name": "FinanceInc - Compliance Tool",
+    "stage": "closed-lost",
+    "amount": 60000,
+    "accountName": "FinanceInc",
+    "leadId": "5"
+  }
+]

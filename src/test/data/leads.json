@@ -1,0 +1,47 @@
+[
+  {
+    "id": "1",
+    "name": "Anna Smith",
+    "company": "TechCorp",
+    "email": "anna.smith@techcorp.com",
+    "source": "web",
+    "score": 85,
+    "status": "new"
+  },
+  {
+    "id": "2",
+    "name": "Carlos Johnson",
+    "company": "DataFlow",
+    "email": "carlos@dataflow.com",
+    "source": "referral",
+    "score": 92,
+    "status": "qualified"
+  },
+  {
+    "id": "3",
+    "name": "Marina Williams",
+    "company": "CloudSys",
+    "email": "marina.williams@cloudsys.com",
+    "source": "social",
+    "score": 78,
+    "status": "contacted"
+  },
+  {
+    "id": "4",
+    "name": "John Peterson",
+    "company": "StartupAI",
+    "email": "john@startupai.com",
+    "source": "email",
+    "score": 96,
+    "status": "new"
+  },
+  {
+    "id": "5",
+    "name": "Lucy Brown",
+    "company": "FinTech Solutions",
+    "email": "lucy@fintech.com",
+    "source": "phone",
+    "score": 74,
+    "status": "unqualified"
+  }
+]
