@@ -1,6 +1,5 @@
-export { TableHeader } from './table-header';
+export { TableHeader } from './table-summary';
 export { TablePagination } from './table-pagination';
-export { TableLoading } from './table-loading';
-export { TableEmpty } from './table-empty';
+export { TableLoading } from './loading-state';
+export { TableEmpty } from './empty-state';
 export { DataTable } from './data-table';
-export { DataTableOnly } from './data-table-only';
