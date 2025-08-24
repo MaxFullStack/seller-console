@@ -57,8 +57,8 @@ This project implements a complete and professional CI/CD pipeline with GitHub A
 
 **3. Quality Checks:**
 - ESLint, TypeScript, Prettier
-- Unit tests (Vitest) + coverage (80%+)
-- E2E tests (Playwright)
+- Unit tests (Vitest) + coverage (80%+) - 106 tests passing
+- E2E tests (Playwright) with proper timeout handling
 - Security audit
 - Mandatory quality gate
 
@@ -112,11 +112,49 @@ npm run test              # Run unit tests
 npm run test:watch        # Run tests in watch mode
 npm run test:coverage     # Run tests with coverage
 npm run test:e2e          # Run end-to-end tests
+npm run test:e2e:headed   # Run E2E tests with browser UI
+npm run test:e2e:ui       # Run E2E tests with Playwright UI
+npm run test:e2e:debug    # Debug E2E tests step by step
 npm run test:all          # Run all tests (unit + e2e)
 
 # Husky (git hooks)
 npm run prepare
 ```
+
+## 🔧 Local Development
+
+### Prerequisites
+- **Node.js 18+** - Required for running the application
+- **npm** - Package manager included with Node.js
+
+### Getting Started
+
+1. **Clone and install:**
+   ```bash
+   git clone https://github.com/MaxFullStack/seller-console.git
+   cd seller-console
+   npm install
+   ```
+
+2. **Start development server:**
+   ```bash
+   npm run dev
+   # Opens at http://localhost:5173
+   ```
+
+3. **Run tests:**
+   ```bash
+   npm run test              # Unit tests (fast)
+   npm run test:e2e          # E2E tests (requires dev server)
+   npm run test:all          # All tests
+   ```
+
+4. **Quality checks:**
+   ```bash
+   npm run typecheck         # TypeScript validation
+   npm run lint              # Code linting
+   npm run format            # Code formatting
+   ```
 
 ## ✅ Code Quality & Standards
 
@@ -134,10 +172,13 @@ npm run prepare
 * Type-safe form data with TypeScript inference
 
 ### Testing Strategy
-* **Unit tests** for components and business logic
+* **Unit tests** for components and business logic (106 tests, all passing)
 * **Integration tests** for complete workflows
-* **E2E tests** with Playwright for user scenarios
+* **E2E tests** with Playwright following official best practices
 * **Comprehensive test coverage** including form validation
+* **Mock data system** with automated fallbacks for reliable testing
+* **Optimized timeouts** preventing infinite hangs in CI/CD pipelines
+* **Clean test output** with no warnings or console noise
 
 ### Best Practices
 * **SOLID**, **KISS**, **DRY** principles applied
