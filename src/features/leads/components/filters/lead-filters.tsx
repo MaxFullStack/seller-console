@@ -1,7 +1,6 @@
 import { SearchField } from "./search-field";
 import { StatusSelect, type StatusOption } from "./status-select";
 
-
 interface LeadsFiltersProps {
   query: string;
   onQueryChange: (v: string) => void;
@@ -25,4 +24,4 @@ const LeadsFilters = ({
   </div>
 );
 
-export default LeadsFilters
+export default LeadsFilters;

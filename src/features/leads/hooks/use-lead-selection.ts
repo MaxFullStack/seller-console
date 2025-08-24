@@ -1,5 +1,5 @@
-import { useState, useCallback } from 'react';
-import { Lead } from '../model/lead';
+import { useState, useCallback } from "react";
+import { Lead } from "../model/lead";
 
 export const useLeadSelection = () => {
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);

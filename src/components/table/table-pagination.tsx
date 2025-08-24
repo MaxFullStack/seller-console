@@ -1,6 +1,12 @@
-import { Button } from '@/components/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import type { Table } from '@tanstack/react-table';
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import type { Table } from "@tanstack/react-table";
 
 export interface TablePaginationProps<T> {
   table: Table<T>;
@@ -29,7 +35,7 @@ export const TablePagination = <T,>({ table }: TablePaginationProps<T>) => {
           </SelectContent>
         </Select>
       </div>
-      
+
       <div className="flex items-center space-x-6 lg:space-x-8">
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium">

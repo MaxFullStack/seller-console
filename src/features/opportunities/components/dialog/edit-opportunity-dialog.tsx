@@ -1,14 +1,14 @@
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { toast } from 'react-toastify';
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { toast } from "react-toastify";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
-} from '@/components/ui/sheet';
+} from "@/components/ui/sheet";
 import {
   Form,
   FormControl,
@@ -16,11 +16,21 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Opportunity, UpdateOpportunityInput, OpportunityStage } from '../../model/opportunity';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Opportunity,
+  UpdateOpportunityInput,
+  OpportunityStage,
+} from "../../model/opportunity";
 
 interface EditOpportunityDialogProps {
   opportunity: Opportunity | null;
@@ -32,32 +42,44 @@ interface EditOpportunityDialogProps {
 
 // All stages available for editing
 const stageOptions = [
-  { value: 'prospecting', label: 'Prospecting' },
-  { value: 'qualification', label: 'Qualification' },
-  { value: 'needs-analysis', label: 'Needs Analysis' },
-  { value: 'proposal', label: 'Proposal' },
-  { value: 'negotiation', label: 'Negotiation' },
-  { value: 'closed-won', label: 'Closed Won' },
-  { value: 'closed-lost', label: 'Closed Lost' },
+  { value: "prospecting", label: "Prospecting" },
+  { value: "qualification", label: "Qualification" },
+  { value: "needs-analysis", label: "Needs Analysis" },
+  { value: "proposal", label: "Proposal" },
+  { value: "negotiation", label: "Negotiation" },
+  { value: "closed-won", label: "Closed Won" },
+  { value: "closed-lost", label: "Closed Lost" },
 ] as const;
 
 const editOpportunitySchema = z.object({
-  name: z.string()
-    .min(1, 'Opportunity name is required')
-    .min(3, 'Opportunity name must be at least 3 characters')
-    .max(100, 'Opportunity name must be less than 100 characters'),
-  accountName: z.string()
-    .min(1, 'Account name is required')
-    .min(2, 'Account name must be at least 2 characters')
-    .max(100, 'Account name must be less than 100 characters'),
-  stage: z.enum(['prospecting', 'qualification', 'needs-analysis', 'proposal', 'negotiation', 'closed-won', 'closed-lost']),
+  name: z
+    .string()
+    .min(1, "Opportunity name is required")
+    .min(3, "Opportunity name must be at least 3 characters")
+    .max(100, "Opportunity name must be less than 100 characters"),
+  accountName: z
+    .string()
+    .min(1, "Account name is required")
+    .min(2, "Account name must be at least 2 characters")
+    .max(100, "Account name must be less than 100 characters"),
+  stage: z.enum([
+    "prospecting",
+    "qualification",
+    "needs-analysis",
+    "proposal",
+    "negotiation",
+    "closed-won",
+    "closed-lost",
+  ]),
   amount: z.union([
     z.string().length(0),
-    z.string().regex(/^\d+(\.\d{1,2})?$/, 'Amount must be a valid number')
-      .refine(val => {
+    z
+      .string()
+      .regex(/^\d+(\.\d{1,2})?$/, "Amount must be a valid number")
+      .refine((val) => {
         const num = parseFloat(val);
         return num >= 0 && num <= 999999999;
-      }, 'Amount must be between 0 and 999,999,999')
+      }, "Amount must be between 0 and 999,999,999"),
   ]),
 });
 
@@ -68,15 +90,15 @@ export const EditOpportunityDialog = ({
   isOpen,
   onClose,
   onUpdate,
-  isLoading
+  isLoading,
 }: EditOpportunityDialogProps) => {
   const form = useForm<EditOpportunityFormData>({
     resolver: zodResolver(editOpportunitySchema),
     defaultValues: {
-      name: '',
-      accountName: '',
-      stage: 'prospecting',
-      amount: '',
+      name: "",
+      accountName: "",
+      stage: "prospecting",
+      amount: "",
     },
   });
 
@@ -87,7 +109,7 @@ export const EditOpportunityDialog = ({
         name: opportunity.name,
         accountName: opportunity.accountName,
         stage: opportunity.stage,
-        amount: opportunity.amount?.toString() || '',
+        amount: opportunity.amount?.toString() || "",
       });
     }
   }, [opportunity, form]);
@@ -110,9 +132,14 @@ export const EditOpportunityDialog = ({
       await onUpdate(updateInput);
 
       // Show success toast based on stage change
-      if (newStage === 'closed-won' && previousStage !== 'closed-won') {
-        toast.success(`🎉 Opportunity "${data.name}" marked as Won! Revenue: $${data.amount || 0}`);
-      } else if (newStage === 'closed-lost' && previousStage !== 'closed-lost') {
+      if (newStage === "closed-won" && previousStage !== "closed-won") {
+        toast.success(
+          `🎉 Opportunity "${data.name}" marked as Won! Revenue: $${data.amount || 0}`,
+        );
+      } else if (
+        newStage === "closed-lost" &&
+        previousStage !== "closed-lost"
+      ) {
         toast.error(`Opportunity "${data.name}" marked as Lost.`);
       } else {
         toast.success(`Opportunity "${data.name}" updated successfully!`);
@@ -120,7 +147,7 @@ export const EditOpportunityDialog = ({
 
       onClose();
     } catch {
-      toast.error('Error updating opportunity. Please try again.');
+      toast.error("Error updating opportunity. Please try again.");
     }
   };
 
@@ -134,7 +161,10 @@ export const EditOpportunityDialog = ({
         </SheetHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)} className="flex h-full flex-col">
+          <form
+            onSubmit={form.handleSubmit(handleSubmit)}
+            className="flex h-full flex-col"
+          >
             <div className="flex-1 min-h-0 overflow-y-auto p-6 pb-28 space-y-6">
               {/* Current Opportunity Info */}
               <div className="rounded-xl border bg-card p-4">
@@ -145,14 +175,16 @@ export const EditOpportunityDialog = ({
                   <dt className="text-muted-foreground">ID</dt>
                   <dd className="font-medium">{opportunity.id}</dd>
                   <dt className="text-muted-foreground">Current Stage</dt>
-                  <dd className="font-medium capitalize">{opportunity.stage.replace('-', ' ')}</dd>
+                  <dd className="font-medium capitalize">
+                    {opportunity.stage.replace("-", " ")}
+                  </dd>
                 </dl>
               </div>
 
               {/* Edit Form */}
               <div className="space-y-4">
                 <h3 className="text-sm font-medium">Update Opportunity</h3>
-                
+
                 <FormField
                   control={form.control}
                   name="name"
@@ -160,10 +192,7 @@ export const EditOpportunityDialog = ({
                     <FormItem>
                       <FormLabel>Opportunity Name *</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="Opportunity name"
-                          {...field}
-                        />
+                        <Input placeholder="Opportunity name" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -177,10 +206,7 @@ export const EditOpportunityDialog = ({
                     <FormItem>
                       <FormLabel>Account Name *</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="Account name"
-                          {...field}
-                        />
+                        <Input placeholder="Account name" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -193,7 +219,10 @@ export const EditOpportunityDialog = ({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Stage *</FormLabel>
-                      <Select onValueChange={field.onChange} value={field.value}>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Select opportunity stage" />
@@ -226,7 +255,9 @@ export const EditOpportunityDialog = ({
                         />
                       </FormControl>
                       <FormMessage />
-                      <p className="text-sm text-muted-foreground">Estimated opportunity value</p>
+                      <p className="text-sm text-muted-foreground">
+                        Estimated opportunity value
+                      </p>
                     </FormItem>
                   )}
                 />
@@ -245,12 +276,8 @@ export const EditOpportunityDialog = ({
                 >
                   Cancel
                 </Button>
-                <Button
-                  type="submit"
-                  disabled={isLoading}
-                  className="flex-1"
-                >
-                  {isLoading ? 'Updating...' : 'Update Opportunity'}
+                <Button type="submit" disabled={isLoading} className="flex-1">
+                  {isLoading ? "Updating..." : "Update Opportunity"}
                 </Button>
               </div>
             </div>

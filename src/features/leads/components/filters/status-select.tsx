@@ -1,6 +1,17 @@
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-export type StatusOption = "all" | "new" | "contacted" | "qualified" | "unqualified";
+export type StatusOption =
+  | "all"
+  | "new"
+  | "contacted"
+  | "qualified"
+  | "unqualified";
 
 interface StatusSelectProps {
   value: StatusOption;

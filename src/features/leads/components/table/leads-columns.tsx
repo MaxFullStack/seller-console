@@ -1,24 +1,24 @@
-import type { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Lead } from "../../model/lead"
-import { capitalizeFirst } from "@/lib/utils"
+import type { ColumnDef } from "@tanstack/react-table";
+import { ArrowUpDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Lead } from "../../model/lead";
+import { capitalizeFirst } from "@/lib/utils";
 
 const getStatusVariant = (status: string) => {
   switch (status) {
     case "qualified":
-      return "success" // Success state - green
+      return "success"; // Success state - green
     case "unqualified":
-      return "destructive" // Error state - red
+      return "destructive"; // Error state - red
     case "contacted":
-      return "secondary" // In progress - neutral
+      return "secondary"; // In progress - neutral
     case "new":
-      return "outline" // New state - subtle
+      return "outline"; // New state - subtle
     default:
-      return "secondary"
+      return "secondary";
   }
-}
+};
 
 export const leadsColumns: ColumnDef<Lead>[] = [
   {
@@ -35,7 +35,7 @@ export const leadsColumns: ColumnDef<Lead>[] = [
           Name
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
-      )
+      );
     },
     cell: ({ row }) => (
       <div className="font-medium min-w-[180px]">{row.getValue("name")}</div>
@@ -55,7 +55,7 @@ export const leadsColumns: ColumnDef<Lead>[] = [
           Company
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
-      )
+      );
     },
     cell: ({ row }) => (
       <div className="min-w-[180px]">{row.getValue("company")}</div>
@@ -66,7 +66,9 @@ export const leadsColumns: ColumnDef<Lead>[] = [
     size: 250,
     header: "Email",
     cell: ({ row }) => (
-      <div className="text-muted-foreground min-w-[220px]">{row.getValue("email")}</div>
+      <div className="text-muted-foreground min-w-[220px]">
+        {row.getValue("email")}
+      </div>
     ),
   },
   {
@@ -74,14 +76,14 @@ export const leadsColumns: ColumnDef<Lead>[] = [
     size: 120,
     header: "Source",
     cell: ({ row }) => {
-      const source = row.getValue("source") as string
+      const source = row.getValue("source") as string;
       return (
         <div className="min-w-[100px]">
           <span className="text-muted-foreground text-sm">
             {capitalizeFirst(source)}
           </span>
         </div>
-      )
+      );
     },
   },
   {
@@ -98,15 +100,15 @@ export const leadsColumns: ColumnDef<Lead>[] = [
           Score
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
-      )
+      );
     },
     cell: ({ row }) => {
-      const score = row.getValue("score") as number
+      const score = row.getValue("score") as number;
       return (
         <div className="font-mono font-medium min-w-[70px] text-center">
           {score}
         </div>
-      )
+      );
     },
   },
   {
@@ -114,14 +116,14 @@ export const leadsColumns: ColumnDef<Lead>[] = [
     size: 120,
     header: "Status",
     cell: ({ row }) => {
-      const status = row.getValue("status") as string
+      const status = row.getValue("status") as string;
       return (
         <div className="min-w-[100px]">
           <Badge variant={getStatusVariant(status)}>
             {capitalizeFirst(status)}
           </Badge>
         </div>
-      )
+      );
     },
   },
-]
+];

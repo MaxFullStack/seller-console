@@ -1,17 +1,25 @@
-import { useCallback, useState } from 'react';
-import { useOpportunities } from '../hooks/use-opportunities';
-import { useOpportunityFilters } from '../hooks/use-opportunity-filters';
-import { OpportunitiesTable, OpportunityFilters } from '../components';
-import { EditOpportunityDialog } from '../components/dialog/edit-opportunity-dialog';
-import { Button } from '@/components/ui/button';
-import { Opportunity, UpdateOpportunityInput } from '../model/opportunity';
+import { useCallback, useState } from "react";
+import { useOpportunities } from "../hooks/use-opportunities";
+import { useOpportunityFilters } from "../hooks/use-opportunity-filters";
+import { OpportunitiesTable, OpportunityFilters } from "../components";
+import { EditOpportunityDialog } from "../components/dialog/edit-opportunity-dialog";
+import { Button } from "@/components/ui/button";
+import { Opportunity, UpdateOpportunityInput } from "../model/opportunity";
 
 export const OpportunitiesPage = () => {
-  const { opportunities, loadOpportunities, updateOpportunity } = useOpportunities();
-  const { filters, filteredOpportunities, updateSearch, updateStage, clearFilters } = useOpportunityFilters(opportunities.data || []);
-  
+  const { opportunities, loadOpportunities, updateOpportunity } =
+    useOpportunities();
+  const {
+    filters,
+    filteredOpportunities,
+    updateSearch,
+    updateStage,
+    clearFilters,
+  } = useOpportunityFilters(opportunities.data || []);
+
   // Edit modal state
-  const [selectedOpportunity, setSelectedOpportunity] = useState<Opportunity | null>(null);
+  const [selectedOpportunity, setSelectedOpportunity] =
+    useState<Opportunity | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
   const handleRefresh = useCallback(() => {
@@ -28,9 +36,12 @@ export const OpportunitiesPage = () => {
     setSelectedOpportunity(null);
   }, []);
 
-  const handleUpdateOpportunity = useCallback(async (input: UpdateOpportunityInput) => {
-    await updateOpportunity(input);
-  }, [updateOpportunity]);
+  const handleUpdateOpportunity = useCallback(
+    async (input: UpdateOpportunityInput) => {
+      await updateOpportunity(input);
+    },
+    [updateOpportunity],
+  );
 
   return (
     <div className="flex flex-col h-full">
@@ -54,7 +65,7 @@ export const OpportunitiesPage = () => {
             Refresh
           </Button>
         </div>
-        
+
         <OpportunityFilters
           query={filters.search}
           onQueryChange={updateSearch}

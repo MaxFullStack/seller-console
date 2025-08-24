@@ -1,2 +1,2 @@
-export { LeadsTable } from './leads-table';
-export { leadsColumns } from './leads-columns';
+export { LeadsTable } from "./leads-table";
+export { leadsColumns } from "./leads-columns";

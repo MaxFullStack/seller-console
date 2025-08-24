@@ -1,9 +1,19 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { Users, TrendingUp, Info } from 'lucide-react';
-import { useLeadsMetrics } from '../hooks/use-leads-metrics';
-import { formatPercentage, formatNumber } from '@/lib/utils';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Users, TrendingUp, Info } from "lucide-react";
+import { useLeadsMetrics } from "../hooks/use-leads-metrics";
+import { formatPercentage, formatNumber } from "@/lib/utils";
 
 export const LeadsCard = () => {
   const {
@@ -18,7 +28,7 @@ export const LeadsCard = () => {
   return (
     <Card className="relative overflow-hidden">
       <div className="absolute top-0 right-0 w-32 h-32" />
-      
+
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
@@ -30,7 +40,11 @@ export const LeadsCard = () => {
               <CardDescription>Lead management overview</CardDescription>
             </div>
           </div>
-          <Badge variant="secondary" className="text-lg font-semibold px-3 py-1" aria-label={`Total leads: ${formatNumber(totalLeads)}`}>
+          <Badge
+            variant="secondary"
+            className="text-lg font-semibold px-3 py-1"
+            aria-label={`Total leads: ${formatNumber(totalLeads)}`}
+          >
             {formatNumber(totalLeads)}
           </Badge>
         </div>
@@ -44,38 +58,53 @@ export const LeadsCard = () => {
             <div className="text-center p-2 rounded-md bg-muted/30 dark:bg-muted/20 border border-border/50">
               <div className="flex items-center justify-center space-x-1 mb-1">
                 <div className="w-1 h-1 rounded-full bg-blue-500 dark:bg-blue-400"></div>
-                <span className="text-xs font-medium text-blue-700 dark:text-blue-300">New</span>
+                <span className="text-xs font-medium text-blue-700 dark:text-blue-300">
+                  New
+                </span>
               </div>
-              <div className="text-lg font-bold text-blue-700 dark:text-blue-300">{formatNumber(newLeads)}</div>
+              <div className="text-lg font-bold text-blue-700 dark:text-blue-300">
+                {formatNumber(newLeads)}
+              </div>
             </div>
             <div className="text-center p-2 rounded-md bg-muted/30 dark:bg-muted/20 border border-border/50">
               <div className="flex items-center justify-center space-x-1 mb-1">
                 <div className="w-1 h-1 rounded-full bg-orange-500 dark:bg-orange-400"></div>
-                <span className="text-xs font-medium text-orange-700 dark:text-orange-300">Contacted</span>
+                <span className="text-xs font-medium text-orange-700 dark:text-orange-300">
+                  Contacted
+                </span>
               </div>
-              <div className="text-lg font-bold text-orange-700 dark:text-orange-300">{formatNumber(contactedLeads)}</div>
+              <div className="text-lg font-bold text-orange-700 dark:text-orange-300">
+                {formatNumber(contactedLeads)}
+              </div>
             </div>
           </div>
-          
+
           {/* Right Column */}
           <div className="space-y-2">
             <div className="text-center p-2 rounded-md bg-muted/30 dark:bg-muted/20 border border-border/50">
               <div className="flex items-center justify-center space-x-1 mb-1">
                 <div className="w-1 h-1 rounded-full bg-green-500 dark:bg-green-400"></div>
-                <span className="text-xs font-medium text-green-700 dark:text-green-300">Qualified</span>
+                <span className="text-xs font-medium text-green-700 dark:text-green-300">
+                  Qualified
+                </span>
               </div>
-              <div className="text-lg font-bold text-green-700 dark:text-green-300">{formatNumber(qualifiedLeads)}</div>
+              <div className="text-lg font-bold text-green-700 dark:text-green-300">
+                {formatNumber(qualifiedLeads)}
+              </div>
             </div>
             <div className="text-center p-2 rounded-md bg-muted/30 dark:bg-muted/20 border border-border/50">
               <div className="flex items-center justify-center space-x-1 mb-1">
                 <div className="w-1 h-1 rounded-full bg-red-500 dark:bg-red-400"></div>
-                <span className="text-xs font-medium text-red-700 dark:text-red-300">Unqualified</span>
+                <span className="text-xs font-medium text-red-700 dark:text-red-300">
+                  Unqualified
+                </span>
               </div>
-              <div className="text-lg font-bold text-red-700 dark:text-red-300">{formatNumber(unqualifiedLeads)}</div>
+              <div className="text-lg font-bold text-red-700 dark:text-red-300">
+                {formatNumber(unqualifiedLeads)}
+              </div>
             </div>
           </div>
         </div>
-
 
         {/* Conversion Rate - Responsive */}
         <div className="flex items-center justify-between pt-2 border-t space-y-2 sm:space-y-0">
@@ -87,7 +116,9 @@ export const LeadsCard = () => {
                 <Info className="h-3 w-3 text-muted-foreground" />
               </TooltipTrigger>
               <TooltipContent>
-                <p className="text-xs">Percentage of leads converted to qualified status</p>
+                <p className="text-xs">
+                  Percentage of leads converted to qualified status
+                </p>
               </TooltipContent>
             </Tooltip>
           </div>

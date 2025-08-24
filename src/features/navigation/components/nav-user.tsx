@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   BadgeCheck,
@@ -13,13 +13,9 @@ import {
   Palette,
   Sparkles,
   Sun,
-} from "lucide-react"
+} from "lucide-react";
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -31,37 +27,37 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar"
-import { useTheme } from "@/components/theme-provider"
-import { toast } from "react-toastify"
+} from "@/components/ui/sidebar";
+import { useTheme } from "@/components/theme-provider";
+import { toast } from "react-toastify";
 
 export function NavUser({
   user,
 }: {
   user: {
-    name: string
-    email: string
-    avatar: string
-  }
+    name: string;
+    email: string;
+    avatar: string;
+  };
 }) {
-  const { isMobile } = useSidebar()
-  const { theme, setTheme } = useTheme()
+  const { isMobile } = useSidebar();
+  const { theme, setTheme } = useTheme();
 
   const handleThemeChange = (newTheme: "light" | "dark" | "system") => {
-    setTheme(newTheme)
+    setTheme(newTheme);
     const themeNames = {
       light: "Light mode",
-      dark: "Dark mode", 
-      system: "System preference"
-    }
-    toast.success(`Switched to ${themeNames[newTheme]}`)
-  }
+      dark: "Dark mode",
+      system: "System preference",
+    };
+    toast.success(`Switched to ${themeNames[newTheme]}`);
+  };
 
   return (
     <SidebarMenu>
@@ -135,7 +131,9 @@ export function NavUser({
                     <Sun className="mr-2 h-4 w-4" />
                     <div className="flex flex-col">
                       <span>Light</span>
-                      <span className="text-xs text-muted-foreground">Always light mode</span>
+                      <span className="text-xs text-muted-foreground">
+                        Always light mode
+                      </span>
                     </div>
                     {theme === "light" && <Check className="ml-auto h-4 w-4" />}
                   </DropdownMenuItem>
@@ -143,7 +141,9 @@ export function NavUser({
                     <Moon className="mr-2 h-4 w-4" />
                     <div className="flex flex-col">
                       <span>Dark</span>
-                      <span className="text-xs text-muted-foreground">Always dark mode</span>
+                      <span className="text-xs text-muted-foreground">
+                        Always dark mode
+                      </span>
                     </div>
                     {theme === "dark" && <Check className="ml-auto h-4 w-4" />}
                   </DropdownMenuItem>
@@ -151,9 +151,13 @@ export function NavUser({
                     <Monitor className="mr-2 h-4 w-4" />
                     <div className="flex flex-col">
                       <span>System</span>
-                      <span className="text-xs text-muted-foreground">Use system preference</span>
+                      <span className="text-xs text-muted-foreground">
+                        Use system preference
+                      </span>
                     </div>
-                    {theme === "system" && <Check className="ml-auto h-4 w-4" />}
+                    {theme === "system" && (
+                      <Check className="ml-auto h-4 w-4" />
+                    )}
                   </DropdownMenuItem>
                 </DropdownMenuSubContent>
               </DropdownMenuSub>
@@ -171,5 +175,5 @@ export function NavUser({
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
-  )
+  );
 }

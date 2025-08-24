@@ -1,11 +1,11 @@
 // Table components
-export * from './table';
+export * from "./table";
 
-// Detail components  
-export * from './detail';
+// Detail components
+export * from "./detail";
 
 // Filter components
-export * from './filters';
+export * from "./filters";
 
 // Header components
-export * from './header';
+export * from "./header";

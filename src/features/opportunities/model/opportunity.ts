@@ -1,22 +1,22 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const OpportunityStage = z.enum([
-  'prospecting',
-  'qualification',
-  'needs-analysis',
-  'proposal',
-  'negotiation',
-  'closed-won',
-  'closed-lost',
+  "prospecting",
+  "qualification",
+  "needs-analysis",
+  "proposal",
+  "negotiation",
+  "closed-won",
+  "closed-lost",
 ]);
 export type OpportunityStage = z.infer<typeof OpportunityStage>;
 
 export const Opportunity = z.object({
   id: z.string(),
-  name: z.string().min(1, 'Name is required'),
+  name: z.string().min(1, "Name is required"),
   stage: OpportunityStage,
   amount: z.number().positive().optional(),
-  accountName: z.string().min(1, 'Account name is required'),
+  accountName: z.string().min(1, "Account name is required"),
   leadId: z.string().optional(), // Reference to original lead
 });
 

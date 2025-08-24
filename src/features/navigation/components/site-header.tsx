@@ -1,6 +1,6 @@
-import React from "react"
-import { SidebarIcon } from "lucide-react"
-import { Link } from "@tanstack/react-router"
+import React from "react";
+import { SidebarIcon } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
 import {
   Breadcrumb,
@@ -9,15 +9,15 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
-import { useSidebar } from "@/components/ui/sidebar"
-import { useBreadcrumb } from "@/hooks/use-breadcrumb"
+} from "@/components/ui/breadcrumb";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { useSidebar } from "@/components/ui/sidebar";
+import { useBreadcrumb } from "@/hooks/use-breadcrumb";
 
 export function SiteHeader() {
-  const { toggleSidebar } = useSidebar()
-  const { breadcrumbItems } = useBreadcrumb()
+  const { toggleSidebar } = useSidebar();
+  const { breadcrumbItems } = useBreadcrumb();
 
   return (
     <header className="bg-background sticky top-0 z-50 flex w-full items-center border-b">
@@ -52,5 +52,5 @@ export function SiteHeader() {
         </Breadcrumb>
       </div>
     </header>
-  )
+  );
 }

@@ -1,8 +1,8 @@
-import { DataTable } from '@/components/table';
-import { TableHeader } from '@/components/table';
-import { leadsColumns } from './leads-columns';
-import { Lead } from '../../model/lead';
-import { Button } from '@/components/ui/button';
+import { DataTable } from "@/components/table";
+import { TableHeader } from "@/components/table";
+import { leadsColumns } from "./leads-columns";
+import { Lead } from "../../model/lead";
+import { Button } from "@/components/ui/button";
 
 export interface LeadsTableProps {
   leads: Lead[];
@@ -31,7 +31,7 @@ export const LeadsTable = ({
         entityName="lead"
         actions={clearButton}
       />
-      
+
       <DataTable
         columns={leadsColumns}
         data={leads}

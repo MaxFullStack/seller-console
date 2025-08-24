@@ -1,67 +1,67 @@
-import { Lead, CreateLeadInput, UpdateLeadInput } from '../model/lead';
-import { delay, generateId } from '@/lib/utils';
+import { Lead, CreateLeadInput, UpdateLeadInput } from "../model/lead";
+import { delay, generateId } from "@/lib/utils";
 
-const STORAGE_KEY = 'seller-console-leads';
+const STORAGE_KEY = "seller-console-leads";
 
 // Mock data for initial load
 const mockLeads: Lead[] = [
   {
-    id: '1',
-    name: 'Anna Smith',
-    company: 'TechCorp',
-    email: 'anna.smith@techcorp.com',
-    source: 'web',
+    id: "1",
+    name: "Anna Smith",
+    company: "TechCorp",
+    email: "anna.smith@techcorp.com",
+    source: "web",
     score: 85,
-    status: 'new',
+    status: "new",
   },
   {
-    id: '2',
-    name: 'Carlos Johnson',
-    company: 'DataFlow',
-    email: 'carlos@dataflow.com',
-    source: 'referral',
+    id: "2",
+    name: "Carlos Johnson",
+    company: "DataFlow",
+    email: "carlos@dataflow.com",
+    source: "referral",
     score: 92,
-    status: 'qualified',
+    status: "qualified",
   },
   {
-    id: '3',
-    name: 'Marina Williams',
-    company: 'CloudSys',
-    email: 'marina.williams@cloudsys.com',
-    source: 'social',
+    id: "3",
+    name: "Marina Williams",
+    company: "CloudSys",
+    email: "marina.williams@cloudsys.com",
+    source: "social",
     score: 78,
-    status: 'contacted',
+    status: "contacted",
   },
   {
-    id: '4',
-    name: 'John Peterson',
-    company: 'StartupAI',
-    email: 'john@startupai.com',
-    source: 'email',
+    id: "4",
+    name: "John Peterson",
+    company: "StartupAI",
+    email: "john@startupai.com",
+    source: "email",
     score: 96,
-    status: 'new',
+    status: "new",
   },
   {
-    id: '5',
-    name: 'Lucy Brown',
-    company: 'FinTech Solutions',
-    email: 'lucy@fintech.com',
-    source: 'phone',
+    id: "5",
+    name: "Lucy Brown",
+    company: "FinTech Solutions",
+    email: "lucy@fintech.com",
+    source: "phone",
     score: 74,
-    status: 'unqualified',
+    status: "unqualified",
   },
 ];
 
 export class LeadRepository {
   private async loadInitialData(): Promise<Lead[]> {
     try {
-      const response = await fetch('/data/leads.json');
+      const response = await fetch("/data/leads.json");
       if (!response.ok) {
-        throw new Error('Failed to load leads data');
+        throw new Error("Failed to load leads data");
       }
       return await response.json();
     } catch (error) {
-      console.warn('Failed to load leads from JSON, using mock data:', error);
+      console.warn("Failed to load leads from JSON, using mock data:", error);
       return mockLeads;
     }
   }
@@ -92,10 +92,10 @@ export class LeadRepository {
 
   async create(input: CreateLeadInput): Promise<Lead> {
     await delay(800);
-    
+
     // Validate input using Zod schema
     const validatedInput = CreateLeadInput.parse(input);
-    
+
     const leads = this.getLeads();
     const newLead: Lead = {
       ...validatedInput,
@@ -108,15 +108,15 @@ export class LeadRepository {
 
   async update(input: UpdateLeadInput): Promise<Lead> {
     await delay(700);
-    
+
     // Validate input using Zod schema
     const validatedInput = UpdateLeadInput.parse(input);
-    
+
     const leads = this.getLeads();
     const index = leads.findIndex((lead) => lead.id === validatedInput.id);
 
     if (index === -1) {
-      throw new Error('Lead not found');
+      throw new Error("Lead not found");
     }
 
     const updatedLead = { ...leads[index], ...validatedInput };
@@ -133,7 +133,7 @@ export class LeadRepository {
     const filteredLeads = leads.filter((lead) => lead.id !== id);
 
     if (filteredLeads.length === leads.length) {
-      throw new Error('Lead not found');
+      throw new Error("Lead not found");
     }
 
     this.saveLeads(filteredLeads);

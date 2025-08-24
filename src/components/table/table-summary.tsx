@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ReactNode } from "react";
 
 export interface TableHeaderProps {
   count: number;
@@ -12,17 +12,13 @@ export const TableHeader = ({
   actions,
 }: TableHeaderProps) => {
   const pluralForm = count === 1 ? entityName : `${entityName}s`;
-  
+
   return (
     <div className="flex justify-between items-center">
       <p className="text-sm text-muted-foreground">
         {count} {pluralForm} found
       </p>
-      {actions && (
-        <div className="flex gap-2">
-          {actions}
-        </div>
-      )}
+      {actions && <div className="flex gap-2">{actions}</div>}
     </div>
   );
 };

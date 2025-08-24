@@ -1,30 +1,32 @@
-import type { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown, Edit } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Opportunity } from "../../model/opportunity"
-import { formatCurrency, capitalizeFirst } from "@/lib/utils"
+import type { ColumnDef } from "@tanstack/react-table";
+import { ArrowUpDown, Edit } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Opportunity } from "../../model/opportunity";
+import { formatCurrency, capitalizeFirst } from "@/lib/utils";
 
 const getStageVariant = (stage: string) => {
   switch (stage) {
     case "closed-won":
-      return "success" // Success state - green
+      return "success"; // Success state - green
     case "closed-lost":
-      return "destructive" // Error state - red
+      return "destructive"; // Error state - red
     case "negotiation":
     case "proposal":
-      return "secondary" // Active states - neutral
+      return "secondary"; // Active states - neutral
     case "prospecting":
     case "qualification":
-      return "outline" // Early stages - subtle
+      return "outline"; // Early stages - subtle
     case "needs-analysis":
-      return "secondary" // Analysis state - neutral
+      return "secondary"; // Analysis state - neutral
     default:
-      return "secondary"
+      return "secondary";
   }
-}
+};
 
-export const createOpportunitiesColumns = (onEdit: (opportunity: Opportunity) => void): ColumnDef<Opportunity>[] => [
+export const createOpportunitiesColumns = (
+  onEdit: (opportunity: Opportunity) => void,
+): ColumnDef<Opportunity>[] => [
   {
     accessorKey: "name",
     size: 250,
@@ -39,7 +41,7 @@ export const createOpportunitiesColumns = (onEdit: (opportunity: Opportunity) =>
           Name
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
-      )
+      );
     },
     cell: ({ row }) => (
       <div className="font-medium min-w-[220px]">{row.getValue("name")}</div>
@@ -59,7 +61,7 @@ export const createOpportunitiesColumns = (onEdit: (opportunity: Opportunity) =>
           Account
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
-      )
+      );
     },
     cell: ({ row }) => (
       <div className="min-w-[180px]">{row.getValue("accountName")}</div>
@@ -70,14 +72,14 @@ export const createOpportunitiesColumns = (onEdit: (opportunity: Opportunity) =>
     size: 150,
     header: "Stage",
     cell: ({ row }) => {
-      const stage = row.getValue("stage") as string
+      const stage = row.getValue("stage") as string;
       return (
         <div className="min-w-[130px]">
           <Badge variant={getStageVariant(stage)}>
-            {capitalizeFirst(stage.replace('-', ' '))}
+            {capitalizeFirst(stage.replace("-", " "))}
           </Badge>
         </div>
-      )
+      );
     },
   },
   {
@@ -94,15 +96,15 @@ export const createOpportunitiesColumns = (onEdit: (opportunity: Opportunity) =>
           Amount
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
-      )
+      );
     },
     cell: ({ row }) => {
-      const amount = row.getValue("amount") as number | undefined
+      const amount = row.getValue("amount") as number | undefined;
       return (
         <div className="font-mono font-medium min-w-[120px] text-right">
           {amount ? formatCurrency(amount) : "—"}
         </div>
-      )
+      );
     },
   },
   {
@@ -110,7 +112,7 @@ export const createOpportunitiesColumns = (onEdit: (opportunity: Opportunity) =>
     size: 80,
     header: "Actions",
     cell: ({ row }) => {
-      const opportunity = row.original
+      const opportunity = row.original;
       return (
         <div className="min-w-[70px]">
           <Button
@@ -123,7 +125,7 @@ export const createOpportunitiesColumns = (onEdit: (opportunity: Opportunity) =>
             <span className="sr-only">Edit opportunity</span>
           </Button>
         </div>
-      )
+      );
     },
   },
-]
+];

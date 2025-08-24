@@ -1,14 +1,14 @@
-import { useState, useCallback, useEffect, useMemo } from 'react';
-import { Opportunity, type OpportunityStage } from '../model/opportunity';
+import { useState, useCallback, useEffect, useMemo } from "react";
+import { Opportunity, type OpportunityStage } from "../model/opportunity";
 
-export type StageOption = 'all' | OpportunityStage;
+export type StageOption = "all" | OpportunityStage;
 export type OpportunityFilters = { search: string; stage: StageOption };
 
-const STORAGE_KEY = 'opportunities-filters';
+const STORAGE_KEY = "opportunities-filters";
 
 const defaultFilters: OpportunityFilters = {
-  search: '',
-  stage: 'all'
+  search: "",
+  stage: "all",
 };
 
 export const useOpportunityFilters = (opportunities: Opportunity[]) => {
@@ -22,11 +22,11 @@ export const useOpportunityFilters = (opportunities: Opportunity[]) => {
   }, [filters]);
 
   const updateSearch = useCallback((search: string) => {
-    setFilters(prev => ({ ...prev, search }));
+    setFilters((prev) => ({ ...prev, search }));
   }, []);
 
-  const updateStage = useCallback((stage: OpportunityFilters['stage']) => {
-    setFilters(prev => ({ ...prev, stage }));
+  const updateStage = useCallback((stage: OpportunityFilters["stage"]) => {
+    setFilters((prev) => ({ ...prev, stage }));
   }, []);
 
   const clearFilters = useCallback(() => {
@@ -35,13 +35,15 @@ export const useOpportunityFilters = (opportunities: Opportunity[]) => {
 
   const filteredOpportunities = useMemo(() => {
     return opportunities.filter((opportunity) => {
-      const matchesSearch = 
+      const matchesSearch =
         !filters.search ||
         opportunity.name.toLowerCase().includes(filters.search.toLowerCase()) ||
-        opportunity.accountName.toLowerCase().includes(filters.search.toLowerCase());
-      
-      const matchesStage = 
-        filters.stage === 'all' || opportunity.stage === filters.stage;
+        opportunity.accountName
+          .toLowerCase()
+          .includes(filters.search.toLowerCase());
+
+      const matchesStage =
+        filters.stage === "all" || opportunity.stage === filters.stage;
 
       return matchesSearch && matchesStage;
     });

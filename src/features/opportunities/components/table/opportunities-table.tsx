@@ -1,8 +1,8 @@
-import { DataTable } from '@/components/table';
-import { TableHeader } from '@/components/table';
-import { createOpportunitiesColumns } from './opportunities-columns';
-import { Opportunity } from '../../model/opportunity';
-import { Button } from '@/components/ui/button';
+import { DataTable } from "@/components/table";
+import { TableHeader } from "@/components/table";
+import { createOpportunitiesColumns } from "./opportunities-columns";
+import { Opportunity } from "../../model/opportunity";
+import { Button } from "@/components/ui/button";
 
 export interface OpportunitiesTableProps {
   opportunities: Opportunity[];
@@ -32,7 +32,7 @@ export const OpportunitiesTable = ({
         entityName="opportunity"
         actions={clearButton}
       />
-      
+
       <DataTable
         columns={createOpportunitiesColumns(onEdit)}
         data={opportunities}

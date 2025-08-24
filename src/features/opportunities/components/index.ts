@@ -1,8 +1,8 @@
 // Table components
-export * from './table';
+export * from "./table";
 
-// Dialog components  
-export * from './dialog';
+// Dialog components
+export * from "./dialog";
 
 // Filter components
-export { default as OpportunityFilters } from './filters/opportunity-filters';
+export { default as OpportunityFilters } from "./filters/opportunity-filters";

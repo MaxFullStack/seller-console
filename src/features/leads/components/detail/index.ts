@@ -1,1 +1,1 @@
-export { LeadDetailPanel } from './lead-detail-panel';
+export { LeadDetailPanel } from "./lead-detail-panel";

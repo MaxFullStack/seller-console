@@ -1,20 +1,20 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { renderHook } from '@testing-library/react';
-import { useOverallMetrics } from '../use-overall-metrics';
-import { useLeadsMetrics } from '../use-leads-metrics';
-import { useOpportunitiesMetrics } from '../use-opportunities-metrics';
-import { useDashboardStore } from '@/store/dashboard-store';
+import { describe, it, expect, beforeEach, vi } from "vitest";
+import { renderHook } from "@testing-library/react";
+import { useOverallMetrics } from "../use-overall-metrics";
+import { useLeadsMetrics } from "../use-leads-metrics";
+import { useOpportunitiesMetrics } from "../use-opportunities-metrics";
+import { useDashboardStore } from "@/store/dashboard-store";
 
 // Mock the dependent hooks
-vi.mock('../use-leads-metrics', () => ({
+vi.mock("../use-leads-metrics", () => ({
   useLeadsMetrics: vi.fn(),
 }));
 
-vi.mock('../use-opportunities-metrics', () => ({
+vi.mock("../use-opportunities-metrics", () => ({
   useOpportunitiesMetrics: vi.fn(),
 }));
 
-vi.mock('@/store/dashboard-store', () => ({
+vi.mock("@/store/dashboard-store", () => ({
   useDashboardStore: vi.fn(),
 }));
 
@@ -22,15 +22,15 @@ const mockUseLeadsMetrics = vi.mocked(useLeadsMetrics);
 const mockUseOpportunitiesMetrics = vi.mocked(useOpportunitiesMetrics);
 const mockUseDashboardStore = vi.mocked(useDashboardStore);
 
-describe('useOverallMetrics', () => {
-  const mockDate = new Date('2025-01-15T10:30:00Z');
+describe("useOverallMetrics", () => {
+  const mockDate = new Date("2025-01-15T10:30:00Z");
 
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  describe('with empty metrics', () => {
-    it('should return zero metrics when all domains are empty', () => {
+  describe("with empty metrics", () => {
+    it("should return zero metrics when all domains are empty", () => {
       const leadsMetrics = {
         totalLeads: 0,
         newLeads: 0,
@@ -72,8 +72,8 @@ describe('useOverallMetrics', () => {
     });
   });
 
-  describe('with populated metrics', () => {
-    it('should combine leads and opportunities metrics correctly', () => {
+  describe("with populated metrics", () => {
+    it("should combine leads and opportunities metrics correctly", () => {
       const leadsMetrics = {
         totalLeads: 10,
         newLeads: 3,
@@ -90,10 +90,10 @@ describe('useOverallMetrics', () => {
         averageDealSize: 75000,
         totalPipelineValue: 450000,
         opportunitiesByStage: {
-          'prospecting': 1,
-          'proposal': 2,
-          'closed-won': 2,
-          'closed-lost': 1,
+          prospecting: 1,
+          proposal: 2,
+          "closed-won": 2,
+          "closed-lost": 1,
         },
         opportunityConversionRate: 50,
         closedWonCount: 2,
@@ -120,8 +120,8 @@ describe('useOverallMetrics', () => {
     });
   });
 
-  describe('revenue per lead calculations', () => {
-    it('should calculate revenue per lead correctly', () => {
+  describe("revenue per lead calculations", () => {
+    it("should calculate revenue per lead correctly", () => {
       const testCases = [
         { totalLeads: 10, totalRevenue: 100000, expected: 10000 },
         { totalLeads: 5, totalRevenue: 250000, expected: 50000 },
@@ -162,7 +162,7 @@ describe('useOverallMetrics', () => {
       });
     });
 
-    it('should handle zero leads correctly', () => {
+    it("should handle zero leads correctly", () => {
       const leadsMetrics = {
         totalLeads: 0,
         newLeads: 0,
@@ -178,7 +178,7 @@ describe('useOverallMetrics', () => {
         totalRevenue: 100000,
         averageDealSize: 50000,
         totalPipelineValue: 100000,
-        opportunitiesByStage: { 'closed-won': 2 },
+        opportunitiesByStage: { "closed-won": 2 },
         opportunityConversionRate: 0,
         closedWonCount: 2,
         winRate: 100,
@@ -194,7 +194,7 @@ describe('useOverallMetrics', () => {
       expect(result.current.revenuePerLead).toBe(0);
     });
 
-    it('should handle zero revenue correctly', () => {
+    it("should handle zero revenue correctly", () => {
       const leadsMetrics = {
         totalLeads: 10,
         newLeads: 5,
@@ -211,8 +211,8 @@ describe('useOverallMetrics', () => {
         averageDealSize: 0,
         totalPipelineValue: 150000,
         opportunitiesByStage: {
-          'prospecting': 1,
-          'proposal': 2,
+          prospecting: 1,
+          proposal: 2,
         },
         opportunityConversionRate: 0,
         closedWonCount: 0,
@@ -230,8 +230,8 @@ describe('useOverallMetrics', () => {
     });
   });
 
-  describe('legacy format compatibility', () => {
-    it('should provide backward compatibility with metrics object', () => {
+  describe("legacy format compatibility", () => {
+    it("should provide backward compatibility with metrics object", () => {
       const leadsMetrics = {
         totalLeads: 5,
         newLeads: 2,
@@ -248,8 +248,8 @@ describe('useOverallMetrics', () => {
         averageDealSize: 75000,
         totalPipelineValue: 200000,
         opportunitiesByStage: {
-          'proposal': 1,
-          'closed-won': 2,
+          proposal: 1,
+          "closed-won": 2,
         },
         opportunityConversionRate: 100,
         closedWonCount: 2,
@@ -276,7 +276,7 @@ describe('useOverallMetrics', () => {
       expect(result.current.metrics.averageLeadScore).toBe(82);
     });
 
-    it('should handle field conflicts correctly (opportunities metrics should override)', () => {
+    it("should handle field conflicts correctly (opportunities metrics should override)", () => {
       // This test ensures that if there are any naming conflicts,
       // opportunities metrics take precedence due to spread order
       const leadsMetrics = {
@@ -313,8 +313,8 @@ describe('useOverallMetrics', () => {
     });
   });
 
-  describe('memoization', () => {
-    it('should memoize results when dependencies do not change', () => {
+  describe("memoization", () => {
+    it("should memoize results when dependencies do not change", () => {
       const leadsMetrics = {
         totalLeads: 5,
         newLeads: 2,
@@ -351,7 +351,7 @@ describe('useOverallMetrics', () => {
       expect(firstResult).toBe(secondResult);
     });
 
-    it('should recalculate when dependencies change', () => {
+    it("should recalculate when dependencies change", () => {
       const initialLeadsMetrics = {
         totalLeads: 5,
         newLeads: 2,
@@ -404,8 +404,8 @@ describe('useOverallMetrics', () => {
     });
   });
 
-  describe('lastUpdated handling', () => {
-    it('should include lastUpdated timestamp', () => {
+  describe("lastUpdated handling", () => {
+    it("should include lastUpdated timestamp", () => {
       const leadsMetrics = {
         totalLeads: 1,
         newLeads: 1,
@@ -437,7 +437,7 @@ describe('useOverallMetrics', () => {
       expect(result.current.lastUpdated).toBe(mockDate);
     });
 
-    it('should handle null lastUpdated', () => {
+    it("should handle null lastUpdated", () => {
       const leadsMetrics = {
         totalLeads: 0,
         newLeads: 0,
