@@ -8,80 +8,80 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './routes/__root'
-import { Route as OpportunitiesRouteImport } from './routes/opportunities'
-import { Route as LeadsRouteImport } from './routes/leads'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as rootRouteImport } from "./routes/__root";
+import { Route as OpportunitiesRouteImport } from "./routes/opportunities";
+import { Route as LeadsRouteImport } from "./routes/leads";
+import { Route as IndexRouteImport } from "./routes/index";
 
 const OpportunitiesRoute = OpportunitiesRouteImport.update({
-  id: '/opportunities',
-  path: '/opportunities',
+  id: "/opportunities",
+  path: "/opportunities",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const LeadsRoute = LeadsRouteImport.update({
-  id: '/leads',
-  path: '/leads',
+  id: "/leads",
+  path: "/leads",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+  id: "/",
+  path: "/",
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/leads': typeof LeadsRoute
-  '/opportunities': typeof OpportunitiesRoute
+  "/": typeof IndexRoute;
+  "/leads": typeof LeadsRoute;
+  "/opportunities": typeof OpportunitiesRoute;
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/leads': typeof LeadsRoute
-  '/opportunities': typeof OpportunitiesRoute
+  "/": typeof IndexRoute;
+  "/leads": typeof LeadsRoute;
+  "/opportunities": typeof OpportunitiesRoute;
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/leads': typeof LeadsRoute
-  '/opportunities': typeof OpportunitiesRoute
+  __root__: typeof rootRouteImport;
+  "/": typeof IndexRoute;
+  "/leads": typeof LeadsRoute;
+  "/opportunities": typeof OpportunitiesRoute;
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/leads' | '/opportunities'
-  fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/leads' | '/opportunities'
-  id: '__root__' | '/' | '/leads' | '/opportunities'
-  fileRoutesById: FileRoutesById
+  fileRoutesByFullPath: FileRoutesByFullPath;
+  fullPaths: "/" | "/leads" | "/opportunities";
+  fileRoutesByTo: FileRoutesByTo;
+  to: "/" | "/leads" | "/opportunities";
+  id: "__root__" | "/" | "/leads" | "/opportunities";
+  fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  LeadsRoute: typeof LeadsRoute
-  OpportunitiesRoute: typeof OpportunitiesRoute
+  IndexRoute: typeof IndexRoute;
+  LeadsRoute: typeof LeadsRoute;
+  OpportunitiesRoute: typeof OpportunitiesRoute;
 }
 
-declare module '@tanstack/react-router' {
+declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
-    '/opportunities': {
-      id: '/opportunities'
-      path: '/opportunities'
-      fullPath: '/opportunities'
-      preLoaderRoute: typeof OpportunitiesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/leads': {
-      id: '/leads'
-      path: '/leads'
-      fullPath: '/leads'
-      preLoaderRoute: typeof LeadsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+    "/opportunities": {
+      id: "/opportunities";
+      path: "/opportunities";
+      fullPath: "/opportunities";
+      preLoaderRoute: typeof OpportunitiesRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/leads": {
+      id: "/leads";
+      path: "/leads";
+      fullPath: "/leads";
+      preLoaderRoute: typeof LeadsRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/": {
+      id: "/";
+      path: "/";
+      fullPath: "/";
+      preLoaderRoute: typeof IndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
   }
 }
 
@@ -89,7 +89,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LeadsRoute: LeadsRoute,
   OpportunitiesRoute: OpportunitiesRoute,
-}
+};
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+  ._addFileTypes<FileRouteTypes>();
