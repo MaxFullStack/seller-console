@@ -1,5 +1,8 @@
 # Override GitHub language detection
-*.html linguist-detectable=false
+# Ignore HTML files from test reports but keep main index.html
+coverage/*.html linguist-detectable=false
+playwright-report/*.html linguist-detectable=false
+test-results/*.html linguist-detectable=false
 *.htm linguist-detectable=false
 *.ts linguist-detectable=true
 *.tsx linguist-detectable=true
