@@ -53,7 +53,7 @@ jobs:
           echo "environment=$ENV" >> $GITHUB_OUTPUT
           
           if [ "$ENV" = "production" ]; then
-            echo "base-path=/" >> $GITHUB_OUTPUT
+            echo "base-path=/seller-console/" >> $GITHUB_OUTPUT
             echo "should-deploy=true" >> $GITHUB_OUTPUT
           elif [ "$ENV" = "staging" ]; then
             echo "base-path=/staging/" >> $GITHUB_OUTPUT
