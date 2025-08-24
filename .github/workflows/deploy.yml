@@ -115,6 +115,10 @@ jobs:
       - name: Add custom 404 page for SPA routing
         run: |
           cp dist/index.html dist/404.html
+          
+      - name: Add cache-busting timestamp
+        run: |
+          echo "<!-- Deploy timestamp: $(date) -->" >> dist/index.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
