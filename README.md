@@ -50,22 +50,30 @@ This project implements a complete and professional CI/CD pipeline with GitHub A
 - `codeql.yml` - CodeQL security analysis
 - `auto-update.yml` - Automatic maintenance
 
-**2. Environment Strategy:**
+**2. CI/CD Architecture:**
+
+```
+📋 CI Pipeline (Validation)     🚀 Deploy Pipeline (Deployment)     🔍 Security Pipeline
+├── Code Quality Gates          ├── CI Success Verification          ├── CodeQL Analysis  
+├── Complete Test Suite         ├── Environment Detection            ├── Weekly Security Scans
+├── Security Audit              ├── Production Build                 └── Vulnerability Reporting
+├── Build Verification          └── GitHub Pages Deploy              
+└── Required before deploy                                           🔧 Maintenance Pipeline
+                                                                     ├── Dependency Updates
+                                                                     └── Automated Housekeeping
+```
+
+**3. Environment Strategy:**
 - **Development** (`dev`) - Local development
 - **Staging** (`staging`) - Staging environment at `/staging/`
 - **Production** (`main`) - Production at root
 
-**3. Quality Checks:**
+**4. Quality Validation:**
 - ESLint, TypeScript, Prettier
-- Unit tests (Vitest) + Integration tests + coverage (80%+) - 106 tests passing
-- E2E tests (Playwright) with proper timeout handling
-- Security audit
-- Mandatory quality gate
-
-**4. Security Configurations:**
-- Dependabot for automatic updates
-- CodeQL for vulnerability analysis
-- Branch protection (configure manually)
+- Unit tests (88 tests) + Integration tests (18 tests) - 106 total passing
+- E2E tests (Playwright) with proper timeout handling  
+- Security audit and CodeQL analysis
+- Mandatory CI gates before deployment
 
 **5. Complete Documentation:**
 - `docs/CI-CD.md` - Complete technical documentation
