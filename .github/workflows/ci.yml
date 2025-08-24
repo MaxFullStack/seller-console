@@ -130,7 +130,7 @@ jobs:
         run: npx prettier --check "src/**/*.{ts,tsx}"
 
   unit-tests:
-    name: Unit & Integration Tests
+    name: Unit Tests
     needs: setup
     runs-on: ubuntu-latest
     steps:
@@ -156,7 +156,36 @@ jobs:
         run: npm ci --prefer-offline --no-audit
 
       - name: Run unit tests
-        run: npm run test
+        run: npm run test:unit
+
+  integration-tests:
+    name: Integration Tests
+    needs: [setup, unit-tests]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Restore dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            ~/.npm
+          key: ${{ runner.os }}-deps-${{ env.CACHE_VERSION }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
+        if: needs.setup.outputs.cache-hit != 'true'
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Run integration tests
+        run: npm run test:integration
 
       - name: Run tests with coverage
         run: npm run test:coverage
@@ -215,7 +244,7 @@ jobs:
 
   build:
     name: Build Application
-    needs: [lint, typecheck, format-check, unit-tests]
+    needs: [lint, typecheck, format-check, unit-tests, integration-tests]
     runs-on: ubuntu-latest
     outputs:
       build-path: ${{ steps.build.outputs.path }}
@@ -278,7 +307,7 @@ jobs:
 
   quality-gate:
     name: Quality Gate
-    needs: [lint, typecheck, format-check, unit-tests, e2e-tests, build, security-audit]
+    needs: [lint, typecheck, format-check, unit-tests, integration-tests, e2e-tests, build, security-audit]
     runs-on: ubuntu-latest
     if: always()
     steps:
@@ -288,6 +317,7 @@ jobs:
              [ "${{ needs.typecheck.result }}" != "success" ] || \
              [ "${{ needs.format-check.result }}" != "success" ] || \
              [ "${{ needs.unit-tests.result }}" != "success" ] || \
+             [ "${{ needs.integration-tests.result }}" != "success" ] || \
              [ "${{ needs.e2e-tests.result }}" != "success" ] || \
              [ "${{ needs.build.result }}" != "success" ] || \
              [ "${{ needs.security-audit.result }}" != "success" ]; then
