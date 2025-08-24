@@ -4,26 +4,11 @@ import tailwindcss from '@tailwindcss/vite';
 import { TanStackRouterVite } from '@tanstack/router-vite-plugin';
 import path from 'path';
 
-// Determine base path for GitHub Pages
-const getBasePath = () => {
-  const env = process.env.VITE_APP_ENV || process.env.NODE_ENV;
-  const basePath = process.env.VITE_BASE_PATH;
-  
-  if (basePath) {
-    return basePath;
-  }
-  
-  if (env === 'production') {
-    return '/seller-console/'; // GitHub repository name
-  } else if (env === 'staging') {
-    return '/seller-console/staging/';
-  }
-  
-  return '/'; // Development
-};
+// GitHub Pages base path
+const base = '/seller-console/';
 
 export default defineConfig({
-  base: getBasePath(),
+  base,
   plugins: [react(), tailwindcss(), TanStackRouterVite()],
   resolve: {
     alias: {
