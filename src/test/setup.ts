@@ -98,15 +98,17 @@ const mockOpportunitiesData = [
 
 beforeEach(() => {
   // Mock fetch for data files
-  global.fetch = vi.fn((url: string) => {
-    if (typeof url === 'string' && url.includes('/data/leads.json')) {
+  global.fetch = vi.fn((input: RequestInfo | URL, _init?: RequestInit) => {
+    const url = input.toString();
+    
+    if (url.includes('/data/leads.json')) {
       return Promise.resolve({
         ok: true,
         json: () => Promise.resolve(mockLeadsData),
       } as Response)
     }
     
-    if (typeof url === 'string' && url.includes('/data/opportunities.json')) {
+    if (url.includes('/data/opportunities.json')) {
       return Promise.resolve({
         ok: true,
         json: () => Promise.resolve(mockOpportunitiesData),
