@@ -57,7 +57,7 @@ This project implements a complete and professional CI/CD pipeline with GitHub A
 
 **3. Quality Checks:**
 - ESLint, TypeScript, Prettier
-- Unit tests (Vitest) + coverage (80%+) - 106 tests passing
+- Unit tests (Vitest) + Integration tests + coverage (80%+) - 106 tests passing
 - E2E tests (Playwright) with proper timeout handling
 - Security audit
 - Mandatory quality gate
@@ -108,14 +108,16 @@ npm run lint:fix
 npm run format
 
 # Testing
-npm run test              # Run unit tests
+npm run test              # Run all tests (unit + integration)
+npm run test:unit         # Run unit tests only
+npm run test:integration  # Run integration tests only
 npm run test:watch        # Run tests in watch mode
 npm run test:coverage     # Run tests with coverage
 npm run test:e2e          # Run end-to-end tests
 npm run test:e2e:headed   # Run E2E tests with browser UI
 npm run test:e2e:ui       # Run E2E tests with Playwright UI
 npm run test:e2e:debug    # Debug E2E tests step by step
-npm run test:all          # Run all tests (unit + e2e)
+npm run test:all          # Run all tests (unit + integration + e2e)
 
 # Husky (git hooks)
 npm run prepare
@@ -144,7 +146,9 @@ npm run prepare
 
 3. **Run tests:**
    ```bash
-   npm run test              # Unit tests (fast)
+   npm run test              # All tests (unit + integration)
+   npm run test:unit         # Unit tests only (fast)
+   npm run test:integration  # Integration tests only
    npm run test:e2e          # E2E tests (requires dev server)
    npm run test:all          # All tests
    ```
@@ -172,7 +176,7 @@ npm run prepare
 * Type-safe form data with TypeScript inference
 
 ### Testing Strategy
-* **Unit tests** for components and business logic (106 tests, all passing)
+* **Unit tests** (88 tests) and **Integration tests** (18 tests) for comprehensive coverage (106 tests, all passing)
 * **Integration tests** for complete workflows
 * **E2E tests** with Playwright following official best practices
 * **Comprehensive test coverage** including form validation
