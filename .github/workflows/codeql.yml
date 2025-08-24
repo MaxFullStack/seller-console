@@ -1,12 +1,13 @@
 name: "CodeQL Security Analysis"
 
 on:
+  # Security scanning - independent from CI/CD for security compliance
   push:
-    branches: [ "main", "dev", "staging" ]
+    branches: [ "main" ]  # Only main branch for production security
   pull_request:
     branches: [ "main" ]
   schedule:
-    - cron: '0 6 * * 1'  # Weekly on Monday at 6 AM UTC
+    - cron: '0 6 * * 1'  # Weekly security scan
   workflow_dispatch:
 
 jobs:

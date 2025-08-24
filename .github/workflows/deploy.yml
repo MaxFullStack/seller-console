@@ -1,10 +1,11 @@
 name: Deploy to GitHub Pages
 
 on:
-  push:
-    branches: 
-      - main      # Production
-      - staging   # Staging environment  
+  # Deploy only after CI pipeline succeeds (enterprise best practice)
+  workflow_run:
+    workflows: ["CI/CD Pipeline"]
+    types: [completed]
+    branches: [main, staging]
   workflow_dispatch:
     inputs:
       environment:
@@ -29,7 +30,19 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Enterprise security: Verify CI pipeline passed before deployment
+  verify-ci-status:
+    name: Verify CI Pipeline Status
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success'
+    steps:
+      - name: CI Pipeline Verification
+        run: |
+          echo "✅ CI Pipeline completed successfully"
+          echo "📦 Proceeding with deployment pipeline"
+
   determine-environment:
+    needs: verify-ci-status
     name: Determine Environment
     runs-on: ubuntu-latest
     outputs:
@@ -88,11 +101,7 @@ jobs:
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit
 
-      - name: Run quality checks
-        run: |
-          npm run lint
-          npm run typecheck
-          npm run test
+      # Quality checks are handled by CI pipeline - no duplication
 
       - name: Build application
         env:
@@ -115,10 +124,6 @@ jobs:
       - name: Add custom 404 page for SPA routing
         run: |
           cp dist/index.html dist/404.html
-          
-      - name: Add cache-busting timestamp
-        run: |
-          echo "<!-- Deploy timestamp: $(date) -->" >> dist/index.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
