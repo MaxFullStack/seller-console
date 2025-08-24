@@ -130,7 +130,7 @@ jobs:
         run: npx prettier --check "src/**/*.{ts,tsx}"
 
   unit-tests:
-    name: Unit Tests
+    name: Unit & Integration Tests
     needs: setup
     runs-on: ubuntu-latest
     steps:
