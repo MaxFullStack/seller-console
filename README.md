@@ -91,29 +91,34 @@ This project implements a complete and professional CI/CD pipeline with GitHub A
 
 ---
 
-## 📜 Available Scripts
+## 🔧 Development
 
-In the `package.json`, the following commands are available:
+### Prerequisites
+- Node.js 18+
+- npm
+
+### Getting Started
 
 ```bash
-# Start development server
-npm run dev
+git clone https://github.com/MaxFullStack/seller-console.git
+cd seller-console
+npm install
+npm run dev  # Opens at http://localhost:5173
+```
 
-# Production build
-npm run build
+### Available Scripts
 
-# Preview production build
-npm run preview
+```bash
+# Development
+npm run dev           # Start development server
+npm run build         # Production build
+npm run preview       # Preview production build
 
-# TypeScript type checking
-npm run typecheck
-
-# Linting
-npm run lint
-npm run lint:fix
-
-# Code formatting with Prettier
-npm run format
+# Code Quality
+npm run typecheck     # TypeScript type checking
+npm run lint          # ESLint
+npm run lint:fix      # Fix ESLint issues
+npm run format        # Prettier formatting
 
 # Testing
 npm run test              # Run all tests (unit + integration)
@@ -127,46 +132,9 @@ npm run test:e2e:ui       # Run E2E tests with Playwright UI
 npm run test:e2e:debug    # Debug E2E tests step by step
 npm run test:all          # Run all tests (unit + integration + e2e)
 
-# Husky (git hooks)
-npm run prepare
+# Git Hooks
+npm run prepare       # Setup Husky git hooks
 ```
-
-## 🔧 Local Development
-
-### Prerequisites
-- **Node.js 18+** - Required for running the application
-- **npm** - Package manager included with Node.js
-
-### Getting Started
-
-1. **Clone and install:**
-   ```bash
-   git clone https://github.com/MaxFullStack/seller-console.git
-   cd seller-console
-   npm install
-   ```
-
-2. **Start development server:**
-   ```bash
-   npm run dev
-   # Opens at http://localhost:5173
-   ```
-
-3. **Run tests:**
-   ```bash
-   npm run test              # All tests (unit + integration)
-   npm run test:unit         # Unit tests only (fast)
-   npm run test:integration  # Integration tests only
-   npm run test:e2e          # E2E tests (requires dev server)
-   npm run test:all          # All tests
-   ```
-
-4. **Quality checks:**
-   ```bash
-   npm run typecheck         # TypeScript validation
-   npm run lint              # Code linting
-   npm run format            # Code formatting
-   ```
 
 ## ✅ Code Quality & Standards
 
