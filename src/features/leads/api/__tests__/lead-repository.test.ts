@@ -92,7 +92,7 @@ describe("LeadRepository", () => {
 
       const result = await repository.list();
 
-      expect(fetch).toHaveBeenCalledWith("/data/leads.json");
+      expect(fetch).toHaveBeenCalledWith("/seller-console/data/leads.json");
       expect(result).toEqual(fetchedLeads);
       expect(mockLocalStorage["seller-console-leads"]).toBe(
         JSON.stringify(fetchedLeads),
@@ -106,7 +106,7 @@ describe("LeadRepository", () => {
 
       const result = await repository.list();
 
-      expect(fetch).toHaveBeenCalledWith("/data/leads.json");
+      expect(fetch).toHaveBeenCalledWith("/seller-console/data/leads.json");
       expect(result).toHaveLength(5); // Mock data has 5 leads
       expect(result[0]).toEqual({
         id: "1",

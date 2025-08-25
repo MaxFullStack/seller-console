@@ -55,7 +55,10 @@ const mockLeads: Lead[] = [
 export class LeadRepository {
   private async loadInitialData(): Promise<Lead[]> {
     try {
-      const response = await fetch("/data/leads.json");
+      // Use relative path that works with base path configuration
+      const basePath = import.meta.env.BASE_URL || '/';
+      const dataUrl = `${basePath}data/leads.json`;
+      const response = await fetch(dataUrl);
       if (!response.ok) {
         throw new Error("Failed to load leads data");
       }
