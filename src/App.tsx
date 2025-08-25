@@ -5,7 +5,10 @@ import { ThemeProvider, useTheme } from "@/components/theme-provider";
 
 import "react-toastify/dist/ReactToastify.css";
 
-const router = createRouter({ routeTree });
+const router = createRouter({ 
+  routeTree,
+  basepath: import.meta.env.BASE_URL
+});
 
 declare module "@tanstack/react-router" {
   interface Register {
